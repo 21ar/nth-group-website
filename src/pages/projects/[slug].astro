@@ -1,0 +1,35 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../../layouts/Layout.astro';
+import Icon from '../../components/Icon.astro';
+import { projects } from '../../data/projects';
+import { projectContext } from '../../data/project-scenarios';
+import { projectDetails } from '../../data/project-details';
+import { projectArtwork } from '../../data/visuals';
+export function getStaticPaths() { return projects.map(project => ({ params: { slug: project.slug }, props: { project } })); }
+const { project } = Astro.props;
+const related = projects.filter(item => project.related.includes(item.slug));
+const details = projectDetails[project.slug];
+const visual = projectArtwork(project.slug);
+const context = projectContext[project.slug];
+---
+<Layout title={project.name} description={`${project.name}: ${project.description}`}>
+  <section class="venture-hero">
+    <div class="venture-title"><a class="back-link" href="/projects">All projects <Icon /></a><span class="eyebrow">{project.category} / {project.number}</span><h1><span>NRTH</span>{project.name.replace('NRTH ', '')}</h1><p>{project.headline}</p><a class="text-link" href={`/contact?project=${project.slug}`}>Start a conversation <Icon name="upRight" /></a></div>
+    <div class="venture-art"><Image src={visual.src} width={1200} widths={[600, 900, 1200]} sizes="(max-width: 767px) 100vw, 55vw" alt={visual.alt} format="webp" quality={85} loading="eager" fetchpriority="high" /><span class="venture-art-label">{project.name} / Part of the NRTH ecosystem</span></div>
+  </section>
+  <div class="venture-audience"><span class="eyebrow">Perspectives for</span>{details.audience.map(item => <span>{item}</span>)}</div>
+  <section class="section venture-introduction"><span class="eyebrow" data-reveal>The idea behind {project.name}</span><div><h2 data-reveal>{details.statement}</h2><p class="lead-copy" data-reveal>{project.introduction}</p></div></section>
+  <section class="section venture-capabilities"><div class="capability-heading" data-reveal><span class="eyebrow">Areas of focus</span><h2>From the idea<br />to the practical.</h2><p>A closer look at the direction of {project.name}.</p></div><div class="capability-grid">{details.capabilities.map((capability, i) => <article data-reveal><span class="eyebrow">0{i + 1}</span><h3>{capability.title}</h3><p>{capability.text}</p></article>)}</div></section>
+  <section class="section journey-section"><div data-reveal><span class="eyebrow">A perspective on the workflow</span><h2>Making the<br />next step clearer.</h2></div><div class="journey-grid">{details.journey.map((step, i) => <article data-reveal><span class="journey-number">0{i + 1}</span><h3>{step.title}</h3><p>{step.text}</p></article>)}</div></section>
+  <section class="section scenario-section" aria-labelledby="scenario-heading"><div class="editorial-heading" data-reveal><div><span class="eyebrow">Possible applications</span><h2 id="scenario-heading">What this could<br />look like in practice.</h2></div><p>Illustrative scenarios for the project’s direction. Specific capabilities and availability are confirmed through a conversation with NRTH.</p></div><div class="scenario-grid">{context.scenarios.map((scenario, i) => <article class="scenario-card" data-reveal><span class="eyebrow">Scenario 0{i + 1}</span><h3>{scenario.title}</h3><p>{scenario.situation}</p><ol>{scenario.steps.map(step => <li>{step}</li>)}</ol><div class="scenario-outcome"><span class="eyebrow">The useful result</span><p>{scenario.outcome}</p></div></article>)}</div></section>
+  <section class="section discussion-section"><div data-reveal><span class="eyebrow">Start with your context</span><h2>A useful first<br />conversation.</h2><p>You do not need a finished brief. These details help us understand where to begin.</p><a class="text-link" href={`/contact?project=${project.slug}`}>Discuss your project <Icon /></a></div><ul class="discussion-list" data-reveal>{context.discussion.map((item, i) => <li><span>0{i + 1}</span>{item}</li>)}</ul></section>
+  <section class="section venture-connections"><div class="editorial-heading" data-reveal><div><span class="eyebrow">Part of something connected</span><h2>Different perspectives.<br />A shared conversation.</h2></div><p>{details.connection}</p></div><div class="related-grid">{related.map(item => { const art = projectArtwork(item.slug); return <a class="related-card" href={`/projects/${item.slug}`} data-reveal><Image src={art.src} width={700} widths={[400, 700]} sizes="(max-width: 767px) 90vw, 30vw" alt={art.alt} format="webp" loading="lazy" /><div><span class="eyebrow">{item.category}</span><h3>{item.name}</h3><Icon name="upRight" /></div></a>; })}</div></section>
+  <section class="section venture-faq"><div><span class="eyebrow">A little more context</span><h2>Questions,<br />connected.</h2></div><div class="principles">
+    <details><summary><h3>Who is {project.name} for?</h3><Icon name="plus" /></summary><p>{project.name} considers the needs of {details.audience.map(item => item.toLowerCase()).join(', ')}. Tell us about your context to explore whether the project’s direction aligns with your needs.</p></details>
+    <details><summary><h3>What is available today?</h3><Icon name="plus" /></summary><p>This page introduces the project’s direction and areas of focus. <a href={`/contact?project=${project.slug}`}>Contact NRTH</a> for its current scope, availability, and potential opportunities to collaborate.</p></details>
+    <details><summary><h3>{context.question}</h3><Icon name="plus" /></summary><p>{context.answer}</p></details>
+    <details><summary><h3>Can we explore a partnership?</h3><Icon name="plus" /></summary><p>Yes. Start with a short introduction to your organization, the question you’re working on, and the connection you see with {project.name}. Choose Partnership in the <a href="/contact?project=partnership">contact form</a> to reach the right conversation.</p></details>
+  </div></section>
+  <section class="section contact-section"><span class="eyebrow" data-reveal>The next connection</span><a href={`/contact?project=${project.slug}`} class="contact-heading" data-reveal>Let’s talk<br />about {project.name.replace('NRTH ', '')}. <Icon name="upRight" /></a><a class="text-link venture-discuss" href={`/contact?project=${project.slug}`}>Discuss {project.name} <Icon /></a></section>
+</Layout>

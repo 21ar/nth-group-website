@@ -1,0 +1,12 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../../layouts/Layout.astro';
+import Icon from '../../components/Icon.astro';
+import { articles } from '../../data/articles';
+import { artwork } from '../../data/visuals';
+const visuals = [artwork.health, artwork.mobility, artwork.labs];
+---
+<Layout title="Perspectives" description="Thoughts from NRTH on design, connected operations, experimentation, and moving ideas forward.">
+  <section class="page-intro"><span class="eyebrow">The NRTH journal</span><h1>A little further<br />into our thinking.</h1><p>Notes on the questions behind the work. From clear design to connected movement and the value of a good experiment.</p></section>
+  <section class="section editorial-section"><div class="editorial-grid">{articles.map((article, i) => <a class="editorial-card" href={`/insights/${article.slug}`}><div class="editorial-image"><Image src={visuals[i].src} width={800} widths={[400,800]} sizes="(max-width: 767px) 90vw, 30vw" alt={visuals[i].alt} format="webp" loading="lazy" /><span><Icon name="upRight" /></span></div><div class="editorial-meta"><span class="eyebrow">{article.category}</span><span>3 min read</span></div><h2>{article.title}</h2><p>{article.description}</p></a>)}</div></section>
+</Layout>

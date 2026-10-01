@@ -1,0 +1,27 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import { industries } from '../data/industries';
+import connectionArt from '../assets/connection-art.png';
+const inquiry = '/contact?project=investor';
+---
+<Layout title="Investors" description="Explore NRTH Inc.’s venture portfolio, long-term perspective, and opportunities for investor conversations across health, mobility, systems, materials, events, and research.">
+  <section class="page-intro investor-intro"><span class="eyebrow">NRTH Inc. / Investors</span><h1>A shared ambition.<br />A longer horizon.</h1><p>Independent ventures. Connected thinking. Explore the company behind NRTH and the ideas we want to move forward.</p><a class="text-link investor-intro-link" href={inquiry}>Start an investor conversation <Icon /></a></section>
+  <section class="connection-art-section investor-art" data-scroll-feature aria-label="The NRTH investment perspective">
+    <div class="connection-art-copy"><span class="eyebrow" data-reveal>One company. Multiple directions.</span><h2 data-reveal>Focus in each field.<br />Possibility between them.</h2><p data-reveal>NRTH brings together nine venture identities across six fields. Each has a distinct question to pursue; together, they create room for a broader perspective.</p><a class="text-link" href="/about" data-reveal>Meet NRTH Inc. <Icon /></a></div>
+    <div class="connection-art-image"><Image src={connectionArt} width={1400} widths={[600, 1000, 1400]} sizes="(max-width: 767px) 100vw, 60vw" alt="Continuous silver loops connecting into a single sculptural form" format="webp" loading="lazy" /></div>
+  </section>
+  <section class="section connection-section"><div class="connection-heading" data-reveal><span class="eyebrow">Our perspective</span><h2>Build with focus.<br />Think in connections.</h2><p class="investor-section-deck">A conversation about NRTH starts with the work: the problem, the people it serves, and the next practical step.</p></div><div class="principles" data-reveal>
+    <details open><summary><span>01</span><h3>Understand the real need.</h3><Icon name="upRight" /></summary><p>Look closely at the workflow and the people behind it. A useful venture direction begins with a specific problem, rather than a category alone.</p></details>
+    <details><summary><span>02</span><h3>Connect without losing focus.</h3><Icon name="upRight" /></summary><p>Planning, telemetry, fleet operations, and logistics have different needs. Their connections can inform the broader company while each venture retains a clear purpose.</p></details>
+    <details><summary><span>03</span><h3>Make the next step concrete.</h3><Icon name="upRight" /></summary><p>Discuss scope, development stage, evidence, and milestones for the relevant venture. Align the conversation around what needs to happen next and the resources it would require.</p></details>
+  </div></section>
+  <section class="section investor-portfolio" aria-labelledby="investor-fields"><div class="investor-portfolio-heading" data-reveal><span class="eyebrow">The portfolio / Nine ventures, six fields</span><h2 id="investor-fields">Different fields.<br />One NRTH.</h2><a class="text-link" href="/projects">Explore all ventures <Icon /></a></div><div class="investor-fields">{industries.map((industry,i)=><details data-reveal open={i===0}><summary><span class="eyebrow">{String(i+1).padStart(2,'0')}</span><h3>{industry.name}</h3><span class="investor-field-count">{industry.ventures.length} {industry.ventures.length===1?'venture':'ventures'}</span><Icon name="upRight" /></summary><div class="investor-field-body"><p>{industry.copy}</p><div>{industry.ventures.map(venture=><a class="text-link" href={`/projects/nrth-${venture.toLowerCase()}`}>NRTH {venture} <Icon /></a>)}</div></div></details>)}</div></section>
+  <section class="section discussion-section"><div data-reveal><span class="eyebrow">Investor conversations</span><h2>Start with<br />the right questions.</h2></div><div class="investor-questions" data-reveal>
+    <details open><summary>What can we discuss? <Icon name="upRight" /></summary><p>The company’s direction, a specific venture, or a potential strategic relationship. Tell us which field interests you and the perspective you bring.</p></details>
+    <details><summary>How do I request more information? <Icon name="upRight" /></summary><p>Choose “Investor inquiry” in the contact form. Include your organization, the venture or field you’re interested in, and the information you would like to review.</p></details>
+    <details><summary>How should I assess the portfolio? <Icon name="upRight" /></summary><p>The project pages introduce each venture’s direction. Scope, development stage, availability, and any investment terms need to be established in a direct conversation with NRTH.</p></details>
+  </div></section>
+  <section class="section contact-section contact-invitation"><div><span class="eyebrow" data-reveal>Investors / The next conversation</span><a href={inquiry} class="contact-heading" data-reveal>See a possibility?<br />Let’s explore it. <Icon name="upRight" /></a></div><p data-reveal>Bring a perspective.<br />Ask a specific question.<br /><a href={inquiry}>Prepare an investor inquiry <Icon /></a></p></section>
+</Layout>

@@ -1,0 +1,21 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import Icon from '../../components/Icon.astro';
+import { articles } from '../../data/articles';
+import { projects } from '../../data/projects';
+import { artwork, projectArtwork } from '../../data/visuals';
+export function getStaticPaths() { return articles.map(article => ({ params: { slug: article.slug }, props: { article } })); }
+const { article } = Astro.props;
+const prompts: Record<string, string[]> = {
+  'clarity-is-a-design-decision': ['Name the person making the next decision, not just the department using the system.', 'Separate information needed to act from information that can wait.', 'Make ownership, current state, and the next action visible at a handoff.', 'Test the language with someone who does not already know the workflow.'],
+  'connecting-the-parts-of-movement': ['Identify whether the question concerns a shipment, a vehicle signal, a resource, or a wider handoff.', 'Write down which team owns each piece of information.', 'Check the source and freshness before using a signal to inform planning.', 'Start with one connection that improves a real decision rather than joining every tool at once.'],
+  'making-room-for-experimentation': ['Write a question whose answer would change the next decision.', 'Choose the smallest credible experiment and identify its limitations.', 'Define what evidence would support, challenge, or leave the idea unresolved.', 'Record what was learned and choose whether to continue, change direction, or stop.'],
+};
+const related = projects.filter(project => article.related.includes(project.slug));
+const visual = article.category === 'Mobility' ? artwork.mobility : article.category === 'Research' ? artwork.labs : artwork.health;
+---
+<Layout title={article.title} description={article.description} kind="article">
+  <article class="editorial-article"><a class="back-link" href="/insights">All insights <Icon /></a><span class="eyebrow">{article.category} / NRTH perspectives</span><h1>{article.title}</h1><p class="article-deck">{article.description}</p><Image class="article-artwork" src={visual.src} width={1200} widths={[600,900,1200]} sizes="(max-width: 767px) 90vw, 900px" alt={visual.alt} format="webp" loading="lazy" /><div class="article-body">{article.paragraphs.map(paragraph => <p>{paragraph}</p>)}</div><aside class="article-takeaways"><span class="eyebrow">Put the perspective to work</span><h2>Questions for your next project.</h2><ul>{prompts[article.slug].map(prompt => <li>{prompt}</li>)}</ul><a class="text-link" href="/approach">Explore the NRTH approach <Icon /></a></aside></article>
+  <section class="section"><div class="editorial-heading"><div><span class="eyebrow">Explore the connections</span><h2>The ideas<br />in practice.</h2></div></div><div class="related-grid">{related.map(project => {const art = projectArtwork(project.slug); return <a class="related-card" href={`/projects/${project.slug}`}><Image src={art.src} width={700} widths={[400,700]} sizes="(max-width:767px) 90vw, 30vw" alt={art.alt} format="webp" loading="lazy" /><div><span class="eyebrow">{project.category}</span><h3>{project.name}</h3><Icon name="upRight" /></div></a>;})}</div></section>
+</Layout>

@@ -1,0 +1,76 @@
+---
+import '@fontsource-variable/inter';
+import interFont from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import social from '../../public/images/social.png';
+import logo from '../../public/images/nrth-logo.png';
+import { getImage } from 'astro:assets';
+interface Props { title?: string; description: string; noindex?: boolean; kind?: 'website' | 'article'; }
+const { title, description, noindex = false, kind = 'website' } = Astro.props;
+const pageTitle = title ? `${title} — NRTH` : 'NRTH — Independent ideas. A connected future.';
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const socialImage = await getImage({ src: social, width: 1200, format: 'png' });
+const brandImage = await getImage({ src: logo, width: 400, format: 'png' });
+const schema: Record<string, unknown>[] = [
+  { '@context': 'https://schema.org', '@type': 'Organization', name: 'NRTH', legalName: 'NRTH Inc.', url: Astro.site?.href, logo: new URL(brandImage.src, Astro.site).href },
+  { '@context': 'https://schema.org', '@type': 'WebPage', name: pageTitle, description, url: canonical.href, isPartOf: { '@type': 'WebSite', name: 'NRTH', url: Astro.site?.href } },
+];
+const segments = Astro.url.pathname.split('/').filter(Boolean);
+if (segments.length) schema.push({
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: [{ '@type': 'ListItem', position: 1, name: 'NRTH', item: Astro.site?.href }, ...segments.map((segment, index) => ({
+    '@type': 'ListItem', position: index + 2,
+    name: index === segments.length - 1 ? title || segment : segment.charAt(0).toUpperCase() + segment.slice(1),
+    item: new URL('/' + segments.slice(0, index + 1).join('/'), Astro.site).href,
+  }))],
+});
+if (kind === 'article') schema.push({ '@context': 'https://schema.org', '@type': 'Article', headline: title, description, mainEntityOfPage: canonical.href, author: { '@type': 'Organization', name: 'NRTH' } });
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      try {
+        const saved=JSON.parse(sessionStorage.getItem('nrth-artwork-navigation')||'null');
+        if(saved && Date.now()-saved.time<15000 && location.pathname.replace(/\/$/,'')==='/projects/'+saved.slug && !matchMedia('(prefers-reduced-motion: reduce)').matches && localStorage.getItem('nrth-motion')!=='paused') document.documentElement.dataset.sharedVenture=saved.slug;
+      } catch {}
+      addEventListener('pagereveal',event=>{
+        if(!document.documentElement.dataset.sharedVenture)return;
+        document.documentElement.dataset.sharedTransition=event.viewTransition?'running':'unsupported';
+        event.viewTransition?.finished.then(()=>document.documentElement.dataset.sharedTransition='finished');
+      });
+    </script>
+    <meta name="theme-color" content="#f4f3ef" />
+    <meta name="description" content={description} />
+    <meta name="robots" content={noindex ? 'noindex,follow' : 'index,follow'} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg?v=nrth-1" type="image/svg+xml" sizes="any" />
+    <link rel="preload" href={interFont} as="font" type="font/woff2" crossorigin />
+    <meta property="og:type" content={kind} />
+    <meta property="og:site_name" content="NRTH" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(socialImage.src, Astro.site)} />
+    <meta property="og:image:alt" content="NRTH wordmark" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(socialImage.src, Astro.site)} />
+    <title>{pageTitle}</title>
+    <script type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, '\\u003c')} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main"><slot /></main>
+    <Footer />
+    <script>import '../scripts/site'; import '../scripts/motion'; import '../scripts/transitions';</script>
+  </body>
+</html>

@@ -1,0 +1,29 @@
+{
+  "name": "nrth-group-website",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
+    "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
+    "test:smoke": "node verify.cjs",
+    "test:motion": "node verify-motion.cjs",
+    "bake:geometry": "node scripts/bake-geometry.cjs",
+    "test:geometry": "node verify-geometry.cjs",
+    "test:composition": "node verify-composition.cjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.6.0",
+    "@fontsource-variable/inter": "^5.2.8",
+    "@phosphor-icons/core": "^2.1.1",
+    "astro": "^5.16.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.5",
+    "@playwright/test": "^1.63.0",
+    "esbuild": "^0.27.7",
+    "typescript": "^5.9.2"
+  }
+}

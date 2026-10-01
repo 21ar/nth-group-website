@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nrth.group/sitemap-index.xml

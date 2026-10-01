@@ -1,0 +1,8 @@
+---
+import { glyphs } from '../data/geometry-source';
+---
+<div class="hero-scene" data-hero-scene role="img" aria-label="Four silver N R T H letterforms become rings, an infinity loop, and symbols for care, mobility, systems, materials, events and exploration">
+ <svg class="brand-static" viewBox="-5.2 -1.7 10.4 3.4" aria-hidden="true"><defs><linearGradient id="static-silver" x2="0.7" y2="1"><stop stop-color="#91949b"/><stop offset=".45" stop-color="#eeedf1"/><stop offset=".52" stop-color="#555961"/><stop offset="1" stop-color="#c9c9cc"/></linearGradient></defs><g fill="none" stroke="url(#static-silver)" stroke-width=".075" stroke-linecap="round" stroke-linejoin="round">{glyphs.map((path)=><path d={path} />)}</g></svg>
+ <div class="scene-canvas" aria-hidden="true"></div>
+</div>
+<script>import '../scripts/scene';</script>

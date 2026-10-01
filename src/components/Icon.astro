@@ -1,0 +1,10 @@
+---
+import right from '@phosphor-icons/core/assets/thin/arrow-right-thin.svg?url';
+import upRight from '@phosphor-icons/core/assets/thin/arrow-up-right-thin.svg?url';
+import down from '@phosphor-icons/core/assets/thin/arrow-down-thin.svg?url';
+import plus from '@phosphor-icons/core/assets/thin/plus-thin.svg?url';
+import minus from '@phosphor-icons/core/assets/thin/minus-thin.svg?url';
+const { name = 'right', class: className = '' } = Astro.props;
+const icons: Record<string, string> = { right, upRight, down, plus, minus };
+---
+<img class:list={['icon', className]} src={icons[name] || right} width="24" height="24" alt="" aria-hidden="true" />

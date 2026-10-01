@@ -1,0 +1,8 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../../public/images/nrth-logo.png';
+const { footer = false } = Astro.props;
+---
+<a href="/" class:list={['brand', { 'brand-footer': footer }]} aria-label="NRTH home">
+  <Image src={logo} width={240} alt="NRTH" format="webp" loading={footer ? 'lazy' : 'eager'} />
+</a>

@@ -1,0 +1,26 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+const path = Astro.url.pathname;
+---
+<header class="site-header">
+  <Logo />
+  <nav class="desktop-nav" aria-label="Main navigation">
+    <a href="/projects" aria-current={path.startsWith('/projects') ? 'page' : undefined}>Projects</a>
+    <a href="/about" aria-current={path === '/about' ? 'page' : undefined}>About</a>
+    <a href="/approach" aria-current={path === '/approach' ? 'page' : undefined}>Approach</a>
+    <a href="/insights" aria-current={path.startsWith('/insights') ? 'page' : undefined}>Perspectives</a>
+    <a href="/investors" aria-current={path === '/investors' ? 'page' : undefined}>Investors</a>
+  </nav>
+  <a class="header-contact" href="/contact" aria-current={path === '/contact' ? 'page' : undefined}>Contact <Icon /></a>
+  <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-navigation">Menu</button>
+</header>
+<nav id="mobile-navigation" class="mobile-navigation" aria-label="Mobile navigation" hidden>
+  <a href="/projects">Projects <Icon /></a>
+  <a href="/about">About <Icon /></a>
+  <a href="/approach">Approach <Icon /></a>
+  <a href="/insights">Insights <Icon /></a>
+  <a href="/investors">Investors <Icon /></a>
+  <a href="/contact">Contact <Icon /></a>
+  <p>Independent ideas.<br />A connected future.</p>
+</nav>
