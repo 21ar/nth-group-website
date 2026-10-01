@@ -3,7 +3,7 @@
 ## Deployment completed
 
 - Vercel team/project: `nrth1/nrth`.
-- Deployment: `dpl_3RSwzEV7paEj6weF9xWcZ1JSyBCw` (production, READY).
+- Deployment: `dpl_HELALUtKXdPruZUH2qskhrBGMBZW` (production, READY).
 - Public deployment URL: https://nrth-rgr8ebkbv-nrth1.vercel.app
 - Intended canonical URL: https://nrth.group
 - `www.nrth.group` is attached and configured to redirect to `nrth.group` with HTTP 308.
