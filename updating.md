@@ -23,16 +23,16 @@ Common edits:
 
 The source repository is https://github.com/21ar/nth-group-website. The permanent Vercel project is `nrth1/nrth`.
 
-Intended workflow:
+Publishing workflow:
 
 1. Make changes locally or with Codex. Use the development server for instant feedback.
-2. Push a branch or open a pull request for a Vercel preview link once the repository connection is enabled. Review it before publishing.
+2. Push a branch or open a pull request for an automatic Vercel preview link. Review it before publishing.
 3. Merge into `main` to deploy automatically to the production domains. Production changes become visible after Vercel finishes its build, rather than on every keystroke.
 
 GitHub Actions runs type/template checks and a production build on main pushes and pull requests. Vercel builds must succeed before a deployment becomes live; the previous deployment remains available if a new build fails. Preview builds don't publish to the production domain. Existing live versions can be restored from Vercel's deployment history.
 
-**Connection status:** GitHub sign-in is connected. Vercel's API now reports that its GitHub app must be installed before linking the repository. Install the app for `21ar` at https://github.com/apps/vercel/installations/new and grant repository access to `nth-group-website`. Then run `vercel git connect https://github.com/21ar/nth-group-website.git --yes --project nrth --scope nrth1`. Automatic deployments remain pending until the repository link is verified.
+**Connection status:** Connected. Vercel project `nrth1/nrth` is linked to GitHub repository `21ar/nth-group-website`, with `main` as the production branch. Branch pushes create preview deployments; pushes/merges to `main` deploy production automatically.
 
-Until then, a signed-in collaborator can publish with `vercel deploy --prod --yes --scope nrth1` from the linked project directory. The current production build configuration is in `vercel.json`.
+For a manual deployment or recovery, a signed-in collaborator can run `vercel deploy --prod --yes --scope nrth1` from the linked project directory. The current production build configuration is in `vercel.json`.
 
 Never commit `.env.local`, access tokens, or `.vercel` account/project state. The ignore rules exclude those files.
