@@ -31,7 +31,7 @@ Intended workflow:
 
 GitHub Actions runs type/template checks and a production build on main pushes and pull requests. Vercel builds must succeed before a deployment becomes live; the previous deployment remains available if a new build fails. Preview builds don't publish to the production domain. Existing live versions can be restored from Vercel's deployment history.
 
-**Connection status:** Vercel requires a GitHub Login Connection for account `21ar`. The CLI connection attempt returned this requirement; the Git repository integration is not enabled yet. Connect GitHub under https://vercel.com/account/settings/authentication, then run `vercel git connect https://github.com/21ar/nth-group-website.git --yes --project nrth --scope nrth1`. This file should be updated once the integration is verified.
+**Connection status:** GitHub sign-in is connected. Vercel's API now reports that its GitHub app must be installed before linking the repository. Install the app for `21ar` at https://github.com/apps/vercel/installations/new and grant repository access to `nth-group-website`. Then run `vercel git connect https://github.com/21ar/nth-group-website.git --yes --project nrth --scope nrth1`. Automatic deployments remain pending until the repository link is verified.
 
 Until then, a signed-in collaborator can publish with `vercel deploy --prod --yes --scope nrth1` from the linked project directory. The current production build configuration is in `vercel.json`.
 
