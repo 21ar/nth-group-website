@@ -46,7 +46,7 @@ The contact flow prepares a message locally for review, copying, download, or se
 
 ## Launch
 
-Permanent production deployment: https://nrth-8o4gh0zf2-nrth1.vercel.app, in Vercel project `nrth1/nrth`. `nrth.group` is assigned to this deployment, pending Cloudflare DNS correction; `www.nrth.group` is configured to redirect to the apex with HTTP 308. Anonymous previews expire after one hour unless claimed; redeploying an existing anonymous project preserves its original expiry. The permanent Vercel production site has been updated; Cloudflare DNS has not been changed. Review project copy, original logo artwork, contact destinations, and privacy/terms language before publishing. Add actual product screenshots as they become available. Canonicals, page metadata, social previews, structured data, robots.txt, and XML sitemaps target `https://nrth.group`; search rankings cannot be guaranteed.
+Permanent production deployment: https://nrth-rgr8ebkbv-nrth1.vercel.app, in Vercel project `nrth1/nrth`. `nrth.group` is assigned to this deployment, pending Cloudflare DNS correction; `www.nrth.group` is configured to redirect to the apex with HTTP 308. Anonymous previews expire after one hour unless claimed; redeploying an existing anonymous project preserves its original expiry. The permanent Vercel production site has been updated; Cloudflare DNS has not been changed. Review project copy, original logo artwork, contact destinations, and privacy/terms language before publishing. Add actual product screenshots as they become available. Canonicals, page metadata, social previews, structured data, robots.txt, and XML sitemaps target `https://nrth.group`; search rankings cannot be guaranteed.
 
 ## Validation evidence
 
