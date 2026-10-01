@@ -36,3 +36,12 @@ GitHub Actions runs type/template checks and a production build on main pushes a
 For a manual deployment or recovery, a signed-in collaborator can run `vercel deploy --prod --yes --scope nrth1` from the linked project directory. The current production build configuration is in `vercel.json`.
 
 Never commit `.env.local`, access tokens, or `.vercel` account/project state. The ignore rules exclude those files.
+
+## Verified publishing links
+
+- Stable production preview: https://nrth-nrth1.vercel.app (updates after successful main deployments).
+- Example automatic branch preview: https://nrth-84u2g420l-nrth1.vercel.app.
+- Source: https://github.com/21ar/nth-group-website.
+- Passing check/build run: https://github.com/21ar/nth-group-website/actions/runs/36845303019.
+
+Both branch-preview and main-production deployment triggers were tested end to end. Production does not expire like the previous anonymous previews. The custom nrth.group domain still requires the Cloudflare DNS update documented in hosting.md.

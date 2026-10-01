@@ -3,8 +3,8 @@
 ## Deployment completed
 
 - Vercel team/project: `nrth1/nrth`.
-- Deployment: `dpl_HELALUtKXdPruZUH2qskhrBGMBZW` (production, READY).
-- Public deployment URL: https://nrth-rgr8ebkbv-nrth1.vercel.app
+- Deployment: `dpl_FpH77P9Eqs7mtMseeizsiADtQzuX` (production, READY).
+- Public deployment URL: https://nrth-nrth1.vercel.app
 - Intended canonical URL: https://nrth.group
 - `www.nrth.group` is attached and configured to redirect to `nrth.group` with HTTP 308.
 - Remote build passed. The upload ignore pattern is now `/scripts/` so it excludes root authoring scripts while retaining `src/scripts/` browser code. Local environment/auth files are explicitly excluded from uploads.
@@ -27,3 +27,7 @@ Replace conflicting website A/AAAA records at the apex and conflicting www recor
 Contact mailboxes are separate services. Deploying the website does not provision `hello@`, `partnerships@`, or `investors@nrth.group`.
 
 The favicon/live-edit update was deployed successfully. Astro is now the project framework preset with explicit build/install/output commands, aligned with vercel.json. Latest HTTPS checks pass for 21 pages and 127 hashed assets, plus the separate NRTH favicon SVG. GitHub source and successful CI run: https://github.com/21ar/nth-group-website/actions/runs/36843692722. Vercel is connected to `21ar/nth-group-website`, with `main` as the production branch; see updating.md for publishing and preview instructions.
+
+## Automatic publishing verified
+
+A push to `setup/verify-publishing` automatically created preview deployment `dpl_5fvXirsghvZ93duT8QjKNr9RhL1n`, sourced from GitHub. Fast-forwarding the same update onto `main` automatically created production deployment `dpl_FpH77P9Eqs7mtMseeizsiADtQzuX`, also sourced from GitHub. Both reached READY. GitHub check/build CI passed. The stable production alias https://nrth-nrth1.vercel.app passes normal HTTPS checks for 21 regular pages, 127 hashed assets, the NRTH SVG favicon, and missing-route 404. Vercel still reports the custom-domain DNS as misconfigured, so nrth.group and its www redirect still require the Cloudflare records listed above.
