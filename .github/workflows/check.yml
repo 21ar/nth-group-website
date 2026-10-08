@@ -16,4 +16,21 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run check
+      - run: npm run test:services
+      - run: npm run test:geometry
       - run: npm run build
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: studio/package-lock.json
+      - run: npm ci
+        working-directory: studio
+      - run: npm run check
+        working-directory: studio
+      - run: npm run build
+        working-directory: studio
+        env:
+          SANITY_STUDIO_PROJECT_ID: nrthdemo
+          SANITY_STUDIO_DATASET: production
+          SANITY_CLI_TELEMETRY_DISABLED: '1'

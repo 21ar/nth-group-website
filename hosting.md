@@ -1,33 +1,11 @@
-# Permanent hosting: nrth.group
+# NRTH hosting
 
-## Deployment completed
+The existing Vercel project is `nrth1/nrth`, connected to `21ar/nth-group-website`. The permanent production alias is https://nrth-nrth1.vercel.app; the canonical public website is https://nrth.group.
 
-- Vercel team/project: `nrth1/nrth`.
-- Deployment: `dpl_FpH77P9Eqs7mtMseeizsiADtQzuX` (production, READY).
-- Public deployment URL: https://nrth-nrth1.vercel.app
-- Intended canonical URL: https://nrth.group
-- `www.nrth.group` is attached and configured to redirect to `nrth.group` with HTTP 308.
-- Remote build passed. The upload ignore pattern is now `/scripts/` so it excludes root authoring scripts while retaining `src/scripts/` browser code. Local environment/auth files are explicitly excluded from uploads.
-- All 21 regular pages and 128 referenced assets pass normal HTTPS verification. A missing route returns HTTP 404. Evidence: `artifacts/brand-story/vercel-readiness.json`.
+Normal, certificate-verified HTTPS reached nrth.group on October 8, 2026 with HTTP 200. The previous instruction saying the apex still required DNS correction is obsolete. This implementation does not change Cloudflare DNS or provision email mailboxes. Verify the www redirect separately through Vercel’s domain settings; an environment proxy rejection is not proof of a DNS failure.
 
-## Pending Cloudflare DNS change
+The new build uses the official Astro Vercel adapter and Build Output API. It creates `.vercel/output/static` plus a Node server function for inquiries, image processing, and private editorial previews. `vercel.json` supplies install/build commands and private-preview/resource response headers. Remove any obsolete manual `dist` output-directory override in project settings if it prevents adapter output detection.
 
-Cloudflare is authoritative (`grannbo.ns.cloudflare.com`, `drew.ns.cloudflare.com`). The apex still resolves to Cloudflare proxy addresses and `www` has no record. Vercel's domain config API reports both as misconfigured. No Cloudflare connector or credentials are available in this session.
+Branch pushes generate Vercel previews and successful main deployments update production. Account authentication is separate from a repository connection. During this implementation GitHub authentication worked, while the standalone Vercel CLI was logged out; the existing Git integration is the publishing route.
 
-Vercel's exact project-specific recommended records, checked October 1, 2026:
-
-| Type | Name | Value | Proxy |
-| --- | --- | --- | --- |
-| A | @ | 216.198.79.1 | DNS only |
-| A | @ | 64.29.17.1 | DNS only |
-| CNAME | www | 13f26e8b5205baac.vercel-dns-017.com | DNS only |
-
-Replace conflicting website A/AAAA records at the apex and conflicting www records. Preserve email/MX, email-related TXT records, and unrelated DNS entries. After applying the records, verify Vercel's domain configuration, HTTPS on the apex, www's redirect, page/assets, sitemap and canonical metadata.
-
-Contact mailboxes are separate services. Deploying the website does not provision `hello@`, `partnerships@`, or `investors@nrth.group`.
-
-The favicon/live-edit update was deployed successfully. Astro is now the project framework preset with explicit build/install/output commands, aligned with vercel.json. Latest HTTPS checks pass for 21 pages and 127 hashed assets, plus the separate NRTH favicon SVG. GitHub source and successful CI run: https://github.com/21ar/nth-group-website/actions/runs/36843692722. Vercel is connected to `21ar/nth-group-website`, with `main` as the production branch; see updating.md for publishing and preview instructions.
-
-## Automatic publishing verified
-
-A push to `setup/verify-publishing` automatically created preview deployment `dpl_5fvXirsghvZ93duT8QjKNr9RhL1n`, sourced from GitHub. Fast-forwarding the same update onto `main` automatically created production deployment `dpl_FpH77P9Eqs7mtMseeizsiADtQzuX`, also sourced from GitHub. Both reached READY. GitHub check/build CI passed. The stable production alias https://nrth-nrth1.vercel.app passes normal HTTPS checks for 21 regular pages, 127 hashed assets, the NRTH SVG favicon, and missing-route 404. Vercel still reports the custom-domain DNS as misconfigured, so nrth.group and its www redirect still require the Cloudflare records listed above.
+The email and CMS integrations need private configuration as described in [inquiries.md](inquiries.md) and [cms-setup.md](cms-setup.md). A website deployment does not create recipients or connect a Sanity project. Provider acceptance, actual inbox receipt, draft permissions, webhook publishing, and rollback should be checked with those accounts after configuration.

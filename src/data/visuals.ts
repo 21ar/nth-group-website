@@ -19,7 +19,8 @@ export const artwork = {
   labs: { src: labs, alt: 'An experimental chrome ring intersecting a translucent amber glass sheet with a suspended reflective sphere' },
   logistics: { src: logistics, alt: 'Frosted amber freight-container structures connected by precise chrome bridges on ochre terrain' },
 };
-export function projectArtwork(slug: string) {
+export function projectArtwork(slug: string, custom?: {coverImage?: string; coverAlt?: string}) {
+  if (custom?.coverImage && custom.coverAlt) return {src:custom.coverImage, alt:custom.coverAlt};
   if (slug === 'nrth-health') return artwork.health;
   if (slug === 'nrth-chemicals') return artwork.materials;
   if (slug === 'nrth-events') return artwork.events;

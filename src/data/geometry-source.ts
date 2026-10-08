@@ -3,11 +3,9 @@ type V=[number,number,number];
 const N=192,TAU=Math.PI*2;
 const mix=(a:number,b:number,t:number)=>a+(b-a)*t;
 // Outlines traced from the supplied logo: the R has its signature open counter.
-export const glyphs=[
-'M-5.01493 1.44776 L-5.01493 -1.13433 C-5.01493 -1.35821 -4.85075 -1.50746 -4.59701 -1.50746 C-4.40299 -1.52239 -4.25373 -1.44776 -4.14925 -1.26866 L-3.07463 0.55224 Q-2.97015 0.71642 -2.97015 0.56716 L-2.97015 -1.46269 Q-2.97015 -1.50746 -2.92537 -1.50746 L-2.47761 -1.50746 Q-2.43284 -1.50746 -2.43284 -1.46269 L-2.43284 1.1194 C-2.43284 1.38806 -2.56716 1.50746 -2.8209 1.50746 C-3.0597 1.50746 -3.1791 1.43284 -3.29851 1.23881 L-4.35821 -0.55224 Q-4.46269 -0.68657 -4.46269 -0.49254 L-4.46269 1.40299 Q-4.46269 1.44776 -4.52239 1.44776 Z',
-'M-1.92537 -1.50746 L-0.95522 -1.50746 C-0.40299 -1.50746 0 -1.1194 0 -0.59701 C0 -0.19403 -0.23881 0.1194 -0.62687 0.26866 L0.23881 1.44776 L-0.38806 1.44776 L-1.19403 0.32836 L-1.41791 0.32836 L-1.41791 1.44776 L-1.92537 1.44776 L-1.92537 -0.1791 L-0.95522 -0.1791 C-0.67164 -0.1791 -0.52239 -0.32836 -0.52239 -0.58209 C-0.52239 -0.83582 -0.67164 -0.97015 -0.95522 -0.97015 L-1.92537 -0.97015 Z',
-'M0.29851 -1.50746 L2.41791 -1.50746 Q2.46269 -1.50746 2.46269 -1.46269 L2.46269 -1.01493 Q2.46269 -0.97015 2.41791 -0.97015 L1.65672 -0.97015 L1.65672 1.40299 Q1.65672 1.44776 1.61194 1.44776 L1.14925 1.44776 Q1.10448 1.44776 1.10448 1.40299 L1.10448 -0.97015 L0.29851 -0.97015 Q0.25373 -0.97015 0.25373 -1.01493 L0.25373 -1.46269 Q0.25373 -1.50746 0.29851 -1.50746 Z',
-'M2.85075 -1.50746 L3.28358 -1.50746 Q3.32836 -1.50746 3.32836 -1.44776 L3.32836 -0.29851 L4.47761 -0.29851 L4.47761 -1.50746 L5.01493 -1.50746 L5.01493 1.40299 Q5.01493 1.44776 4.97015 1.44776 L4.52239 1.44776 Q4.47761 1.44776 4.47761 1.40299 L4.47761 0.22388 L3.32836 0.22388 L3.32836 1.40299 Q3.32836 1.44776 3.28358 1.44776 L2.85075 1.44776 Q2.80597 1.44776 2.80597 1.40299 L2.80597 -1.44776 Q2.80597 -1.50746 2.85075 -1.50746 Z'];
+import { glyphs } from './brand';
+export { glyphs } from './brand';
+
 function arc(points:V[]):V[]{
  const distances=[0];for(let j=1;j<=points.length;j++){const a=points[j-1],b=points[j%points.length];distances.push(distances[j-1]+Math.hypot(b[0]-a[0],b[1]-a[1],b[2]-a[2]));}
  let j=0;return Array.from({length:N},(_,i)=>{const distance=i/N*distances[distances.length-1];while(j<points.length-1&&distances[j+1]<distance)j++;const a=points[j],b=points[(j+1)%points.length],t=(distance-distances[j])/(distances[j+1]-distances[j]||1);return a.map((v,k)=>mix(v,b[k],t)) as V;});
@@ -20,7 +18,8 @@ function form(a:number,i:number,state:number):V{
  if(state===1)return[c*.91+shift*2.12,s*.91,.12*shift];
  if(state===2||state===9){const d=1+s*s,r=1+shift*.075;return[4*c/d*r,3.6*s*c/d*r,.48*s+shift*.22];}
  if(state===3){const r=1-i*.19;return[.155*16*s*s*s*r,(.155*(13*c-5*Math.cos(2*a)-2*Math.cos(3*a)-Math.cos(4*a))+.3)*r,shift*.35+.3*s];}
- if(state===4){return[c*(2.55+shift*.12)+shift*.25,s*(1.14+shift*.16),shift*.28+.45*s];}
+ // Four distinct closed routes share two junctions, rather than nested ovals.
+ if(state===4){return[2.65*c+.18*s,1.08*s+shift*.4*s*s+.32*Math.sin(2*a)*(i%2?1:-1),shift*.18+.48*s];}
  if(state===5){const x=2.05*Math.sign(c)*Math.pow(Math.abs(c),.35),y=1.65*Math.sign(s)*Math.pow(Math.abs(s),.35),angle=shift*.24;return[x*Math.cos(angle)-y*Math.sin(angle)+shift*.32,x*Math.sin(angle)+y*Math.cos(angle)+shift*.12,shift*.3];}
  // Three distinct orbital planes surround a fourth, small nucleus ring.
  // The previous fourth orbit duplicated the first at a 180-degree rotation.

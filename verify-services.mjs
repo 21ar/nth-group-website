@@ -1,0 +1,35 @@
+import assert from 'node:assert/strict';
+import {build} from 'esbuild';
+import {mkdir} from 'node:fs/promises';
+await mkdir('.astro',{recursive:true});
+await build({stdin:{contents:"export {handleInquiry} from './src/server/inquiries';export {createPreviewSession, validPreviewSession} from './src/server/preview';export {mergeProjects} from './src/data/content';",resolveDir:process.cwd()},bundle:true,platform:'node',format:'esm',outfile:'.astro/services-test.mjs',define:{'import.meta.env':'process.env'}});
+const {handleInquiry,createPreviewSession,validPreviewSession,mergeProjects} = await import('./.astro/services-test.mjs');
+let checks = 0;
+const check = (value,message) => {assert.ok(value,message);checks++;};
+const input = {name:'Service test',email:'reviewer@example.com',organization:'Test organization',project:'general',message:'A local delivery test with a mocked provider.',website:'',requestId:'9ba0fa04-e876-49c1-a57b-acb112c349f0'};
+const config = {apiKey:'mock-provider-key',from:'NRTH <website@nrth.group>',general:'hello@nrth.group',partnerships:'partnerships@nrth.group',investors:'investors@nrth.group'};
+const request = (data=input,origin='https://nrth.group') => new Request('https://nrth.group/api/inquiries',{method:'POST',headers:{Origin:origin,'Content-Type':'application/json','x-vercel-forwarded-for':'test-' + checks},body:JSON.stringify(data)});
+let payload,headers;
+const provider = async (_url,options) => {payload=JSON.parse(options.body);headers=options.headers;return new Response(JSON.stringify({id:'mock-receipt-id'}),{status:200});};
+for (const [project,destination] of [['general','hello@nrth.group'],['nrth-health','hello@nrth.group'],['partnership','partnerships@nrth.group'],['investor','investors@nrth.group']]) {
+ const response = await handleInquiry(request({...input,project}),config,provider),receipt=await response.json();
+ check(response.status===200 && receipt.reference==='NRTH-9BA0FA04','Provider acceptance gives a consistent reference.');
+ check(payload.to[0]===destination && payload.reply_to===input.email,'The correct inbox and reply address are used.');
+ check(headers['Idempotency-Key']==='nrth-inquiry-' + input.requestId,'Retries carry the stable provider idempotency key.');
+}
+check((await handleInquiry(request(input,'https://unrelated.example'),config,provider)).status===403,'Cross-origin submission rejected.');
+for (const data of [{...input,email:'bad'},{...input,message:'short'},{...input,project:'unknown'},{...input,requestId:'invalid'},{...input,name:''}]) check((await handleInquiry(request(data),config,provider)).status===422,'Invalid input is rejected before delivery.');
+check((await handleInquiry(request({...input,website:'spam'}),config,provider)).status===400,'Honeypot rejected without a false success.');
+check((await handleInquiry(request({...input,message:'x'.repeat(30000)}),config,provider)).status===400,'Oversized bodies rejected.');
+check((await handleInquiry(request(),{},provider)).status===503,'Unconfigured delivery returns a truthful unavailable state.');
+check((await handleInquiry(request(),config,async()=>new Response('provider failed',{status:500}))).status===502,'Provider failure is not accepted.');
+check((await handleInquiry(request(),config,async()=>{throw new Error('timeout');})).status===502,'Uncertain delivery is not accepted.');
+check((await handleInquiry(request(),config,async()=>new Response('{}'))).status===502,'Missing provider receipt is not accepted.');
+process.env.CMS_PREVIEW_SECRET='local-test-secret-which-is-not-used-in-production';
+const session = createPreviewSession();
+check(validPreviewSession(session),'Signed editorial preview session is valid.');
+check(!validPreviewSession(session.replace(/.$/,'z')) && !validPreviewSession('1.invalid'),'Tampered and expired preview sessions rejected.');
+const merged = mergeProjects({ventures:[{slug:'nrth-tms',name:'Wrong brand',headline:'A tested headline',stage:'prototype',reviewedAt:'2026-10-08',productUrl:'javascript:alert(1)'}]});
+check(merged.length===9 && merged[1].name==='NRTH TMS' && merged[1].headline==='A tested headline','CMS changes preserve all canonical identities.');
+check(merged[1].stage==='prototype' && !merged[1].productUrl,'Content updates accept stage and reject unsafe URLs.');
+console.log(checks + ' service and content checks passed using mocked delivery. No email was sent.');

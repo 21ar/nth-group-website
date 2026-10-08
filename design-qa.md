@@ -1,79 +1,48 @@
-# NRTH continuous brand story — final design QA
+# NRTH portfolio — design and implementation review
 
-Final result: passed
+Review date: October 8, 2026. This records the current redesign. Earlier temporary previews, three-strand performance figures, and pending GitHub/DNS notes described previous releases and do not establish this build’s readiness.
 
-Review date: September 30, 2026, America/Vancouver. This is an internal design and interaction assessment against the user's brief, not an external award judgment.
+## Visual result
 
-The original selected visual source (`/workspace/generated_images/exec-c84789f1-536f-45ee-8f89-b2e78688cd56.png`) and current production captures were inspected together in the same review input. Warm paper, large restrained typography, generous spacing and a minimal navigation remain. The user's newer instruction explicitly replaces the opening photographic infinity with N–R–T–H and a continuous industry story. The supplied NRTH identity remains in the header; the existing transparent logo derivative is documented in README rather than represented as an original vector export.
+The website now uses a single NRTH identity source: four contours traced from the supplied logo, including the open R. The header, footer, large opening, favicon, downloadable wordmarks, company PDF, and social graphics share those paths. These are traced contours rather than a claim to possess the original vector file.
 
-## Journey assessment
+The opening carries four persistent strands through letters, rings, infinity, and six industry symbols. Native scroll reverses the same geometry. Warm paper, ink, reflective silver, restrained amber details, Manrope display type, and Inter interface type carry through the portfolio and editorial pages. No green page surfaces or extra opening CTA remain. The six field controls and venture bullets reuse the ring-to-underline interaction.
 
-1. **Identity — strong.** `pose-0.png` shows large live N–R–T–H outlines below the opening copy with clear space between them. Static/reduced-motion identity uses the same canonical glyph paths. No photograph takes over or disappears on scroll.
-2. **Transformation — strong.** Four strands persist through letters, rings, infinity, care, mobility, systems, materials, events, discovery and infinity. `half-morph.png` was visually checked alongside the original source and final poses. Correct winding and phase matching remove folded/pinched intermediate letters; 44 topology samples have no unintended self-intersections during letter-to-ring travel. Deliberate depth crossings in infinity and orbital symbols are part of their meaning.
-3. **Industries — clear.** Six fields organize all nine ventures. Large concise headings, useful venture links, travelling connection points and ring-to-underline controls tie the sculpture to content. `pose-3.png`, other `pose-*.png` files and `final-mobile-mobility.png` show actual current-run states. Both native reverse scrolling and keyboard/touch navigation pass.
-4. **Continuity below the opening — strong.** Gallery selection keeps its direction, moving marker, artwork and staggered copy; rapid switching leaves one active panel. Artwork carries into its detail view where native View Transitions are supported. Original platinum media (`editorial-art.png` and `editorial-art-mobile.png`) connects the editorial content to the ring language. Green-tinted section surfaces were replaced with neutral stone/paper.
-5. **Responsive and motion control — passed.** All ten keyframes were measured at 390×844, 390×667, 768×844, 1024×844 and 1505×1045: 50 layouts, zero overflow or copy/shape/control collisions. Optional shape captions are omitted on short phones. Pausing late in the story returns to the compact readable identity. Reduced motion creates no animated canvas; no-JavaScript navigation reaches all nine ventures.
-6. **Performance and accessibility — passed.** Expensive geometry construction is baked into a 46,080-byte quantized asset; visitors decode it rather than calculating SVG metrics or phase alignment. Rendering is bounded, stops offscreen/hidden, rests when the opening has no input, and adapts raster resolution/drawing rate under sustained slow frames without changing geometry. The final isolated four-second forward/reverse/pointer run measured median 16.7 ms, p95 33.4 ms, zero frames over 100 ms, and no browser errors. Earlier unbudgeted/cold runs were slower and drove the adaptive rendering changes; these lab numbers are not a guarantee for every device.
-7. **Product completeness — passed for showcase scope.** All 21 static pages remain, including nine venture pages, directory/search, perspectives and contact preparation. Contact prepares a local email/copy/download; inbox provisioning and a hosted submission backend are not represented as complete.
+Current chapter copy remains opaque at every resting position, while its heading settles gently. A shared mobile sculpture plane removes camera jumps caused by different chapter heights. Links wrap on short phones, including all four Mobility ventures. The header stays available, and menu focus is isolated and restored correctly.
 
-## Resolved findings
+Actual rendered screenshots reviewed include the desktop/mobile opening, intermediate logo and connection morphs, Mobility, Materials, the venture explorer, the TMS handoff, Telematics signal states, the form study, company/investor/press/research pages, and the company PDF. Evidence is saved under `artifacts/implementation` and `artifacts/brand-story`; those generated artifacts are ignored in Git.
 
-- P1: opening image-to-live-geometry cut — removed; one renderer from the first interactive frame.
-- P1: letter-to-ring folds — aligned contour winding before phase matching; verified intermediate contours and screenshots.
-- P1: poor transition contrast/overlapping copy — foreground palette handling and coordinated fade intervals corrected; introductory aside leaves before the next chapter arrives.
-- P2: opening typography collision and offscreen infinity — shorter deliberate line breaks and shape extent fitting.
-- P2: pinched mobility/heart contours and depth-chunk seams — rounded contours, cubic spline drawing and continuous shadow/outline paths.
-- P2: short-phone symbol/caption crowding — smaller adaptive composition and omitted optional caption.
-- P2: excessive startup work and idle redraw — baked geometry, idle rest and bounded adaptive rendering.
+## Meaningful exploration
 
-No unresolved P0–P2 implementation findings remain within this brief. Exact original logo-vector fidelity, actual venture availability and legal/contact operational readiness remain launch-content considerations described in README.
+Every venture has a distinct working concept, explicitly labeled as sample data. TMS validates routes and vehicle capacity; Health and Logistics explain handoffs; Telematics exposes signal age; Fleet filters records requiring review; Systems executes local rules; Chemicals provides application briefs; Events calculates an agenda; Labs lets visitors manipulate the shared geometry. These are showcase concepts rather than proof of live product capability or availability.
 
-## Verification evidence
+Company, Approach, Partnerships, Press, Research, Journal, Investors, Contact, and a Mobility ecosystem page support deeper exploration. Journal attribution, reviewed availability fields, approved company facts, related ventures, questions, downloadable resources, and page-specific metadata make the content more useful. Unknown stages say “Discuss availability.” No customer counts, certifications, financial results, clinical outcomes, or fundraising terms are fabricated.
 
-- `npm run check`: 39 files, zero errors/warnings/hints.
-- `npm run build`: 21 static pages; two client chunks, roughly 34 kB gzip combined.
-- `npm run test:smoke`: 45 browser checks passed.
-- `npm run test:motion`: 65 browser checks passed; zero console/runtime errors.
-- `npm run test:geometry`: 44 intermediate contour checks passed.
-- `artifacts/brand-story/layout-bounds.json`: 50 active layouts with zero reported collisions/overflow.
-- `artifacts/brand-story/frame-timing.json`: final active-motion benchmark.
-- `artifacts/brand-story/lighthouse-mobile.json`: 100 performance/accessibility/best practices/SEO; LCP 1.7 s, TBT 10 ms, CLS 0. These are local lab observations, not search-ranking guarantees.
-- `motion-reference-notes.md` and `artifacts/brand-story/references`: fresh Lusion source inspection and DIA Coinbase/Base Onchain Summer case-study/animation inspection. DIA's own root was inaccessible; that limit is explicitly recorded.
+## Performance and progressive graphics
 
-Public readiness is checked after deployment with normal HTTPS certificate verification. Cloud Chromium public navigation is limited by proxy certificate trust; functional browser evidence is from the identical local production build.
+The 3D scene uses environmental reflection, continuous tubes, baked contour data, and a bounded raster. Geometry and material costs were reduced after a software-graphics benchmark exposed stalls. Known software rasterizers select the same spline story through Canvas before the first animated paint. Unsupported WebGL and context loss also have a Canvas fallback. Pause and reduced motion provide a compact canonical SVG. The opening draws no additional frames without input, and rendering stops offscreen or hidden.
 
-## Published preview
+An isolated six-second forward/reverse run in the default cloud Chromium at 1440×900 measured **16.7 ms median and p95, zero frames over 100 ms, and no runtime exceptions**. The selected renderer was Canvas, and the opening made zero additional draw calls during the idle check. This meets the stated normal-browser frame targets. It does not establish hardware WebGL performance.
 
-https://temporary-brisk-emerald-98cbtu7.vercel.app — fresh temporary Vercel deployment, expiring September 30, 2026 at 10:19 PM PDT unless claimed. Normal HTTPS checks passed for all 20 regular pages and 125 referenced assets; a missing route returns HTTP 404. Evidence: `artifacts/brand-story/vercel-readiness.json`. The preview was queued for the current Codex browser panel; that UI action is not represented as hosted browser inspection.
+Forcing Chromium’s SwiftShader compositor measured approximately 33.4 ms median / 66.7 ms p95 with the selected Canvas path. Those artificial software-compositor limits remain recorded in `frame-timing-forced-software.json`. The 3D functional checks deliberately mask the driver label and exercise actual Three.js rendering in SwiftShader; their composition results demonstrate rendering behavior and clearance, not hardware speed. Hardware-device performance should be checked separately with real-user measurements.
 
-## October 1 identity correction
+The reflective scene remains a lazy homepage-only chunk, roughly 135 kB gzip plus 37 kB gzip of shared baked geometry. Vite reports its 500 kB uncompressed chunk warning; it is already dynamically imported and is not a blocking build failure. A static load score is separate from scroll performance.
 
-Added the missing N to the canonical opening geometry and static fallback. All four strands remain continuous through the ten poses. Checked the desktop opening screenshot, 44 intermediate contour checks, and 65 motion checks on the rebuilt production site. The existing performance and full-layout benchmark figures above describe the previous three-strand review. The updated temporary preview is https://temporary-zippy-viola-spzwhih.vercel.app (expires October 1 at 2:29 AM PDT); all 20 pages and 125 assets passed normal HTTPS verification.
+## Operational scope
 
-## October 1 outline and composition redesign
+The built Vercel handler validates and routes inquiries, uses stable provider idempotency keys, and only confirms success after a provider receipt. The browser preserves failed messages and offers local alternatives. No-JavaScript visitors use the visible email addresses; the form stays hidden so an accidental GET cannot place inquiry text in a URL.
 
-Rebuilt the opening glyph contours from the supplied logo proportions and signature R shape; these are hand-traced paths, not an original vector export. Removed shadow/understroke and duplicate highlight passes. Rebalanced the four-strand ring, infinity, route, frame, gathering and lens poses. Replaced the duplicated fourth Materials orbit with a small nucleus ring. Composition now fits projected geometry inside measured copy/control regions, including pointer rotation, rather than relying on viewport scale alone. Shape captions wait until the opening morph has moved into its reserved region. Current verification: 44 fold checks, six Materials silhouette-pair checks, 65 motion checks, and 114 composition checks with no copy/control collisions or clipping. Desktop and short/tall mobile opening and Materials captures were visually inspected.
+Sanity schemas, draft initialization, protected preview routes, five-second draft refresh, authenticated publishing, and immutable content snapshots are implemented. The Studio type check and bundle build passed with a placeholder project ID solely to verify code. Resend credentials, verified sending domain, recipient inboxes, and a real Sanity project were not available. Actual delivery, editor permissions, publish-webhook rebuilding, and account-backed rollback are therefore operational setup checks, not completed claims.
 
-The rebuilt client scripts total about 46 kB gzip. This replaces the earlier 34 kB three-strand bundle figure. Published revised contours and all 20 pages/125 assets passed HTTPS verification.
+## Verification
 
-## Opening hierarchy adjustment
+- Astro diagnostics: zero errors, warnings, or hints; production build generates 26 public pages and the Vercel server handler.
+- Service/content/session behavior: 28 checks using mocked delivery; no email sent.
+- Geometry: 44 letter-to-ring topology checks and six distinct Materials contour pairs.
+- Smoke: 45 browser checks.
+- Motion: 65 checks covering forward/reverse travel, gallery transitions, touch, keyboard, pause, reduced motion, and no JavaScript.
+- Composition: 114 intermediate states across six viewport sizes, including chapter overflow, copy/control clearance, sculpture clipping, and readable copy.
+- Experience: 96 checks covering all nine concepts, resources, inquiry failures, private routes, mobile navigation, and graphics fallbacks.
+- Final mobile Lighthouse lab run: 99 performance, 100 accessibility, 100 best practices, and 100 SEO; LCP 1.7 s, TBT 70 ms, CLS 0. Full-opacity scroll reveals and corrected concept heading levels resolved the audit findings. These scores describe this local production build and do not predict search placement.
 
-Removed the Explore NRTH opening CTA as requested and enlarged the opening wordmark to use almost the full viewport width. The scroll cue is the opening navigation cue and is visible on mobile, fading before industry controls appear. The larger opening and intermediate poses pass all 114 composition checks across six viewport sizes; all 45 smoke checks pass. The fallback venture link remains usable without JavaScript.
-
-## Investor page
-
-Added the Investors page and navigation/homepage entry points, an expandable portfolio overview with all nine ventures, investor questions, and a preselected contact flow. Checked five viewport widths, header collision bounds, mobile navigation, portfolio reveal visibility, and email preparation/routing: 39 checks passed. Astro check reports zero diagnostics; build produces 22 static pages. Desktop and mobile opening/portfolio captures were visually inspected.
-
-## Permanent Vercel deployment
-
-The latest site is deployed to the existing `nrth1/nrth` production project. Corrected an upload exclusion that previously omitted `src/scripts`; the remote build now passes. Normal HTTPS verification passed on the permanent deployment URL for 21 pages, 128 assets, and missing-route 404. The apex custom domain is assigned, and www redirects to the apex in Vercel. Cloudflare DNS changes remain pending; custom-domain HTTPS and the public www redirect have not yet been verified. See `hosting.md` for exact project-specific DNS requirements.
-
-## Favicon and update workflow
-
-Replaced the tiny padded raster tab icon with a tightly framed NRTH SVG wordmark on a dark tile, using the same canonical glyph contours as the opening. The versioned favicon link appears in shared page metadata. Centralized the homepage opening and investor copy, added an editing/publishing guide and GitHub build checks. Verified that saving a temporary copy change updates the development browser automatically, then restored the original copy. Astro check/build pass. GitHub/Vercel integration awaits the account Login Connection explicitly required by Vercel.
-
-The favicon update is published at https://nrth-rgr8ebkbv-nrth1.vercel.app. Verified the SVG has all four logo contours and the shared layout references its versioned URL. Production checks pass for 21 pages/127 hashed assets. GitHub check/build CI passed for the initial source commit, and instant local editing was verified and restored without changing production copy. Two Vercel Git-link attempts returned the same missing Login Connection requirement, so automatic publishing is not claimed as enabled.
-
-## Automatic Git publishing — verified
-
-Installed GitHub integration is now connected to the repository. A branch push created a READY preview deployment and a main push created a READY production deployment; both have source `git` and match commit `7461c28e8659cf09f446aa12a456291ce035a08c`. GitHub check/build CI passed. Verified the stable production alias with normal TLS: 21 pages, 127 assets, NRTH favicon, and missing-route 404. Evidence: artifacts/brand-story/automatic-publishing.json and vercel-readiness.json. The earlier missing-account/app requirements are resolved. Custom-domain DNS remains pending and is not represented as working.
+The smoke/motion checks use normal cloud graphics; composition/experience explicitly exercise the 3D branch as described above. Hosted readiness is checked separately after publication. The saved cloud setup draft preserves the existing repository and network settings and updates the tested install/start workflow; it must be reviewed, saved, and published in environment settings to apply.

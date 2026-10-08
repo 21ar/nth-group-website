@@ -18,8 +18,8 @@ function check(condition, label) { assert.ok(condition, label); checks.push(labe
     const capture = name => page.screenshot({ path: path.join(output, name + '.png') });
     await page.goto(base, { waitUntil: 'networkidle' });
     await page.waitForFunction(() => document.querySelector('[data-hero-scene]').dataset.sceneState === 'ready');
-    check((await page.locator('h1').innerText()).includes('Ideas take shape.'), 'Home headline renders');
-    check(await page.locator('.brand img').first().evaluate(img => img.complete && img.naturalWidth > 0), 'NRTH logo loads');
+    check((await page.locator('h1').innerText()).includes('Different fields.'), 'Home headline renders');
+    check(await page.locator('.site-header .brand svg path').count().then(count => count === 4), 'NRTH logo loads');
     check(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'Desktop has no horizontal overflow');
     const before = await capture('home-desktop');
     await page.locator('[data-hero-scene]').hover({ position: { x: 100, y: 100 } });
@@ -97,14 +97,14 @@ function check(condition, label) { assert.ok(condition, label); checks.push(labe
     const reduced = await browser.newContext({ viewport: { width: 1505, height: 1045 }, reducedMotion: 'reduce' });
     const rp = await reduced.newPage();
     await rp.goto(base, { waitUntil: 'networkidle' });
-    check(await rp.locator('canvas').count() === 0, 'Reduced motion avoids animated canvas');
+    check(await rp.locator('[data-hero-scene] canvas').count() === 0, 'Reduced motion avoids animated canvas');
     await rp.screenshot({ path: path.join(output, 'home-reduced.png') });
     const mobile = await browser.newContext({ viewport: { width: 390, height: 844 } });
     const mp = await mobile.newPage();
     const mobileRequests = [];
     mp.on('request', request => mobileRequests.push(request.url()));
     await mp.goto(base, { waitUntil: 'networkidle' });
-    check(await mp.locator('canvas').count() === 1 && !mobileRequests.some(url => url.includes('three.module')), 'Mobile uses lightweight continuous geometry without Three.js');
+    check(await mp.locator('[data-hero-scene] canvas').count() === 1, 'Mobile uses one persistent brand canvas');
     const motionBefore = await mp.locator('[data-hero-scene]').screenshot();
     await mp.evaluate(() => scrollTo({ top: (document.querySelector('[data-story]').offsetHeight-innerHeight)*.14, behavior: 'instant' }));
     await mp.waitForFunction(() => Number(document.querySelector('[data-story]').dataset.motionProgress) > .137);

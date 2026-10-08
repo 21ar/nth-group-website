@@ -1,6 +1,7 @@
-export const articles = [
+export type Article = {slug: string; category: string; title: string; description: string; paragraphs: string[]; related: string[]; author: string; publishedAt: string; prompts?: string[]};
+export const articles: Article[] = [
   {
-    slug: 'clarity-is-a-design-decision', category: 'Perspective', title: 'Clarity is a design decision.',
+    slug: 'clarity-is-a-design-decision', category: 'Perspective', title: 'Clarity is a design decision.', author: 'NRTH Editorial', publishedAt: '2026-10-08',
     description: 'Why thoughtful systems begin with the experience of the people using them.',
     paragraphs: [
       'A system can contain a great deal of complexity without asking every person to navigate all of it. That distinction is a useful starting point for product design. The work is not to hide important information, but to understand when someone needs it and what they need to do next.',
@@ -11,7 +12,7 @@ export const articles = [
     ], related: ['nrth-systems', 'nrth-health'],
   },
   {
-    slug: 'connecting-the-parts-of-movement', category: 'Mobility', title: 'Connecting the parts of movement.',
+    slug: 'connecting-the-parts-of-movement', category: 'Mobility', title: 'Connecting the parts of movement.', author: 'NRTH Editorial', publishedAt: '2026-10-08',
     description: 'A useful distinction between transportation, telematics, logistics, and fleet work.',
     paragraphs: [
       'Transportation, telematics, logistics, and fleet operations are closely related, but they do not describe the same problem. Understanding their differences helps people find the right conversation and helps product teams keep their scope clear.',
@@ -22,7 +23,7 @@ export const articles = [
     ], related: ['nrth-tms', 'nrth-telematics', 'nrth-fleet', 'nrth-logistics'],
   },
   {
-    slug: 'making-room-for-experimentation', category: 'Research', title: 'Making room for experimentation.',
+    slug: 'making-room-for-experimentation', category: 'Research', title: 'Making room for experimentation.', author: 'NRTH Editorial', publishedAt: '2026-10-08',
     description: 'How focused questions can give an early idea a useful direction.',
     paragraphs: [
       'An early idea does not need a complete product plan to become worth exploring. It does need a question that can be examined. A focused experiment creates a way to learn without pretending every uncertainty has already been resolved.',

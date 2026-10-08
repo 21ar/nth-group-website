@@ -1,0 +1,4 @@
+---
+const pages = [{href:'/about', label:'Company'}, {href:'/approach', label:'Approach'}, {href:'/partnerships', label:'Partnerships'}, {href:'/press', label:'Press'}];
+---
+<nav class='company-subnav section company-nav' aria-label='Explore the company'>{pages.map(page => <a href={page.href} aria-current={Astro.url.pathname === page.href ? 'page' : undefined}>{page.label}</a>)}</nav>

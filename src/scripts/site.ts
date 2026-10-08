@@ -39,6 +39,9 @@ function setMenu(open: boolean) {
   menuButton.setAttribute('aria-expanded', String(open));
   menuButton.textContent = open ? 'Close' : 'Menu';
   document.body.style.overflow = open ? 'hidden' : '';
+  document.documentElement.classList.toggle('menu-open', open);
+  document.querySelector<HTMLElement>('main')!.inert = open;
+  document.querySelector<HTMLElement>('footer')!.inert = open;
   if (open) menu.querySelector<HTMLAnchorElement>('a')?.focus();
   else menuButton.focus();
 }
@@ -59,6 +62,9 @@ window.matchMedia('(min-width: 768px)').addEventListener('change', event => {
     menuButton?.setAttribute('aria-expanded', 'false');
     if (menuButton) menuButton.textContent = 'Menu';
     document.body.style.overflow = '';
+    document.documentElement.classList.remove('menu-open');
+    document.querySelector<HTMLElement>('main')!.inert = false;
+    document.querySelector<HTMLElement>('footer')!.inert = false;
   }
 });
 
@@ -176,6 +182,7 @@ if (explorer) {
 
 const form = document.querySelector<HTMLFormElement>('[data-inquiry-form]');
 if (form) {
+  form.hidden = false;
   const project = new URLSearchParams(location.search).get('project');
   const select = form.querySelector<HTMLSelectElement>('[name="project"]');
   if (project && select && [...select.options].some(option => option.value === project)) select.value = project;
@@ -184,6 +191,37 @@ if (form) {
   const status = form.querySelector<HTMLElement>('[data-inquiry-status]');
   let message = '';
   let objectUrl: string | undefined;
+  let requestId = crypto.randomUUID();
+  let sending = false;
+  let sent = false;
+  const send = form.querySelector<HTMLButtonElement>('[data-inquiry-send]');
+  const error = form.querySelector<HTMLElement>('[data-inquiry-error]');
+  form.addEventListener('input', () => {
+    requestId = crypto.randomUUID(); sent = false;
+    if (result) result.hidden = true;
+    if (send) {send.disabled = false; send.textContent = 'Send inquiry';}
+  });
+  send?.addEventListener('click', async () => {
+    if (sending || sent || !form.reportValidity()) return;
+    sending = true; send.disabled = true; send.textContent = 'Sending…';
+    if (error) error.hidden = true;
+    const values = new FormData(form);
+    const fields = [...form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('input,select,textarea')];
+    fields.forEach(field=>field.disabled = true);
+    const edit = form.querySelector<HTMLButtonElement>('[data-inquiry-edit]');if(edit) edit.disabled = true;
+    try {
+      const response = await fetch('/api/inquiries', {method:'POST', signal:AbortSignal.timeout(18000), headers:{'Content-Type':'application/json'}, body:JSON.stringify({...Object.fromEntries(values), requestId})});
+      const receipt = await response.json().catch(()=>({error:'Website delivery is currently unavailable. Please use your email app or save your inquiry.'}));
+      if (!response.ok) throw new Error(receipt.error || 'Your inquiry could not be sent. Please try again.');
+      sent = true; send.textContent = 'Inquiry accepted';
+      if (status) status.textContent = `${receipt.message} Reference: ${receipt.reference}.`;
+      form.querySelector<HTMLElement>('[data-inquiry-review-note]')!.textContent = 'Your inquiry has been accepted for delivery. Keep the reference for your conversation with NRTH.';
+      window.dispatchEvent(new CustomEvent('nrth:interaction', {detail:{venture:select?.value || 'general', action:'inquiry_accepted'}}));
+    } catch (reason) {
+      if (error) {error.textContent = reason instanceof Error && reason.name === 'Error' ? reason.message : 'Delivery could not be confirmed. Please retry or use your email app.'; error.hidden = false;}
+      send.disabled = false; send.textContent = 'Retry sending';
+    } finally {sending = false;fields.forEach(field=>field.disabled = false);if(edit) edit.disabled = false;}
+  });
   form.addEventListener('submit', event => {
     event.preventDefault();
     if (!form.reportValidity()) return;
@@ -194,6 +232,8 @@ if (form) {
     if (preview) preview.textContent = message;
     if (result) { result.hidden = false; result.focus(); }
     if (status) status.textContent = '';
+    if (error) error.hidden = true;
+    form.querySelector<HTMLElement>('[data-inquiry-review-note]')!.textContent = 'Check the details, then send your inquiry. You can also use your email app or save a copy.';
     const emailLink = form.querySelector<HTMLAnchorElement>('[data-inquiry-email]');
     const destination = select?.value === 'investor' ? form.dataset.investorsEmail || form.dataset.contactEmail : select?.value === 'partnership' ? form.dataset.partnershipsEmail || form.dataset.contactEmail : form.dataset.contactEmail;
     if (emailLink && destination) {

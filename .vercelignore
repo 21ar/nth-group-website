@@ -12,7 +12,9 @@ motion-goals.md
 motion-reference-notes.md
 
 verify-geometry.cjs
-/scripts/
+studio/node_modules/
+studio/dist/
+studio/.sanity/
 
 .env
 .env.*

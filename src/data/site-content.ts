@@ -2,8 +2,8 @@
 export const siteContent = {
   opening: {
     label: 'NRTH Inc. / Independent by design',
-    lines: ['Ideas take shape.', 'Connections grow.'],
-    copy: 'A family of ventures. A shared instinct to move things forward.',
+    lines: ['Different fields.', 'One NRTH.'],
+    copy: 'NRTH Inc. brings together ideas across health, mobility, systems, materials, events, and research.',
   },
   investors: {
     label: 'Investors / A longer horizon',

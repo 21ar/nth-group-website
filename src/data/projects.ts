@@ -2,6 +2,8 @@ export type Project = {
   slug: string; name: string; category: string; number: string;
   headline: string; description: string; introduction: string;
   focus: { title: string; text: string }[]; related: string[];
+  stage?: 'overview' | 'research' | 'prototype' | 'pilot' | 'available';
+  reviewedAt?: string; productUrl?: string; demoUrl?: string; coverImage?: string; coverAlt?: string;
 };
 
 export const projects: Project[] = [
@@ -50,7 +52,7 @@ export const projects: Project[] = [
     ], related: ['nrth-tms', 'nrth-fleet', 'nrth-systems'],
   },
   {
-    slug: 'nrth-systems', name: 'NRTH Systems', category: 'Technology', number: '05',
+    slug: 'nrth-systems', name: 'NRTH Systems', category: 'Systems', number: '05',
     headline: 'Complexity, thoughtfully connected.',
     description: 'Exploring software and systems that bring work together.',
     introduction: 'The best systems make their complexity useful. NRTH Systems explores software, infrastructure, and the connections that help different parts of a business work together.',
@@ -61,7 +63,7 @@ export const projects: Project[] = [
     ], related: ['nrth-labs', 'nrth-telematics', 'nrth-health'],
   },
   {
-    slug: 'nrth-labs', name: 'NRTH Labs', category: 'Technology', number: '06',
+    slug: 'nrth-labs', name: 'NRTH Labs', category: 'Research', number: '06',
     headline: 'Room for the next idea.',
     description: 'Research, experiments, and a space to explore what comes next.',
     introduction: 'Progress begins with a question. NRTH Labs is a space for exploring ideas, testing approaches, and finding connections between disciplines before an idea becomes a product.',
@@ -72,7 +74,7 @@ export const projects: Project[] = [
     ], related: ['nrth-systems', 'nrth-health', 'nrth-chemicals'],
   },
   {
-    slug: 'nrth-chemicals', name: 'NRTH Chemicals', category: 'Industry', number: '07',
+    slug: 'nrth-chemicals', name: 'NRTH Chemicals', category: 'Materials', number: '07',
     headline: 'A considered approach to materials.',
     description: 'Exploring opportunities in chemicals, materials, and industry.',
     introduction: 'Materials sit behind many of the things people rely on. NRTH Chemicals explores opportunities in the chemical sector and the relationships between materials, applications, and industrial needs.',
@@ -94,7 +96,7 @@ export const projects: Project[] = [
     ], related: ['nrth-telematics', 'nrth-tms', 'nrth-logistics'],
   },
   {
-    slug: 'nrth-events', name: 'NRTH Events', category: 'Experiences', number: '09',
+    slug: 'nrth-events', name: 'NRTH Events', category: 'Events', number: '09',
     headline: 'Bringing people and ideas together.',
     description: 'Exploring experiences that create meaningful connections.',
     introduction: 'Some connections happen best in person. NRTH Events explores the planning, collaboration, and thoughtful details behind experiences that bring people together.',
@@ -106,4 +108,9 @@ export const projects: Project[] = [
   },
 ];
 
-export const categories = ['All', 'Health', 'Mobility', 'Technology', 'Industry', 'Experiences'];
+export const categories = ['All', 'Health', 'Mobility', 'Systems', 'Materials', 'Events', 'Research'];
+
+export function stageLabel(project: Project) {
+  const labels = { overview: 'Discuss availability', research: 'Research', prototype: 'Prototype', pilot: 'Pilot', available: 'Available' };
+  return labels[project.stage || 'overview'];
+}
