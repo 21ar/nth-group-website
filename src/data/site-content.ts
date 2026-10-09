@@ -1,9 +1,9 @@
 // Main homepage copy. Save while `npm run dev` is running to see edits instantly.
 export const siteContent = {
   opening: {
-    label: 'NRTH Inc. / Independent by design',
-    lines: ['Ideas take shape.', 'Connections grow.'],
-    copy: 'A family of ventures. A shared instinct to move things forward.',
+    label: 'NRTH Inc.',
+    lines: ['Progress', 'unfolds.'],
+    copy: 'Independent ventures.\nA shared direction.',
   },
   investors: {
     label: 'Investors / A longer horizon',

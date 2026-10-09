@@ -1,0 +1,37 @@
+---
+import {Image} from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import {getArticles,getSiteContent} from '../data/content';
+import {artwork} from '../data/visuals';
+import LivingFold from './LivingFold.astro';
+import ProjectExplorer from './ProjectExplorer.astro';
+import VentureDemo from './VentureDemo.astro';
+interface Props {draft?:boolean;}
+const {draft=false}=Astro.props;
+const articles=await getArticles(draft),siteContent=await getSiteContent(draft);
+---
+<Layout noindex={draft} description='NRTH Inc. brings together nine ventures across health, mobility, systems, materials, events and research. Independent ventures. A shared direction.'>
+  {draft && <aside class='preview-banner'><a href='/preview'>Editorial workspace</a><span data-preview-status>Draft preview</span></aside>}
+  <LivingFold draft={draft} />
+  <section class='fold-spread' aria-labelledby='systems-heading'>
+    <div class='fold-spread-copy' data-reveal><span class='field-name'>Systems</span><h2 id='systems-heading'>Everything<br />in relation.</h2><p>Some challenges live between the parts. NRTH Systems explores how information, workflows and decisions can work together.</p><a class='word-link' href='/projects/nrth-systems'>Inside NRTH Systems</a></div>
+    <div class='fold-spread-art' data-reveal><Image src={artwork.systems.src} width={1400} widths={[640,1000,1400]} sizes='(max-width:767px) 100vw, 65vw' alt={artwork.systems.alt} format='webp' loading='lazy' /></div>
+  </section>
+  <section id='ecosystem' class='section showcase-section fold-portfolio'>
+    <div class='showcase-heading' data-reveal><div><span class='field-name'>The ventures</span><h2>Different fields.<br />Shared ambition.</h2></div><div><p>Nine venture directions. Each starts with a question about how things could work better.</p><a class='word-link' href='/projects'>The full NRTH portfolio</a></div></div>
+    <ProjectExplorer draft={draft} />
+  </section>
+  <section class='section proof-section' aria-labelledby='dispatch-heading'>
+    <div class='proof-intro' data-reveal><div><span class='field-name'>An idea you can try</span><h2 id='dispatch-heading'>Move the idea<br />forward.</h2></div><p>Plan a journey, match a vehicle, then inspect the handoff. Explore the thinking behind NRTH TMS through an interactive concept.</p></div>
+    <div data-reveal><VentureDemo slug='nrth-tms' /></div>
+    <div class='proof-footer'><p>Concept interface with sample data. Product scope and availability are discussed directly with NRTH.</p><a class='word-link' href='/projects/nrth-tms'>Explore NRTH TMS</a></div>
+  </section>
+  <section class='fold-spread fold-research' aria-labelledby='research-heading'>
+    <div class='fold-spread-copy' data-reveal><span class='field-name'>NRTH Labs</span><h2 id='research-heading'>Leave room<br />for the next idea.</h2><p>Research begins with a question. NRTH Labs gives experiments and emerging directions space to develop.</p><a class='word-link' href='/research'>Explore the research</a></div>
+    <div class='fold-spread-art' data-reveal><Image src={artwork.labs.src} width={1400} widths={[640,1000,1400]} sizes='(max-width:767px) 100vw, 65vw' alt={artwork.labs.alt} format='webp' loading='lazy' /></div>
+  </section>
+  <section class='section company-slice'><div data-reveal><span class='field-name'>NRTH Inc.</span><h2>Independent.<br />Interconnected.</h2></div><div data-reveal><p class='lead-copy'>Each field asks something different of us. The shared ambition is to make the next step clearer.</p><p>We start with the people doing the work, examine the relationships around them, and give new ideas room to unfold.</p><div class='company-subnav'><a class='word-link' href='/about'>Meet NRTH</a><a class='word-link' href='/partnerships'>Build a connection</a></div></div></section>
+  <section class='section editorial-section'><div class='editorial-heading' data-reveal><div><span class='field-name'>The journal</span><h2>Questions<br />behind the work.</h2></div><a class='word-link' href='/insights'>Read the journal</a></div><div class='fold-journal'>{articles.slice(0,3).map(article=><a href={'/insights/'+article.slug} data-reveal><span>{article.category}</span><h3>{article.title}</h3><p>{article.description}</p></a>)}</div></section>
+  <section class='section investor-home'><div data-reveal><span class='field-name'>{siteContent.investors.label}</span><h2>{siteContent.investors.lines[0]}<br />{siteContent.investors.lines[1]}</h2></div><div data-reveal><p>{siteContent.investors.copy}</p><a class='word-link' href='/investors'>{siteContent.investors.link}</a></div></section>
+  <section class='section contact-section contact-invitation'><div data-reveal><a href='/contact' class='contact-heading'>What could<br />we unfold together?</a></div><p data-reveal>A project. A partnership.<br />A question worth asking.<br /><a class='word-link' href='/contact'>Let’s talk</a></p></section>
+</Layout>

@@ -7,3 +7,9 @@ dist/
 artifacts/
 .vercel/
 .vercel
+studio/node_modules/
+studio/dist/
+studio/.sanity/
+public/resources/content-revision.json
+public/resources/nrth-company-overview.pdf
+public/resources/social/

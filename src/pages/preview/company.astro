@@ -1,0 +1,9 @@
+---
+import CompanyPage from '../../components/CompanyPage.astro';
+import {cookieName,validPreviewSession} from '../../server/preview';
+export const prerender = false;
+Astro.response.headers.set('Cache-Control','private, no-store');
+if (!validPreviewSession(Astro.cookies.get(cookieName)?.value)) return Astro.redirect('/preview');
+---
+<CompanyPage draft />
+<script>import '../../scripts/preview';</script>

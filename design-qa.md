@@ -1,75 +1,60 @@
-# NRTH continuous brand story — final design QA
+# Living Fold design review
 
-Final result: passed
+Reference: [selected Living Fold visual](design/living-fold-reference.png). Implementation: the Astro site on `feat/nrth-continuous-portfolio`. Reviewed in local Chromium against the actual Vercel build, with desktop, touch, reduced-motion, no-JavaScript and graphics-failure contexts.
 
-Review date: September 30, 2026, America/Vancouver. This is an internal design and interaction assessment against the user's brief, not an external award judgment.
+## Design goals and observed behavior
 
-The original selected visual source (`/workspace/generated_images/exec-c84789f1-536f-45ee-8f89-b2e78688cd56.png`) and current production captures were inspected together in the same review input. Warm paper, large restrained typography, generous spacing and a minimal navigation remain. The user's newer instruction explicitly replaces the opening photographic infinity with N–R–T–H and a continuous industry story. The supplied NRTH identity remains in the header; the existing transparent logo derivative is documented in README rather than represented as an original vector export.
+- Large “Progress unfolds.” typography, ivory space, coral/lavender/ivory material, and the actual four-path NRTH mark. The source image’s approximate wordmark is replaced by the supplied brand geometry.
+- One persistent canvas and three related sampled sheets. Native scrolling continuously unfolds the opening architecture into mobility routes; reverse scrolling restores the opening. Field selection transforms the same vertices, including when another selection interrupts it.
+- Six meaningful field forms: mobility routes, an open embrace for Health, a rounded framework for Systems, cellular folds for Materials, a gathering space for Events, and an opening fan for Research. Text appears during the selection transition; hidden copy cannot take keyboard focus.
+- Plain-word masthead and venture navigation. No numbered motion stages, decorative chapter captions, arrow CTAs or pill navigation in the showcase. All nine ventures are two actions from “Inside NRTH”.
+- Matching original artwork across venture, company, investor and research spreads. The photo-like artwork provides static and reduced-motion alternatives; live geometry provides the controllable interaction. The live material adapts the reference rather than treating its composite image as a flat animated poster.
+- A short signature sequence, followed by a normally scrolling portfolio and supporting content. The sequence is 285 viewport heights on desktop and 260 on mobile, rather than a compulsory six-field tour. Very short landscape viewports use a natural reading layout.
+- The rendering loop sleeps when settled, offscreen or hidden. Known software graphics use the shaded Canvas path; slower WebGL frames reduce rendering resolution. There is no automatic looping video or forced scrolling.
 
-## Journey assessment
+## Browser captures
 
-1. **Identity — strong.** `pose-0.png` shows large live N–R–T–H outlines below the opening copy with clear space between them. Static/reduced-motion identity uses the same canonical glyph paths. No photograph takes over or disappears on scroll.
-2. **Transformation — strong.** Four strands persist through letters, rings, infinity, care, mobility, systems, materials, events, discovery and infinity. `half-morph.png` was visually checked alongside the original source and final poses. Correct winding and phase matching remove folded/pinched intermediate letters; 44 topology samples have no unintended self-intersections during letter-to-ring travel. Deliberate depth crossings in infinity and orbital symbols are part of their meaning.
-3. **Industries — clear.** Six fields organize all nine ventures. Large concise headings, useful venture links, travelling connection points and ring-to-underline controls tie the sculpture to content. `pose-3.png`, other `pose-*.png` files and `final-mobile-mobility.png` show actual current-run states. Both native reverse scrolling and keyboard/touch navigation pass.
-4. **Continuity below the opening — strong.** Gallery selection keeps its direction, moving marker, artwork and staggered copy; rapid switching leaves one active panel. Artwork carries into its detail view where native View Transitions are supported. Original platinum media (`editorial-art.png` and `editorial-art-mobile.png`) connects the editorial content to the ring language. Green-tinted section surfaces were replaced with neutral stone/paper.
-5. **Responsive and motion control — passed.** All ten keyframes were measured at 390×844, 390×667, 768×844, 1024×844 and 1505×1045: 50 layouts, zero overflow or copy/shape/control collisions. Optional shape captions are omitted on short phones. Pausing late in the story returns to the compact readable identity. Reduced motion creates no animated canvas; no-JavaScript navigation reaches all nine ventures.
-6. **Performance and accessibility — passed.** Expensive geometry construction is baked into a 46,080-byte quantized asset; visitors decode it rather than calculating SVG metrics or phase alignment. Rendering is bounded, stops offscreen/hidden, rests when the opening has no input, and adapts raster resolution/drawing rate under sustained slow frames without changing geometry. The final isolated four-second forward/reverse/pointer run measured median 16.7 ms, p95 33.4 ms, zero frames over 100 ms, and no browser errors. Earlier unbudgeted/cold runs were slower and drove the adaptive rendering changes; these lab numbers are not a guarantee for every device.
-7. **Product completeness — passed for showcase scope.** All 21 static pages remain, including nine venture pages, directory/search, perspectives and contact preparation. Contact prepares a local email/copy/download; inbox provisioning and a hosted submission backend are not represented as complete.
+| State | Capture |
+|---|---|
+| Live opening / WebGL | [opening](design/qa/opening-webgl.png) |
+| Mobility / WebGL | [mobility](design/qa/mobility-webgl.png) |
+| Health / WebGL | [embrace](design/qa/health-webgl.png) |
+| Opening / software fallback | [opening](design/qa/opening-surface.png) |
+| Mobility / software fallback | [routes](design/qa/mobility-surface.png) |
+| Mobile opening | [opening](design/qa/mobile-opening.png) |
+| Mobile mobility | [mobility](design/qa/mobile-mobility.png) |
+| Company | [company](design/qa/about.png) |
+| Directory | [ventures](design/qa/projects.png) |
+| Investors | [investors](design/qa/investors.png) |
 
-## Resolved findings
+## Findings and corrections
 
-- P1: opening image-to-live-geometry cut — removed; one renderer from the first interactive frame.
-- P1: letter-to-ring folds — aligned contour winding before phase matching; verified intermediate contours and screenshots.
-- P1: poor transition contrast/overlapping copy — foreground palette handling and coordinated fade intervals corrected; introductory aside leaves before the next chapter arrives.
-- P2: opening typography collision and offscreen infinity — shorter deliberate line breaks and shape extent fitting.
-- P2: pinched mobility/heart contours and depth-chunk seams — rounded contours, cubic spline drawing and continuous shadow/outline paths.
-- P2: short-phone symbol/caption crowding — smaller adaptive composition and omitted optional caption.
-- P2: excessive startup work and idle redraw — baked geometry, idle rest and bounded adaptive rendering.
+| Priority | Finding | Resolution |
+|---|---|---|
+| P1 | Existing header padding pushed the opening away from the reference. | Removed the inherited body offset; retained a fixed, readable masthead. |
+| P1 | Software face sorting exposed cracks at intersecting sheets. | Rendered complete sampled contours with continuous material shading. |
+| P1 | Rapid field changes could restart from an endpoint. | Each new morph starts from the exact displayed mixture of surfaces. |
+| P1 | Short phones could clip the field navigation. | Added a compact composition; checked copy, links and controls at seven viewport sizes. |
+| P2 | Closed surfaces could expose a seam or duplicate edge highlight. | Joined endpoint positions and normals; highlights follow only the two actual surface boundaries. |
+| P2 | Floor shadows were too hard. | Reduced shadow opacity and used a wider filtered shadow kernel. Typography casts no shadows. |
+| P2 | Company subnavigation inherited excessive section spacing. | Gave it its own compact padding and adjusted the following introduction. |
+| P2 | Directory filters retained small type and an old pill outline. | Restyled filters and view controls as plain, readable words. |
+| P2 | Field copy changed abruptly. | Added a short reveal coordinated with the longer surface transformation; disabled it for reduced motion. |
+| P2 | A long Research heading reached the field controls on a shorter desktop screen. | Applied the same smaller type treatment used for long Materials headings. |
 
-No unresolved P0–P2 implementation findings remain within this brief. Exact original logo-vector fidelity, actual venture availability and legal/contact operational readiness remain launch-content considerations described in README.
+No unresolved P0, P1 or P2 findings remain in the reviewed states. Complete-page artifacts and machine-readable check results are generated in ignored `artifacts` directories.
 
-## Verification evidence
+## Validation
 
-- `npm run check`: 39 files, zero errors/warnings/hints.
-- `npm run build`: 21 static pages; two client chunks, roughly 34 kB gzip combined.
-- `npm run test:smoke`: 45 browser checks passed.
-- `npm run test:motion`: 65 browser checks passed; zero console/runtime errors.
-- `npm run test:geometry`: 44 intermediate contour checks passed.
-- `artifacts/brand-story/layout-bounds.json`: 50 active layouts with zero reported collisions/overflow.
-- `artifacts/brand-story/frame-timing.json`: final active-motion benchmark.
-- `artifacts/brand-story/lighthouse-mobile.json`: 100 performance/accessibility/best practices/SEO; LCP 1.7 s, TBT 10 ms, CLS 0. These are local lab observations, not search-ranking guarantees.
-- `motion-reference-notes.md` and `artifacts/brand-story/references`: fresh Lusion source inspection and DIA Coinbase/Base Onchain Summer case-study/animation inspection. DIA's own root was inaccessible; that limit is explicitly recorded.
+- Astro check: no errors, warnings or hints. Production website build passed; 26 static pages plus the Vercel handlers.
+- Sanity Studio type check and build passed.
+- Services/content: 28 checks, with mocked delivery and no email sent.
+- Geometry: 70 Living Fold checks, plus the retained Labs study’s 44 topology and 6 silhouette checks. Includes solid thickness, finite intermediate geometry and joined closed seams.
+- Responsive composition: 56 reviewed compositions at 360×640, 390×667, 390×844, 768×700, 1024×768, 1440×700 and 1440×1000.
+- Motion: 55 browser checks covering intermediate geometry, reversibility, all fields, interrupted selections, idle/offscreen rendering, keyboard/touch operation and graphics fallbacks.
+- Browser smoke: 45 checks covering portfolio navigation, directory filtering/search, inquiry preparation, downloads and canonical venture pages.
+- Experience: 94 checks covering the WebGL path, all nine venture demos, investor routing, failed-delivery message preservation, private-preview access control and mobile supporting pages.
 
-Public readiness is checked after deployment with normal HTTPS certificate verification. Cloud Chromium public navigation is limited by proxy certificate trust; functional browser evidence is from the identical local production build.
+WebGL checks deliberately enable and identify Chromium’s software renderer as hardware to exercise that code path. They establish behavior and visual composition, not performance on physical GPUs. The normal software path is reviewed separately. Inbox provisioning and live mail delivery require the owner’s configured accounts; the site does not claim that a prepared or failed inquiry was delivered. Search metadata is implemented, but ranking and an award outcome are not guaranteed.
 
-## Published preview
-
-https://temporary-brisk-emerald-98cbtu7.vercel.app — fresh temporary Vercel deployment, expiring September 30, 2026 at 10:19 PM PDT unless claimed. Normal HTTPS checks passed for all 20 regular pages and 125 referenced assets; a missing route returns HTTP 404. Evidence: `artifacts/brand-story/vercel-readiness.json`. The preview was queued for the current Codex browser panel; that UI action is not represented as hosted browser inspection.
-
-## October 1 identity correction
-
-Added the missing N to the canonical opening geometry and static fallback. All four strands remain continuous through the ten poses. Checked the desktop opening screenshot, 44 intermediate contour checks, and 65 motion checks on the rebuilt production site. The existing performance and full-layout benchmark figures above describe the previous three-strand review. The updated temporary preview is https://temporary-zippy-viola-spzwhih.vercel.app (expires October 1 at 2:29 AM PDT); all 20 pages and 125 assets passed normal HTTPS verification.
-
-## October 1 outline and composition redesign
-
-Rebuilt the opening glyph contours from the supplied logo proportions and signature R shape; these are hand-traced paths, not an original vector export. Removed shadow/understroke and duplicate highlight passes. Rebalanced the four-strand ring, infinity, route, frame, gathering and lens poses. Replaced the duplicated fourth Materials orbit with a small nucleus ring. Composition now fits projected geometry inside measured copy/control regions, including pointer rotation, rather than relying on viewport scale alone. Shape captions wait until the opening morph has moved into its reserved region. Current verification: 44 fold checks, six Materials silhouette-pair checks, 65 motion checks, and 114 composition checks with no copy/control collisions or clipping. Desktop and short/tall mobile opening and Materials captures were visually inspected.
-
-The rebuilt client scripts total about 46 kB gzip. This replaces the earlier 34 kB three-strand bundle figure. Published revised contours and all 20 pages/125 assets passed HTTPS verification.
-
-## Opening hierarchy adjustment
-
-Removed the Explore NRTH opening CTA as requested and enlarged the opening wordmark to use almost the full viewport width. The scroll cue is the opening navigation cue and is visible on mobile, fading before industry controls appear. The larger opening and intermediate poses pass all 114 composition checks across six viewport sizes; all 45 smoke checks pass. The fallback venture link remains usable without JavaScript.
-
-## Investor page
-
-Added the Investors page and navigation/homepage entry points, an expandable portfolio overview with all nine ventures, investor questions, and a preselected contact flow. Checked five viewport widths, header collision bounds, mobile navigation, portfolio reveal visibility, and email preparation/routing: 39 checks passed. Astro check reports zero diagnostics; build produces 22 static pages. Desktop and mobile opening/portfolio captures were visually inspected.
-
-## Permanent Vercel deployment
-
-The latest site is deployed to the existing `nrth1/nrth` production project. Corrected an upload exclusion that previously omitted `src/scripts`; the remote build now passes. Normal HTTPS verification passed on the permanent deployment URL for 21 pages, 128 assets, and missing-route 404. The apex custom domain is assigned, and www redirects to the apex in Vercel. Cloudflare DNS changes remain pending; custom-domain HTTPS and the public www redirect have not yet been verified. See `hosting.md` for exact project-specific DNS requirements.
-
-## Favicon and update workflow
-
-Replaced the tiny padded raster tab icon with a tightly framed NRTH SVG wordmark on a dark tile, using the same canonical glyph contours as the opening. The versioned favicon link appears in shared page metadata. Centralized the homepage opening and investor copy, added an editing/publishing guide and GitHub build checks. Verified that saving a temporary copy change updates the development browser automatically, then restored the original copy. Astro check/build pass. GitHub/Vercel integration awaits the account Login Connection explicitly required by Vercel.
-
-The favicon update is published at https://nrth-rgr8ebkbv-nrth1.vercel.app. Verified the SVG has all four logo contours and the shared layout references its versioned URL. Production checks pass for 21 pages/127 hashed assets. GitHub check/build CI passed for the initial source commit, and instant local editing was verified and restored without changing production copy. Two Vercel Git-link attempts returned the same missing Login Connection requirement, so automatic publishing is not claimed as enabled.
+final result: passed

@@ -1,18 +1,25 @@
-# NRTH continuous brand story — acceptance goals
+# NRTH experience — acceptance goals
 
-User direction: start with N–R–T–H; each letter becomes a ring, rings become infinity,
-then the same material becomes meaningful industry symbols. Keep NRTH branding,
-remove green page surfaces, smooth the curves and every transition.
+## Brand story
 
-1. Four persistent strands, one canvas, ten poses: identity → rings → infinity → care → route → systems → molecule → gathering → discovery → infinity. No still-image takeover, geometry reset, wheel interception or sharp ring cusps.
-2. Equal arc-length samples, phase alignment, periodic cubic splines and quintic morph easing. Native scroll drives the same timeline forwards and backwards. Pointer movement gently changes perspective.
-3. Six industry chapters group all nine ventures. Useful venture links, industry navigation and hover ring-to-underline feedback. Large restrained type, neutral paper/ink surfaces, readable keyframes and no artwork/copy collisions.
-4. Generate original supporting editorial media. Preserve the nine-venture explorer, directional gallery transitions and artwork-to-detail transition.
-5. Pause/reduced motion is a compact static identity with readable links. No-JavaScript visitors can access all nine projects. Touch and keyboard can use the industry controls without pointer effects.
-6. Verify intermediate poses, reverse travel, all industry controls, mobile/tablet layouts, no console errors, pause, reduced motion, no JS, artwork transitions and active frame timing. Targets: median ≤20 ms, p95 ≤34 ms, no repeated >100 ms stalls in the normal cloud browser.
+The supplied NRTH contours are the source for all four letters, including the N and open R. Four persistent strands become rings, infinity, and six field symbols through ten poses. Native scroll drives the same geometry forward and backward, without wheel interception or a separate image takeover. Cubic curves and quintic blending keep the transitions rounded.
 
-Current status: passed. Award recognition is a subjective external judgment; acceptance here requires the measurable behavior and visual criteria above.
+The sculpture, chapter, palette, industry controls, and pointer perspective share one timeline. Current copy must stay readable at every resting position. All venture links must fit on short phones; copy, navigation, captions, and sculpture must remain clear of one another across six representative screen sizes. Pause and reduced motion provide a compact canonical identity. A Canvas renderer preserves the story when WebGL is unavailable.
 
-## Final acceptance
+## Useful exploration
 
-All six goals passed the current review. Four strands retain their topology; the initial morph is checked for folding at 44 intermediate samples. The 109 browser assertions pass, and 50 active layouts show no reported collisions/overflow. Final isolated frame timing: median 16.7 ms, p95 33.4 ms, zero frames over 100 ms. Mobile Lighthouse: 100 performance/accessibility/best practices/SEO, LCP 1.7 s, TBT 10 ms, CLS 0. `design-qa.md` records the same-input source/capture comparison and resolved findings. Public HTTPS readiness is checked separately after publication.
+All nine ventures have a distinct, keyboard-usable concept using explicitly labeled sample data. Actions must change meaningful state: route validation and vehicle capacity, workflow ownership, signal freshness, fleet review, executed rules, application briefs, agenda duration, and form-study parameters. Directory search, industry filtering, rapid gallery selection, and shared artwork transitions must remain usable.
+
+Public content includes Company, Approach, Partnerships, Press, Research, Journal, Investors, and Contact. Unknown venture availability is disclosed rather than implied by a website demonstration. Original URLs, canonical metadata, article attribution, social previews, and downloadable brand/company resources remain consistent.
+
+## Operational accuracy
+
+Inquiry success requires a provider receipt. Failed or unconfigured delivery preserves the message and provides email-app, copy, and download alternatives. CMS drafts are protected, excluded from indexing, and use the same page components as public content. A build freezes a shared content snapshot for HTML, PDF, and revision metadata. Account setup and actual inbox receipt are separate from code verification.
+
+## Verification and performance
+
+Required checks: Astro diagnostics and production build; mocked delivery/content/session checks; contour topology; smoke and motion journeys; all venture concepts; 114 intermediate compositions; touch, keyboard, reduced motion, no JavaScript, and WebGL failure. Review screenshots of actual rendered states, including intermediate and reverse transitions.
+
+Frame-time targets are median ≤20 ms, p95 ≤34 ms, with no repeated >100 ms stalls in the normal browser. Measure the actual selected renderer and report the device/graphics path. A static Lighthouse load does not establish scroll performance. Rendering must stop offscreen, hidden, or paused; the opening should rest when there is no input. Budget resolution and geometry for weaker graphics before claiming acceptance.
+
+Current results and material limitations are recorded in [design-qa.md](design-qa.md). External award recognition and search rankings are not measurable implementation promises.

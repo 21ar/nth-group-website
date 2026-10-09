@@ -1,8 +1,7 @@
 ---
-import { Image } from 'astro:assets';
-import logo from '../../public/images/nrth-logo.png';
+import { glyphs } from '../data/brand';
 const { footer = false } = Astro.props;
 ---
 <a href="/" class:list={['brand', { 'brand-footer': footer }]} aria-label="NRTH home">
-  <Image src={logo} width={240} alt="NRTH" format="webp" loading={footer ? 'lazy' : 'eager'} />
+  <svg viewBox='-5.2 -1.8 10.4 3.6' role='img' aria-label='NRTH'><g fill='currentColor'>{glyphs.map(d => <path d={d} />)}</g></svg>
 </a>

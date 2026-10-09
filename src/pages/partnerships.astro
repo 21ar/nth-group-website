@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import CompanyNav from '../components/CompanyNav.astro';
+---
+<Layout title='Partnerships' description='Explore a collaboration with NRTH around operational questions, technical foundations, research, materials, or experiences.'>
+  <CompanyNav />
+  <section class='page-intro'><span class='eyebrow'>NRTH Inc. / Partnerships</span><h1>Bring a perspective.<br />Build a connection.</h1><p>The most useful conversations begin with something specific: a workflow, a question, a material application, or a reason to bring people together.</p><a class='text-link' href='/contact?project=partnership'>Start a partnership inquiry </a></section>
+  <section class='section connection-section'><div data-reveal><span class='eyebrow'>Possible starting points</span><h2>Different expertise.<br />A shared question.</h2><p>Explore fit, scope, and responsibilities together before defining a collaboration.</p></div><div class='principles' data-reveal>
+    <details open><summary><span>01</span><h3>Operational perspective</h3><Icon name='plus' /></summary><p>Bring a real handoff, planning decision, or information problem. Health, Mobility, and Systems offer distinct contexts for understanding the work. <a href='/industries/mobility'>Explore Mobility</a>.</p></details>
+    <details><summary><span>02</span><h3>Research and technical exploration</h3><Icon name='plus' /></summary><p>Start with a question and a practical way to examine it. Labs and Systems provide a direction for conversations about prototypes, technical approaches, and what an experiment needs to establish. <a href='/research'>Explore the research journal</a>.</p></details>
+    <details><summary><span>03</span><h3>Materials and experiences</h3><Icon name='plus' /></summary><p>Discuss an industrial application with Chemicals or a gathering with Events. Describe the constraints, documentation, people, and outcomes that matter. <a href='/projects/nrth-chemicals'>Explore Chemicals</a> or <a href='/projects/nrth-events'>Events</a>.</p></details>
+  </div></section>
+  <section class='section discussion-section'><div data-reveal><span class='eyebrow'>A useful first introduction</span><h2>A little context.<br />A clearer next step.</h2></div><ul class='discussion-list' data-reveal><li><span>01</span>The organization and perspective you bring.</li><li><span>02</span>The question, need, or opportunity you want to explore.</li><li><span>03</span>The venture or field that appears most relevant.</li><li><span>04</span>The scope, timing, and responsibilities you have in mind.</li></ul></section>
+  <section class='section contact-section'><span class='eyebrow'>The next conversation</span><a class='contact-heading' href='/contact?project=partnership'>See a connection?<br />Let’s explore it. </a></section>
+</Layout>

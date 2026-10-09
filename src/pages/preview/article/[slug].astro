@@ -1,0 +1,12 @@
+---
+import ArticlePage from '../../../components/ArticlePage.astro';
+import {getArticles} from '../../../data/content';
+import {cookieName,validPreviewSession} from '../../../server/preview';
+export const prerender = false;
+Astro.response.headers.set('Cache-Control','private, no-store');
+if (!validPreviewSession(Astro.cookies.get(cookieName)?.value)) return Astro.redirect('/preview');
+const article = (await getArticles(true)).find(item => item.slug === Astro.params.slug);
+if (!article) return Astro.redirect('/404');
+---
+<ArticlePage article={article} draft />
+<script>import '../../../scripts/preview';</script>

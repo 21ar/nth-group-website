@@ -1,38 +1,38 @@
-# Updating the NRTH website
+# Updating NRTH
 
-## Live editing
+## Immediate local feedback
 
-Run `npm ci` once, then `npm run dev`. Open the URL printed in the terminal. Saving a source file updates the local browser immediately, including styling and content changes. `npm run preview` serves a built copy; use `dev` for live editing.
+Run `npm run dev` and save a source file. Changes appear in the browser through hot reload. The production site changes after a successful deployment, rather than on every keystroke.
 
-Common edits:
-
-| Change | File |
+| Edit | Source |
 | --- | --- |
-| Opening headline and homepage investor section | `src/data/site-content.ts` |
-| Ventures, descriptions, focus areas | `src/data/projects.ts` |
-| Industry descriptions and groupings | `src/data/industries.ts` |
-| Venture page details and scenarios | `src/data/project-details.ts`, `src/data/project-scenarios.ts` |
-| Investors page | `src/pages/investors.astro` |
-| Shared navigation and footer | `src/components/Header.astro`, `src/components/Footer.astro` |
-| Layout, spacing, colors | `src/styles/global.css` |
-| Browser tab icon | `public/favicon.svg` and its version in `src/layouts/Layout.astro` |
-| Logo animation geometry | `src/data/geometry-source.ts`; run `npm run bake:geometry` after editing |
-| Contact addresses | `.env.local`, using the variable names in `.env.example` |
+| Opening and investor introduction | `src/data/site-content.ts` |
+| Venture summaries, stages, URLs | `src/data/projects.ts` |
+| Industry story | `src/data/industries.ts` |
+| Audience, capabilities, workflow | `src/data/project-details.ts` |
+| Scenarios and tailored FAQs | `src/data/project-scenarios.ts` |
+| Journal | `src/data/articles.ts` |
+| Concept demonstrations | `src/data/demos.ts`, `src/components/VentureDemo.astro`, `src/scripts/demos.ts` |
+| Homepage / company / investors | `src/components/HomePage.astro`, `CompanyPage.astro`, `InvestorsPage.astro` |
+| Shared venture / article layouts | `src/components/VenturePage.astro`, `ArticlePage.astro` |
+| Design system | `src/styles/experience.css`, `demos.css`, `global.css` |
+| Canonical identity | `src/data/brand.ts` |
+| Living Fold shapes and scroll | `src/scripts/fold-geometry.ts` and `src/scripts/fold.ts` |
+| Fold palette, scale and page layouts | `src/styles/living.css` |
+| Original field artwork | `src/assets/fold-*.png`; Astro produces responsive WebP |
+| Labs four-strand study | `src/data/geometry-source.ts`; run `npm run bake:geometry` |
+| Delivery / editing settings | `.env.local` or private Vercel environment settings |
 
-## GitHub and Vercel
+## Visual content editing
 
-The source repository is https://github.com/21ar/nth-group-website. The permanent Vercel project is `nrth1/nrth`.
+The separate Sanity Studio supports venture copy, stage and review date, approved covers, product URLs, industry copy, company facts, articles, and milestones. Editors can use drafts, revision history, and publish controls without modifying source files. See [cms-setup.md](cms-setup.md) to connect an account.
 
-Publishing workflow:
+Private website previews check drafts every five seconds and refresh the rendered page while retaining scroll position. Published content is fetched during the next build. The Studio and integrations are implemented; editing is not operational until a real project, dataset, read token, preview key, and publish hook are configured.
 
-1. Make changes locally or with Codex. Use the development server for instant feedback.
-2. Push a branch or open a pull request for an automatic Vercel preview link. Review it before publishing.
-3. Merge into `main` to deploy automatically to the production domains. Production changes become visible after Vercel finishes its build, rather than on every keystroke.
+## Review and publish
 
-GitHub Actions runs type/template checks and a production build on main pushes and pull requests. Vercel builds must succeed before a deployment becomes live; the previous deployment remains available if a new build fails. Preview builds don't publish to the production domain. Existing live versions can be restored from Vercel's deployment history.
+1. Make an edit and validate the local experience.
+2. Push a branch or open a pull request. The GitHub-connected Vercel project generates a review preview.
+3. Merge a reviewed change to `main` to publish it at nrth.group and https://nrth-nrth1.vercel.app.
 
-**Connection status:** Connected. Vercel project `nrth1/nrth` is linked to GitHub repository `21ar/nth-group-website`, with `main` as the production branch. Branch pushes create preview deployments; pushes/merges to `main` deploy production automatically.
-
-For a manual deployment or recovery, a signed-in collaborator can run `vercel deploy --prod --yes --scope nrth1` from the linked project directory. The current production build configuration is in `vercel.json`.
-
-Never commit `.env.local`, access tokens, or `.vercel` account/project state. The ignore rules exclude those files.
+GitHub Actions checks the site, service behavior, geometry, Studio types, and both builds. A failed Vercel build leaves the previous deployment live. Restore an earlier deployment through Vercel’s deployment history; its pre-rendered content, resources, and content revision remain together. Editing the CMS after deployment does not rewrite those immutable public pages.
