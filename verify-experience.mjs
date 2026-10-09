@@ -11,11 +11,11 @@ try {
  page.on('pageerror',error=>errors.push(error.message));
  await page.goto(base,{waitUntil:'networkidle'});await page.waitForFunction(()=>document.querySelector('[data-hero-scene]').dataset.renderer==='webgl');
  check(await page.locator('.site-header .brand svg path').count()===4,'Header uses all four canonical letter paths.');
- check(await page.locator('.story-opening .text-link').count()===0,'The opening has no redundant Explore button.');
- for(const progress of [0,.05,.17,.19,.34,.4444,.61,.78,.995,.61,.17,0]) {
+ check(await page.locator('.fold-intro .text-link').count()===0,'The opening has no redundant Explore button.');
+ for(const progress of [0,.05,.17,.34,.4444,.61,.78,.995,.61,.17,0]) {
   await page.evaluate(value=>scrollTo({top:(document.querySelector('[data-story]').offsetHeight-innerHeight)*value,behavior:'instant'}),progress);
-  await page.waitForFunction(value=>Math.abs(Number(document.querySelector('[data-hero-scene]').dataset.renderedProgress)-value)<.003,progress);await page.waitForTimeout(300);
-  check(await page.locator('.story-chapter.is-current').evaluate(element=>getComputedStyle(element).visibility==='visible'&&Number(getComputedStyle(element).opacity)>.95),'Copy is readable at scroll '+progress+'.');
+  await page.waitForFunction(value=>Math.abs(Number(document.querySelector('[data-story]').dataset.progress)-value)<.003,progress);await page.waitForTimeout(650);
+  check(await page.locator('[data-hero-scene] canvas').count()===1,'One surface renderer persists at scroll '+progress+'.');
   check(await page.locator('.site-header').evaluate(element=>element.getBoundingClientRect().top===0),'Navigation persists at scroll '+progress+'.');
  }
  await page.screenshot({path:output+'/accepted-desktop-opening.png'});
@@ -61,9 +61,9 @@ try {
   await page.setViewportSize({width:390,height:844});await page.goto(base+route,{waitUntil:'networkidle'});
   check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Mobile '+route+' has no horizontal overflow.');await page.screenshot({path:output+'/mobile-'+(route.slice(1).replaceAll('/','-')||'home')+'.png'});
  }
- await page.goto(base,{waitUntil:'networkidle'});await page.getByRole('button',{name:'Menu',exact:true}).click();check(await page.locator('main').evaluate(element=>element.inert),'Open mobile menu isolates page controls.');await page.keyboard.press('Escape');check(await page.getByRole('button',{name:'Menu',exact:true}).evaluate(element=>element===document.activeElement),'Menu closure restores focus.');
- const reduced=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});await reduced.goto(base,{waitUntil:'networkidle'});check(await reduced.locator('[data-hero-scene] canvas').count()===0,'Reduced motion uses the static canonical identity.');check(await reduced.locator('[data-story]').evaluate(element=>element.offsetHeight<=innerHeight+2),'Reduced motion removes the long scroll track.');
+ await page.goto(base,{waitUntil:'networkidle'});await page.getByRole('button',{name:'Inside NRTH',exact:true}).click();check(await page.locator('main').evaluate(element=>element.inert),'Open mobile menu isolates page controls.');await page.keyboard.press('Escape');check(await page.getByRole('button',{name:'Inside NRTH',exact:true}).evaluate(element=>element===document.activeElement),'Menu closure restores focus.');
+ const reduced=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});await reduced.goto(base,{waitUntil:'networkidle'});check(await reduced.locator('[data-hero-scene] canvas').count()===0,'Reduced motion uses the static canonical identity.');check(await reduced.locator('[data-story]').evaluate(element=>getComputedStyle(element.querySelector('.fold-viewport')).position==='relative'),'Reduced motion removes the long scroll track.');
  const nojs=await browser.newPage({javaScriptEnabled:false});await nojs.goto(base+'/projects');check(await nojs.locator('.project-row').count()===9,'All nine ventures are available without JavaScript.');
- const fallback=await browser.newPage();await fallback.addInitScript(()=>{const original=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(type,...args){if(type.includes('webgl'))return null;return original.call(this,type,...args);};});await fallback.goto(base,{waitUntil:'networkidle'});await fallback.waitForFunction(()=>document.querySelector('[data-hero-scene]').dataset.renderer==='spline');check(await fallback.locator('[data-hero-scene] canvas').count()===1,'A WebGL failure falls back to one continuous Canvas renderer.');
+ const fallback=await browser.newPage();await fallback.addInitScript(()=>{const original=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(type,...args){if(type.includes('webgl'))return null;return original.call(this,type,...args);};});await fallback.goto(base,{waitUntil:'networkidle'});await fallback.waitForFunction(()=>document.querySelector('[data-hero-scene]').dataset.renderer==='surface');check(await fallback.locator('[data-hero-scene] canvas').count()===1,'A WebGL failure falls back to one continuous Canvas renderer.');
  check(errors.length===0,'The reviewed journeys have no runtime exceptions.');await writeFile(output+'/experience-results.json',JSON.stringify({checks,errors},null,2));console.log(checks.length+' experience checks passed.');
 } finally {await browser.close();}

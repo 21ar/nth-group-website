@@ -31,15 +31,17 @@ npm run test:composition
 npm run test:experience
 ```
 
-Playwright uses `/usr/bin/chromium`; override `CHROMIUM_PATH` or `NRTH_TEST_URL` as needed. Composition and experience checks enable Chromium’s software WebGL and mask its driver label to exercise the 3D path; production selects the lighter renderer for known software graphics. These checks establish function and layout, rather than hardware performance. Screenshots and results live in ignored `artifacts` directories. Service tests use a mocked provider and send no email.
+Playwright uses `/usr/bin/chromium`; override `CHROMIUM_PATH` or `NRTH_TEST_URL` as needed. Experience checks enable Chromium’s software WebGL and mask its driver label to exercise the 3D path; production selects the lighter renderer for known software graphics. These checks establish function and layout, rather than hardware performance. Screenshots and results live in ignored `artifacts` directories. Service tests use a mocked provider and send no email.
 
 ## Identity and motion
 
-`src/data/brand.ts` contains the canonical four contours traced from the supplied NRTH logo, including its open R. Header, footer, static opening, favicon, downloads, social graphics, and animated geometry use these letterforms. Edit pose geometry in `src/data/geometry-source.ts`, then run `npm run bake:geometry`.
+`src/data/brand.ts` contains the four canonical letter contours traced from the supplied NRTH logo, including its open R. The masthead, footer, favicon, downloads and social graphics use these paths.
 
-One progressive Three.js scene turns N–R–T–H into rings, infinity, and six field symbols. Matched contours, periodic cubic interpolation, quintic blending, tubular surfaces, and environmental reflections keep the material continuous. Native scroll works in both directions; the timeline carries geometry, palette, and chapter selection. Current copy stays readable at every resting scroll position. The track is 450 viewport heights on desktop and 400 on mobile; a fixed header and direct venture links remain available.
+The **Living Fold** homepage opens with “Progress unfolds.” on an ivory surface. Three sampled sheets unfold into the mobility landscape through native, reversible scrolling. Six plain-word field choices reshape those same sheets into an embrace, framework, cellular form, gathering space or research fan. A selection interrupted by another starts from its exact current surface mixture. There are no stage counters or arrow CTAs in the showcase. The signature sequence is 285 viewport heights on desktop and 260 on mobile, with all nine ventures two actions from the masthead.
 
-WebGL loads dynamically on the homepage. A Canvas renderer handles unavailable graphics, known software rasterizers, or context loss. Software graphics selects that renderer before the first animated paint. Both paths use the same poses and timeline. Pause and reduced motion use the compact canonical SVG, without automatic sculpture animation. Labs is a separate, manually controlled form study. Rendering stops while hidden or offscreen, the opening rests without input, and WebGL adapts resolution when sustained frames are slow. The gallery retains directional transitions, keyboard selection, and artwork continuity into detail pages.
+The geometry lives in `src/scripts/fold-geometry.ts`; the director is `fold.ts`. `fold-webgl.ts` provides physically shaded, thin solid surfaces with environmental lighting and floor shadows. `fold-canvas.ts` retains the same geometry when WebGL is unavailable, lost or software-rendered. Rendering stops when settled, offscreen or hidden. Pause, reduced motion, no JavaScript and complete graphics failure use original static artwork with a natural reading layout. Responsive WebP images are generated from the six `src/assets/fold-*.png` originals. Labs retains its separate, manually controlled four-strand experiment; edit that study in `src/data/geometry-source.ts` and run `npm run bake:geometry`.
+
+The supporting pages share the same typography, light palette, imagery and plain-word links. Gallery selection supports keyboard navigation and coordinated artwork transitions into venture pages. See [design-qa.md](design-qa.md) for the reference, implementation captures, review findings and verification evidence.
 
 ## Content and operations
 

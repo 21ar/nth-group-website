@@ -1,25 +1,14 @@
 ---
 import Logo from './Logo.astro';
-import Icon from './Icon.astro';
+import {projects} from '../data/projects';
 const path = Astro.url.pathname;
 ---
 <header class="site-header">
   <Logo />
-  <nav class="desktop-nav" aria-label="Main navigation">
-    <a href="/projects" aria-current={path.startsWith('/projects') || path.startsWith('/industries') ? 'page' : undefined}>Ventures</a>
-    <a href="/about" aria-current={['/about', '/approach', '/partnerships'].includes(path) ? 'page' : undefined}>Company</a>
-    <a href="/insights" aria-current={path.startsWith('/insights') ? 'page' : undefined}>Journal</a>
-    <a href="/investors" aria-current={path === '/investors' ? 'page' : undefined}>Investors</a>
-  </nav>
-  <a class="header-contact" href="/contact" aria-current={path === '/contact' ? 'page' : undefined}>Contact <Icon /></a>
-  <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-navigation">Menu</button>
+  <div class='header-words'><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-navigation">Inside NRTH</button><noscript><a href='/projects'>Ventures</a></noscript><a class="header-contact" href="/contact" aria-current={path === '/contact' ? 'page' : undefined}>Let’s talk</a></div>
 </header>
-<nav id="mobile-navigation" class="mobile-navigation" aria-label="Mobile navigation" hidden>
-  <a href="/projects">Ventures <Icon /></a>
-  <a href="/about">Company <Icon /></a>
-  <a href="/insights">Journal <Icon /></a>
-  <a href="/investors">Investors <Icon /></a>
-  <a href="/contact">Contact <Icon /></a>
-  <div class='menu-secondary'><a href='/approach'>Our approach</a><a href='/partnerships'>Partnerships</a><a href='/press'>Press resources</a></div>
-  <p>Independent ventures.<br />Shared ambition.</p>
+<nav id="mobile-navigation" class="mobile-navigation" aria-label="Inside NRTH" hidden>
+  <div class='menu-company'><a href="/projects">Ventures</a><a href="/about">Company</a><a href="/research">Research</a><a href="/insights">Journal</a><a href="/investors">Investors</a></div>
+  <div class='menu-ventures'><span>Explore a venture</span>{projects.map(project=><a href={'/projects/'+project.slug}>{project.name}</a>)}</div>
+  <div class='menu-secondary'><a href='/approach'>Our approach</a><a href='/partnerships'>Partnerships</a><a href='/press'>Press resources</a><a href='/contact'>Contact</a></div>
 </nav>

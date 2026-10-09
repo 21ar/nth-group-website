@@ -17,7 +17,10 @@ Run `npm run dev` and save a source file. Changes appear in the browser through 
 | Shared venture / article layouts | `src/components/VenturePage.astro`, `ArticlePage.astro` |
 | Design system | `src/styles/experience.css`, `demos.css`, `global.css` |
 | Canonical identity | `src/data/brand.ts` |
-| Animated poses | `src/data/geometry-source.ts`; run `npm run bake:geometry` |
+| Living Fold shapes and scroll | `src/scripts/fold-geometry.ts` and `src/scripts/fold.ts` |
+| Fold palette, scale and page layouts | `src/styles/living.css` |
+| Original field artwork | `src/assets/fold-*.png`; Astro produces responsive WebP |
+| Labs four-strand study | `src/data/geometry-source.ts`; run `npm run bake:geometry` |
 | Delivery / editing settings | `.env.local` or private Vercel environment settings |
 
 ## Visual content editing

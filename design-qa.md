@@ -1,48 +1,60 @@
-# NRTH portfolio — design and implementation review
+# Living Fold design review
 
-Review date: October 8, 2026. This records the current redesign. Earlier temporary previews, three-strand performance figures, and pending GitHub/DNS notes described previous releases and do not establish this build’s readiness.
+Reference: [selected Living Fold visual](design/living-fold-reference.png). Implementation: the Astro site on `feat/nrth-continuous-portfolio`. Reviewed in local Chromium against the actual Vercel build, with desktop, touch, reduced-motion, no-JavaScript and graphics-failure contexts.
 
-## Visual result
+## Design goals and observed behavior
 
-The website now uses a single NRTH identity source: four contours traced from the supplied logo, including the open R. The header, footer, large opening, favicon, downloadable wordmarks, company PDF, and social graphics share those paths. These are traced contours rather than a claim to possess the original vector file.
+- Large “Progress unfolds.” typography, ivory space, coral/lavender/ivory material, and the actual four-path NRTH mark. The source image’s approximate wordmark is replaced by the supplied brand geometry.
+- One persistent canvas and three related sampled sheets. Native scrolling continuously unfolds the opening architecture into mobility routes; reverse scrolling restores the opening. Field selection transforms the same vertices, including when another selection interrupts it.
+- Six meaningful field forms: mobility routes, an open embrace for Health, a rounded framework for Systems, cellular folds for Materials, a gathering space for Events, and an opening fan for Research. Text appears during the selection transition; hidden copy cannot take keyboard focus.
+- Plain-word masthead and venture navigation. No numbered motion stages, decorative chapter captions, arrow CTAs or pill navigation in the showcase. All nine ventures are two actions from “Inside NRTH”.
+- Matching original artwork across venture, company, investor and research spreads. The photo-like artwork provides static and reduced-motion alternatives; live geometry provides the controllable interaction. The live material adapts the reference rather than treating its composite image as a flat animated poster.
+- A short signature sequence, followed by a normally scrolling portfolio and supporting content. The sequence is 285 viewport heights on desktop and 260 on mobile, rather than a compulsory six-field tour. Very short landscape viewports use a natural reading layout.
+- The rendering loop sleeps when settled, offscreen or hidden. Known software graphics use the shaded Canvas path; slower WebGL frames reduce rendering resolution. There is no automatic looping video or forced scrolling.
 
-The opening carries four persistent strands through letters, rings, infinity, and six industry symbols. Native scroll reverses the same geometry. Warm paper, ink, reflective silver, restrained amber details, Manrope display type, and Inter interface type carry through the portfolio and editorial pages. No green page surfaces or extra opening CTA remain. The six field controls and venture bullets reuse the ring-to-underline interaction.
+## Browser captures
 
-Current chapter copy remains opaque at every resting position, while its heading settles gently. A shared mobile sculpture plane removes camera jumps caused by different chapter heights. Links wrap on short phones, including all four Mobility ventures. The header stays available, and menu focus is isolated and restored correctly.
+| State | Capture |
+|---|---|
+| Live opening / WebGL | [opening](design/qa/opening-webgl.png) |
+| Mobility / WebGL | [mobility](design/qa/mobility-webgl.png) |
+| Health / WebGL | [embrace](design/qa/health-webgl.png) |
+| Opening / software fallback | [opening](design/qa/opening-surface.png) |
+| Mobility / software fallback | [routes](design/qa/mobility-surface.png) |
+| Mobile opening | [opening](design/qa/mobile-opening.png) |
+| Mobile mobility | [mobility](design/qa/mobile-mobility.png) |
+| Company | [company](design/qa/about.png) |
+| Directory | [ventures](design/qa/projects.png) |
+| Investors | [investors](design/qa/investors.png) |
 
-Actual rendered screenshots reviewed include the desktop/mobile opening, intermediate logo and connection morphs, Mobility, Materials, the venture explorer, the TMS handoff, Telematics signal states, the form study, company/investor/press/research pages, and the company PDF. Evidence is saved under `artifacts/implementation` and `artifacts/brand-story`; those generated artifacts are ignored in Git.
+## Findings and corrections
 
-## Meaningful exploration
+| Priority | Finding | Resolution |
+|---|---|---|
+| P1 | Existing header padding pushed the opening away from the reference. | Removed the inherited body offset; retained a fixed, readable masthead. |
+| P1 | Software face sorting exposed cracks at intersecting sheets. | Rendered complete sampled contours with continuous material shading. |
+| P1 | Rapid field changes could restart from an endpoint. | Each new morph starts from the exact displayed mixture of surfaces. |
+| P1 | Short phones could clip the field navigation. | Added a compact composition; checked copy, links and controls at seven viewport sizes. |
+| P2 | Closed surfaces could expose a seam or duplicate edge highlight. | Joined endpoint positions and normals; highlights follow only the two actual surface boundaries. |
+| P2 | Floor shadows were too hard. | Reduced shadow opacity and used a wider filtered shadow kernel. Typography casts no shadows. |
+| P2 | Company subnavigation inherited excessive section spacing. | Gave it its own compact padding and adjusted the following introduction. |
+| P2 | Directory filters retained small type and an old pill outline. | Restyled filters and view controls as plain, readable words. |
+| P2 | Field copy changed abruptly. | Added a short reveal coordinated with the longer surface transformation; disabled it for reduced motion. |
+| P2 | A long Research heading reached the field controls on a shorter desktop screen. | Applied the same smaller type treatment used for long Materials headings. |
 
-Every venture has a distinct working concept, explicitly labeled as sample data. TMS validates routes and vehicle capacity; Health and Logistics explain handoffs; Telematics exposes signal age; Fleet filters records requiring review; Systems executes local rules; Chemicals provides application briefs; Events calculates an agenda; Labs lets visitors manipulate the shared geometry. These are showcase concepts rather than proof of live product capability or availability.
+No unresolved P0, P1 or P2 findings remain in the reviewed states. Complete-page artifacts and machine-readable check results are generated in ignored `artifacts` directories.
 
-Company, Approach, Partnerships, Press, Research, Journal, Investors, Contact, and a Mobility ecosystem page support deeper exploration. Journal attribution, reviewed availability fields, approved company facts, related ventures, questions, downloadable resources, and page-specific metadata make the content more useful. Unknown stages say “Discuss availability.” No customer counts, certifications, financial results, clinical outcomes, or fundraising terms are fabricated.
+## Validation
 
-## Performance and progressive graphics
+- Astro check: no errors, warnings or hints. Production website build passed; 26 static pages plus the Vercel handlers.
+- Sanity Studio type check and build passed.
+- Services/content: 28 checks, with mocked delivery and no email sent.
+- Geometry: 70 Living Fold checks, plus the retained Labs study’s 44 topology and 6 silhouette checks. Includes solid thickness, finite intermediate geometry and joined closed seams.
+- Responsive composition: 56 reviewed compositions at 360×640, 390×667, 390×844, 768×700, 1024×768, 1440×700 and 1440×1000.
+- Motion: 55 browser checks covering intermediate geometry, reversibility, all fields, interrupted selections, idle/offscreen rendering, keyboard/touch operation and graphics fallbacks.
+- Browser smoke: 45 checks covering portfolio navigation, directory filtering/search, inquiry preparation, downloads and canonical venture pages.
+- Experience: 94 checks covering the WebGL path, all nine venture demos, investor routing, failed-delivery message preservation, private-preview access control and mobile supporting pages.
 
-The 3D scene uses environmental reflection, continuous tubes, baked contour data, and a bounded raster. Geometry and material costs were reduced after a software-graphics benchmark exposed stalls. Known software rasterizers select the same spline story through Canvas before the first animated paint. Unsupported WebGL and context loss also have a Canvas fallback. Pause and reduced motion provide a compact canonical SVG. The opening draws no additional frames without input, and rendering stops offscreen or hidden.
+WebGL checks deliberately enable and identify Chromium’s software renderer as hardware to exercise that code path. They establish behavior and visual composition, not performance on physical GPUs. The normal software path is reviewed separately. Inbox provisioning and live mail delivery require the owner’s configured accounts; the site does not claim that a prepared or failed inquiry was delivered. Search metadata is implemented, but ranking and an award outcome are not guaranteed.
 
-An isolated six-second forward/reverse run in the default cloud Chromium at 1440×900 measured **16.7 ms median and p95, zero frames over 100 ms, and no runtime exceptions**. The selected renderer was Canvas, and the opening made zero additional draw calls during the idle check. This meets the stated normal-browser frame targets. It does not establish hardware WebGL performance.
-
-Forcing Chromium’s SwiftShader compositor measured approximately 33.4 ms median / 66.7 ms p95 with the selected Canvas path. Those artificial software-compositor limits remain recorded in `frame-timing-forced-software.json`. The 3D functional checks deliberately mask the driver label and exercise actual Three.js rendering in SwiftShader; their composition results demonstrate rendering behavior and clearance, not hardware speed. Hardware-device performance should be checked separately with real-user measurements.
-
-The reflective scene remains a lazy homepage-only chunk, roughly 135 kB gzip plus 37 kB gzip of shared baked geometry. Vite reports its 500 kB uncompressed chunk warning; it is already dynamically imported and is not a blocking build failure. A static load score is separate from scroll performance.
-
-## Operational scope
-
-The built Vercel handler validates and routes inquiries, uses stable provider idempotency keys, and only confirms success after a provider receipt. The browser preserves failed messages and offers local alternatives. No-JavaScript visitors use the visible email addresses; the form stays hidden so an accidental GET cannot place inquiry text in a URL.
-
-Sanity schemas, draft initialization, protected preview routes, five-second draft refresh, authenticated publishing, and immutable content snapshots are implemented. The Studio type check and bundle build passed with a placeholder project ID solely to verify code. Resend credentials, verified sending domain, recipient inboxes, and a real Sanity project were not available. Actual delivery, editor permissions, publish-webhook rebuilding, and account-backed rollback are therefore operational setup checks, not completed claims.
-
-## Verification
-
-- Astro diagnostics: zero errors, warnings, or hints; production build generates 26 public pages and the Vercel server handler.
-- Service/content/session behavior: 28 checks using mocked delivery; no email sent.
-- Geometry: 44 letter-to-ring topology checks and six distinct Materials contour pairs.
-- Smoke: 45 browser checks.
-- Motion: 65 checks covering forward/reverse travel, gallery transitions, touch, keyboard, pause, reduced motion, and no JavaScript.
-- Composition: 114 intermediate states across six viewport sizes, including chapter overflow, copy/control clearance, sculpture clipping, and readable copy.
-- Experience: 96 checks covering all nine concepts, resources, inquiry failures, private routes, mobile navigation, and graphics fallbacks.
-- Final mobile Lighthouse lab run: 99 performance, 100 accessibility, 100 best practices, and 100 SEO; LCP 1.7 s, TBT 70 ms, CLS 0. Full-opacity scroll reveals and corrected concept heading levels resolved the audit findings. These scores describe this local production build and do not predict search placement.
-
-The smoke/motion checks use normal cloud graphics; composition/experience explicitly exercise the 3D branch as described above. Hosted readiness is checked separately after publication. The saved cloud setup draft preserves the existing repository and network settings and updates the tested install/start workflow; it must be reviewed, saved, and published in environment settings to apply.
+final result: passed

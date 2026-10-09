@@ -4,6 +4,7 @@ try { motionPaused ||= localStorage.getItem('nrth-motion') === 'paused'; } catch
 
 function syncMotion() {
   document.documentElement.classList.toggle('motion-paused', motionPaused || reducedMotion.matches);
+  document.documentElement.classList.toggle('motion-active', !(motionPaused || reducedMotion.matches));
   document.querySelectorAll<HTMLButtonElement>('[data-motion-toggle]').forEach(button => {
     button.textContent = motionPaused || reducedMotion.matches ? 'Enable motion' : 'Pause motion';
     button.setAttribute('aria-pressed', String(motionPaused || reducedMotion.matches));
@@ -22,6 +23,10 @@ document.querySelectorAll('[data-motion-toggle]').forEach(button => button.addEv
 reducedMotion.addEventListener('change', syncMotion);
 syncMotion();
 
+const header=document.querySelector<HTMLElement>('.site-header');
+function syncHeader(){header?.classList.toggle('is-scrolled',scrollY>24);}
+window.addEventListener('scroll',syncHeader,{passive:true});syncHeader();
+
 const revealElements = document.querySelectorAll<HTMLElement>('[data-reveal]');
 if ('IntersectionObserver' in window) {
   const observer = new IntersectionObserver(entries => entries.forEach(entry => {
@@ -37,11 +42,12 @@ function setMenu(open: boolean) {
   if (!menuButton || !menu) return;
   menu.hidden = !open;
   menuButton.setAttribute('aria-expanded', String(open));
-  menuButton.textContent = open ? 'Close' : 'Menu';
+  menuButton.textContent = open ? 'Close' : 'Inside NRTH';
   document.body.style.overflow = open ? 'hidden' : '';
   document.documentElement.classList.toggle('menu-open', open);
   document.querySelector<HTMLElement>('main')!.inert = open;
   document.querySelector<HTMLElement>('footer')!.inert = open;
+  document.querySelector<HTMLElement>('.skip-link')!.inert = open;
   if (open) menu.querySelector<HTMLAnchorElement>('a')?.focus();
   else menuButton.focus();
 }
@@ -50,23 +56,13 @@ document.addEventListener('keydown', event => {
   if (!menu || menu.hidden || !menuButton) return;
   if (event.key === 'Escape') { setMenu(false); return; }
   if (event.key !== 'Tab') return;
-  const controls = [menuButton, ...menu.querySelectorAll<HTMLAnchorElement>('a')];
+  const controls = [...document.querySelectorAll<HTMLElement>('.site-header a,.site-header button'), ...menu.querySelectorAll<HTMLAnchorElement>('a')];
   const first = controls[0];
   const last = controls[controls.length - 1];
   if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
   else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
 });
-window.matchMedia('(min-width: 768px)').addEventListener('change', event => {
-  if (event.matches && menu && !menu.hidden) {
-    menu.hidden = true;
-    menuButton?.setAttribute('aria-expanded', 'false');
-    if (menuButton) menuButton.textContent = 'Menu';
-    document.body.style.overflow = '';
-    document.documentElement.classList.remove('menu-open');
-    document.querySelector<HTMLElement>('main')!.inert = false;
-    document.querySelector<HTMLElement>('footer')!.inert = false;
-  }
-});
+menu?.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>setMenu(false)));
 
 const directory = document.querySelector<HTMLElement>('[data-project-directory]');
 if (directory) {

@@ -12,7 +12,7 @@
     "test:smoke": "node verify.cjs",
     "test:motion": "node verify-motion.cjs",
     "bake:geometry": "node scripts/bake-geometry.cjs",
-    "test:geometry": "node verify-geometry.cjs",
+    "test:geometry": "node verify-geometry.cjs && node verify-fold.cjs",
     "test:composition": "node verify-composition.cjs",
     "test:services": "node verify-services.mjs",
     "test:experience": "node verify-experience.mjs"

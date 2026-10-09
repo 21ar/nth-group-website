@@ -1,33 +1,28 @@
-import health from '../assets/health-art.png';
-import mobility from '../assets/mobility-art.png';
-import systems from '../assets/systems-art.png';
-import materials from '../assets/materials-art.png';
-import events from '../assets/events-art.png';
-import telematics from '../assets/telematics-art.png';
-import fleet from '../assets/fleet-art.png';
-import labs from '../assets/labs-art.png';
-import logistics from '../assets/logistics-art.png';
+import health from '../assets/fold-health.png';
+import mobility from '../assets/fold-hero.png';
+import systems from '../assets/fold-systems.png';
+import materials from '../assets/fold-materials.png';
+import events from '../assets/fold-events.png';
+import labs from '../assets/fold-research.png';
 
-export const artwork = {
-  health: { src: health, alt: 'A flowing frosted glass ribbon joined by polished metal connections on a sage glass foundation' },
-  mobility: { src: mobility, alt: 'A miniature freight vehicle moving across an interconnected sculptural network of chrome roads and terracotta terrain' },
-  systems: { src: systems, alt: 'An interlocking architecture of chrome and translucent blue glass modules' },
-  materials: { src: materials, alt: 'Precision glass and amber material structures with polished metal connections' },
-  events: { src: events, alt: 'A sculptural gathering space made of translucent lilac glass and reflective architecture' },
-  telematics: { src: telematics, alt: 'A mirrored sphere above a lime glass landscape of precise paths and connected signal nodes' },
-  fleet: { src: fleet, alt: 'A precision graphite transport platform with three ivory freight vehicles and chrome lane dividers' },
-  labs: { src: labs, alt: 'An experimental chrome ring intersecting a translucent amber glass sheet with a suspended reflective sphere' },
-  logistics: { src: logistics, alt: 'Frosted amber freight-container structures connected by precise chrome bridges on ochre terrain' },
+const mobilityArt={src:mobility,alt:'Coral, lavender and ivory sheets unfold into a connected architectural landscape'};
+export const artwork={
+  health:{src:health,alt:'An open coral and ivory fold embraces a small satin sphere, with a lavender sheet behind'},
+  mobility:mobilityArt,
+  systems:{src:systems,alt:'Translucent curved sheets form a connected open framework in coral, lavender and ivory'},
+  materials:{src:materials,alt:'Softly curled coral, lavender and ivory sheets form connected cellular spaces'},
+  events:{src:events,alt:'Concentric coral and ivory folds frame an open space for gathering'},
+  telematics:mobilityArt,
+  fleet:mobilityArt,
+  labs:{src:labs,alt:'A shared root opens into a fan of curved ivory, lavender and coral sheets'},
+  logistics:mobilityArt,
 };
-export function projectArtwork(slug: string, custom?: {coverImage?: string; coverAlt?: string}) {
-  if (custom?.coverImage && custom.coverAlt) return {src:custom.coverImage, alt:custom.coverAlt};
-  if (slug === 'nrth-health') return artwork.health;
-  if (slug === 'nrth-chemicals') return artwork.materials;
-  if (slug === 'nrth-events') return artwork.events;
-  if (slug === 'nrth-telematics') return artwork.telematics;
-  if (slug === 'nrth-fleet') return artwork.fleet;
-  if (slug === 'nrth-labs') return artwork.labs;
-  if (slug === 'nrth-logistics') return artwork.logistics;
-  if (slug === 'nrth-tms') return artwork.mobility;
+export function projectArtwork(slug:string,custom?:{coverImage?:string;coverAlt?:string}){
+  if(custom?.coverImage && custom.coverAlt)return {src:custom.coverImage,alt:custom.coverAlt};
+  if(slug==='nrth-health')return artwork.health;
+  if(slug==='nrth-chemicals')return artwork.materials;
+  if(slug==='nrth-events')return artwork.events;
+  if(slug==='nrth-labs')return artwork.labs;
+  if(['nrth-tms','nrth-telematics','nrth-logistics','nrth-fleet'].includes(slug))return artwork.mobility;
   return artwork.systems;
 }

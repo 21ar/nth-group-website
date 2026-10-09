@@ -1,6 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Icon from '../components/Icon.astro';
 import { projects } from '../data/projects';
 const email = import.meta.env.PUBLIC_CONTACT_EMAIL || 'hello@nrth.group';
 const investorsEmail = import.meta.env.PUBLIC_INVESTORS_EMAIL || 'investors@nrth.group';
@@ -9,7 +8,7 @@ const partnershipsEmail = import.meta.env.PUBLIC_PARTNERSHIPS_EMAIL || 'partners
 <Layout title="Contact" description="Start a conversation with NRTH about a project, a partnership, or a new possibility.">
   <section class="page-intro contact-intro"><span class="eyebrow">Contact NRTH</span><h1>A conversation.<br />A new possibility.</h1><p>A project you’re curious about. An idea worth exploring. Tell us a little about it.</p></section>
   <section class="section contact-form-section">
-    <div class="contact-side"><span class="eyebrow">Let’s find the right connection</span><p>Choose a project or start with a general inquiry. Prepare your message below, then review it before sharing.</p><div class="contact-addresses"><span class="eyebrow">General & project inquiries</span><a class="text-link" href={`mailto:${email}`}>{email} <Icon name="upRight" /></a><span class="eyebrow">Partnerships</span><a class="text-link" href={`mailto:${partnershipsEmail}`}>{partnershipsEmail} <Icon name="upRight" /></a><span class="eyebrow">Investors</span><a class="text-link" href={`mailto:${investorsEmail}`}>{investorsEmail} <Icon name="upRight" /></a></div></div>
+    <div class="contact-side"><span class="eyebrow">Let’s find the right connection</span><p>Choose a project or start with a general inquiry. Prepare your message below, then review it before sharing.</p><div class="contact-addresses"><span class="eyebrow">General & project inquiries</span><a class="text-link" href={`mailto:${email}`}>{email} </a><span class="eyebrow">Partnerships</span><a class="text-link" href={`mailto:${partnershipsEmail}`}>{partnershipsEmail} </a><span class="eyebrow">Investors</span><a class="text-link" href={`mailto:${investorsEmail}`}>{investorsEmail} </a></div></div>
     <form class="contact-form" hidden data-inquiry-form data-contact-email={email} data-partnerships-email={partnershipsEmail} data-investors-email={investorsEmail}>
       <div class="form-field"><label for="name">Your name</label><input id="name" name="name" autocomplete="name" required maxlength="120" placeholder="First and last name" /></div>
       <div class="form-field"><label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@example.com" /></div>
@@ -18,12 +17,12 @@ const partnershipsEmail = import.meta.env.PUBLIC_PARTNERSHIPS_EMAIL || 'partners
       <div class="form-field form-wide"><label for="message">Your message</label><textarea id="message" name="message" required minlength="10" maxlength="5000" placeholder="What would you like to explore together?"></textarea></div>
       <div class="inquiry-trap" aria-hidden="true"><label for="website">Leave this field empty</label><input id="website" name="website" tabindex="-1" autocomplete="off" /></div>
       <p class="form-note form-wide">Review your message before sending. Please don’t include medical records or other sensitive information. <a href="/privacy">How we handle inquiries</a>.</p>
-      <button class="form-submit form-wide" type="submit">Prepare inquiry <Icon /></button>
+      <button class="form-submit form-wide" type="submit">Prepare inquiry </button>
       <noscript><p class="form-note form-wide">Enable JavaScript to prepare an inquiry here.{email && <a href={`mailto:${email}`}> You can also email NRTH directly.</a>}</p></noscript>
       <div class="inquiry-result" data-inquiry-result hidden tabindex="-1">
         <h3>Your inquiry, ready to review.</h3><p data-inquiry-review-note>Check the details, then send your inquiry. You can also use your email app or save a copy.</p>
         <pre class="inquiry-preview" data-inquiry-preview></pre>
-        <div class="inquiry-actions"><button type="button" class="inquiry-send" data-inquiry-send>Send inquiry <Icon /></button><a data-inquiry-email hidden>Open email app</a><button type="button" data-inquiry-copy>Copy inquiry</button><a data-inquiry-download download="nrth-inquiry.txt">Save a copy</a><button type="button" data-inquiry-edit>Edit message</button></div>
+        <div class="inquiry-actions"><button type="button" class="inquiry-send" data-inquiry-send>Send inquiry </button><a data-inquiry-email hidden>Open email app</a><button type="button" data-inquiry-copy>Copy inquiry</button><a data-inquiry-download download="nrth-inquiry.txt">Save a copy</a><button type="button" data-inquiry-edit>Edit message</button></div>
         <p class="inquiry-error" data-inquiry-error role="alert" hidden></p>
         <p class="inquiry-status" data-inquiry-status role="status" aria-live="polite"></p>
       </div>
