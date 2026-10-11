@@ -1,6 +1,34 @@
 ---
 import {Image} from 'astro:assets';
 import mineral from '../assets/matterfield/matter-hero.png';
+import '../styles/matter-lab.css';
+const studies = [
+ {form:'Systems',label:'Framework',title:'A framework for connection.',description:'Follow the edges. Repeated fragments become a structure in which the relationships matter as much as the individual parts.',question:'At what point does an arrangement start to feel like a system?',href:'/projects/nrth-systems',venture:'NRTH Systems'},
+ {form:'Mobility',label:'Routes',title:'One direction. Several paths.',description:'The fragments separate into routes that share an origin. Change the structure to see a loose collection become a set of distinct paths.',question:'How much structure does a route need before you can read its direction?',href:'/industries/mobility',venture:'Mobility at NRTH'},
+ {form:'Health',label:'Signal',title:'A signal from the fragments.',description:'A continuous line emerges from separate pieces. The study explores the visual difference between disconnected information and a readable signal.',question:'What makes a signal feel continuous?',href:'/projects/nrth-health',venture:'NRTH Health'},
+ {form:'Materials',label:'Lattice',title:'An idea built from repetition.',description:'A small repeated cell becomes a larger lattice. Turn it to discover how one arrangement can appear open, dense or layered from different perspectives.',question:'Can a change in perspective reveal something the first view concealed?',href:'/projects/nrth-chemicals',venture:'NRTH Chemicals'},
+ {form:'Events',label:'Spectrum',title:'An arrangement with rhythm.',description:'Repeated fragments change height across the field. The same pieces create a visual rhythm through spacing, variation and proportion.',question:'Where does repetition become rhythm?',href:'/projects/nrth-events',venture:'NRTH Events'},
+ {form:'Research',label:'Branches',title:'A question with more than one direction.',description:'The pieces open into branching paths. Adjust their structure to move between one compact beginning and several possible directions.',question:'How much room should an idea leave for another possibility?',href:'/projects/nrth-labs',venture:'NRTH Labs'},
+];
 ---
-<section class='lab-section' data-matter-lab><div class='section-heading'><h2>A question<br/>you can <em>shape.</em></h2><p>How does the same set of fragments read when its structure changes?</p></div><div class='lab-stage' data-lab-world><Image class='lab-still' src={mineral} alt='Chrome mineral artwork accompanying a visual structure study' widths={[640,1100,1600]} sizes='90vw' format='webp' loading='lazy'/></div><div class='lab-controls' data-lab-controls hidden><label>Structure <span data-lab-structure-value>35%</span><input type='range' min='0' max='100' value='35' data-lab-structure aria-label='Structure from mineral to framework'/></label><label>Perspective <span data-lab-angle-value>0°</span><input type='range' min='-70' max='70' value='0' data-lab-angle aria-label='Viewing perspective'/></label></div><div class='lab-notes'><p>An interactive study of structure and variation. Change the arrangement and perspective, then save what you find.</p><button type='button' data-lab-save hidden>Save this arrangement</button></div><p class='sr-only' role='status' data-lab-status></p></section>
+<section class='lab-section' data-matter-lab>
+ <div class='section-heading'><h2>A question<br/>you can <em>shape.</em></h2><p>One set of fragments. Six ways to see what it could become.</p></div>
+ <div class='lab-targets' role='tablist' aria-label='Visual study arrangements' data-lab-targets hidden>
+  {studies.map((study,index)=><button type='button' role='tab' id={'lab-tab-'+study.form} aria-controls={'lab-panel-'+study.form} aria-selected={index===0?'true':'false'} tabindex={index===0?0:-1} data-lab-target={study.form}>{study.label}</button>)}
+ </div>
+ <div class='lab-stage' data-lab-world role='img' aria-label='Chrome fragments in an interactive visual study. Use the structure and perspective controls below to change the arrangement.'>
+  <Image class='lab-still' src={mineral} alt='Chrome mineral artwork accompanying a visual structure study' widths={[640,1100,1600]} sizes='90vw' format='webp' loading='lazy'/>
+  <span class='lab-drag-hint' data-lab-drag-hint hidden>Drag to turn</span>
+ </div>
+ <div class='lab-controls' data-lab-controls hidden>
+  <label>Structure <span data-lab-structure-value>35%</span><input type='range' min='0' max='100' value='35' data-lab-structure aria-label='Structure from mineral to framework'/><small>Mineral to arrangement</small></label>
+  <label>Perspective <span data-lab-angle-value>0°</span><input type='range' min='-70' max='70' value='0' data-lab-angle aria-label='Viewing perspective'/><small>Turn the form, or drag the artwork</small></label>
+ </div>
+ <div class='lab-observations'>
+  {studies.map((study,index)=><div class='lab-observation' id={'lab-panel-'+study.form} role='tabpanel' aria-labelledby={'lab-tab-'+study.form} tabindex='0' data-lab-panel={study.form} hidden={index!==0}><div><h3>{study.title}</h3><p>{study.description}</p></div><div class='lab-question'><p>{study.question}</p><a href={study.href}>{study.venture}</a></div></div>)}
+ </div>
+ <div class='lab-notes'><p>A visual experiment in form and perception. These arrangements are illustrations, rather than product interfaces or scientific models.</p><div class='lab-actions' data-lab-actions hidden><button type='button' data-lab-save>Save this arrangement</button><button type='button' data-lab-share>Copy study link</button><button type='button' data-lab-reset>Reset study</button></div></div>
+ <div class='lab-share-fallback' data-lab-share-fallback hidden><label for='lab-study-link'>Your study link</label><input id='lab-study-link' readonly data-lab-share-link/><p>Select and copy the link to return to this arrangement.</p></div>
+ <p class='lab-status' role='status' data-lab-status aria-live='polite'></p>
+</section>
 <script>import '../scripts/matter-lab';</script>

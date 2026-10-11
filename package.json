@@ -11,7 +11,8 @@
     "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
     "test:geometry": "node verify-matter.cjs",
     "test:services": "node verify-services.mjs",
-    "test:browser": "node verify-browser.cjs"
+    "test:browser": "node verify-browser.cjs",
+    "test:enrichment": "node verify-enrichment.cjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",

@@ -1,0 +1,101 @@
+.venture-stories { --vs-line: #bcbcb7; }
+.vs-workflow { padding: 30px var(--gutter) 110px; }
+.vs-heading { display: grid; grid-template-columns: 1.2fr 1fr; column-gap: 8vw; align-items: end; }
+.vs-heading > .section-label { grid-column: 1 / -1; }
+.vs-heading h2 { font-size: clamp(58px, 6.4vw, 102px); }
+.vs-audience { max-width: 570px; }
+.vs-audience h3 { font-family: var(--reading); font-size: 18px; letter-spacing: 0; font-weight: 600; margin-bottom: 18px; }
+.vs-audience p { font-size: 21px; }
+.vs-workflow-stages { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 45px; margin-top: 75px; }
+.vs-workflow-stages::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--vs-line); }
+.vs-workflow-stages article { position: relative; padding-top: 36px; }
+.vs-workflow-mark { position: absolute; top: -6px; left: 0; height: 11px; width: 11px; border: 2px solid var(--accent-text); border-radius: 50%; background: var(--paper); }
+.vs-workflow-stages h3 { font-size: clamp(30px, 2.8vw, 43px); line-height: 1.12; max-width: 12ch; }
+.vs-workflow-stages p { font-size: 18px; margin-top: 24px; max-width: 36ch; }
+.vs-scenario { padding: 90px var(--gutter) 75px; background: var(--dark); color: var(--white); --accent-text: var(--orange); }
+.vs-scenario-intro { display: grid; grid-template-columns: 1.3fr 1fr; gap: 28px 8vw; align-items: end; }
+.vs-scenario-intro > .section-label { grid-column: 1 / -1; margin-bottom: 0; color: var(--orange); }
+.vs-scenario-intro h2 { font-size: clamp(56px, 6.2vw, 98px); max-width: 13ch; }
+.vs-scenario-intro > p { font-size: 20px; max-width: 38ch; }
+.vs-scenario-layout { margin-top: 75px; }
+.vs-scenario-choices { display: flex; flex-direction: column; align-items: stretch; }
+.vs-scenario-choices button { position: relative; border-bottom: 1px solid #404146; padding: 22px 0; color: #a8a9ac; text-align: left; font-family: var(--display); font-size: clamp(27px, 2.7vw, 41px); letter-spacing: -.045em; line-height: 1.2; transition: color .3s; }
+.vs-scenario-choices button::after { content: ''; position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%; background: var(--orange); transform: scaleX(0); transform-origin: left; transition: transform .55s cubic-bezier(.16,1,.3,1); }
+.vs-scenario-choices button[aria-selected='true'] { color: var(--white); }
+.vs-scenario-choices button[aria-selected='true']::after { transform: scaleX(1); }
+.vs-scenario-choices button:hover { color: var(--orange); }
+.vs-panels > article + article { margin-top: 65px; padding-top: 50px; border-top: 1px solid #404146; }
+.vs-panels h3 { font-size: 35px; margin-bottom: 36px; }
+.vs-decision-path { margin: 0; }
+.vs-decision-path > div { position: relative; padding: 0 0 32px 30px; border-left: 1px solid #4e4f53; }
+.vs-decision-path > div::before { content: ''; position: absolute; left: -4px; top: 6px; width: 7px; height: 7px; border-radius: 50%; background: #96979a; }
+.vs-decision-path > div:last-child { padding-bottom: 0; border-left-color: transparent; }
+.vs-decision-path .vs-next-decision::before { background: var(--orange); }
+.vs-decision-path dt { font-size: 16px; color: #b8b9bc; margin-bottom: 12px; }
+.vs-decision-path dd { margin: 0; font-size: 20px; line-height: 1.6; }
+.vs-decision-path .vs-next-decision dt { color: var(--orange); }
+.vs-decision-path .vs-next-decision dd { font-size: 24px; font-weight: 500; line-height: 1.5; }
+.vs-scenario-contact { display: inline-block; border-bottom: 1px solid #85868b; padding-bottom: 6px; margin-top: 35px; font-size: 17px; transition: color .25s, border-color .25s; }
+.vs-scenario-contact:hover { color: var(--orange); border-color: var(--orange); }
+.vs-scenario-note { margin-top: 60px; max-width: 740px; font-size: 15px; color: #a8a9ac; line-height: 1.7; }
+.venture-stories.is-enhanced .vs-scenario-layout { display: grid; grid-template-columns: 1fr 1.3fr; gap: 8vw; }
+.venture-stories.is-enhanced .vs-panels { display: grid; min-width: 0; }
+.venture-stories.is-enhanced .vs-panels > article { grid-area: 1 / 1; margin: 0; padding: 0; border: 0; align-self: start; }
+.venture-stories.is-enhanced .vs-panels > article[aria-hidden='true'] { visibility: hidden; pointer-events: none; }
+.vs-questions { display: grid; grid-template-columns: 1fr 1.2fr; gap: 8vw; padding: 110px var(--gutter) 90px; }
+.vs-questions h2 { font-size: clamp(46px, 4.7vw, 76px); }
+.vs-question-list details { border-top: 1px solid var(--vs-line); }
+.vs-question-list details:last-child { border-bottom: 1px solid var(--vs-line); }
+.vs-question-list summary { display: flex; align-items: center; justify-content: space-between; gap: 24px; cursor: pointer; padding: 25px 0; list-style: none; font-family: var(--display); font-size: clamp(25px, 2vw, 32px); letter-spacing: -.035em; line-height: 1.2; }
+.vs-question-list summary::-webkit-details-marker { display: none; }
+.vs-question-list summary > span { position: relative; display: block; width: 17px; height: 17px; flex-shrink: 0; }
+.vs-question-list summary > span::before, .vs-question-list summary > span::after { content: ''; position: absolute; width: 17px; height: 1px; top: 8px; left: 0; background: currentColor; transition: transform .3s; }
+.vs-question-list summary > span::after { transform: rotate(90deg); }
+.vs-question-list details[open] summary > span::after { transform: rotate(0); }
+.vs-question-list summary:hover { color: var(--accent-text); }
+.vs-question-list details > p { font-size: 18px; line-height: 1.75; padding: 0 35px 30px 0; }
+@media (max-width: 1023px) {
+  .vs-workflow-stages { gap: 28px; }
+  .vs-workflow-stages h3 { font-size: 33px; }
+  .vs-heading, .vs-scenario-intro, .venture-stories.is-enhanced .vs-scenario-layout, .vs-questions { column-gap: 45px; }
+  .vs-decision-path dd { font-size: 18px; }
+  .vs-decision-path .vs-next-decision dd { font-size: 22px; }
+}
+@media (max-width: 767px) {
+  .vs-workflow { padding-top: 5px; padding-bottom: 75px; }
+  .vs-heading { display: block; }
+  .vs-heading h2 { font-size: clamp(53px, 12vw, 78px); }
+  .vs-audience { margin-top: 35px; }
+  .vs-audience h3 { font-size: 17px; margin-bottom: 15px; }
+  .vs-audience p { font-size: 19px; }
+  .vs-workflow-stages { display: block; margin-top: 45px; border-left: 1px solid var(--vs-line); }
+  .vs-workflow-stages::before { display: none; }
+  .vs-workflow-stages article { padding: 0 0 0 25px; }
+  .vs-workflow-mark { top: 8px; left: -6px; }
+  .vs-workflow-stages article + article { margin-top: 38px; }
+  .vs-workflow-stages h3 { font-size: 33px; max-width: 20ch; }
+  .vs-workflow-stages p { font-size: 17px; margin-top: 20px; max-width: none; }
+  .vs-scenario { padding-top: 70px; padding-bottom: 55px; }
+  .vs-scenario-intro { display: block; }
+  .vs-scenario-intro > .section-label { margin-bottom: 25px; }
+  .vs-scenario-intro h2 { font-size: clamp(49px, 11.5vw, 78px); }
+  .vs-scenario-intro > p { font-size: 18px; margin-top: 30px; }
+  .vs-scenario-layout { margin-top: 40px; }
+  .venture-stories.is-enhanced .vs-scenario-layout { display: block; }
+  .vs-scenario-choices button { font-size: 27px; padding: 18px 0; }
+  .venture-stories.is-enhanced .vs-panels { margin-top: 40px; }
+  .vs-panels h3 { font-size: 30px; margin-bottom: 28px; }
+  .vs-decision-path > div { padding-left: 23px; padding-bottom: 26px; }
+  .vs-decision-path dt { font-size: 15px; }
+  .vs-decision-path dd { font-size: 18px; }
+  .vs-decision-path .vs-next-decision dd { font-size: 21px; }
+  .vs-scenario-note { font-size: 14px; margin-top: 40px; }
+  .vs-questions { display: block; padding-top: 75px; padding-bottom: 70px; }
+  .vs-questions h2 { font-size: clamp(45px, 10.8vw, 70px); }
+  .vs-question-list { margin-top: 40px; }
+  .vs-question-list summary { font-size: 26px; padding: 24px 0; gap: 20px; }
+  .vs-question-list details > p { font-size: 17px; padding-right: 15px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .venture-stories *, .venture-stories *::before, .venture-stories *::after { transition: none !important; animation: none !important; }
+}

@@ -32,9 +32,13 @@ The separate Sanity Studio supports `npm run check` and `npm run build` from `st
 
 The opening chrome mineral consists of one shared population of rounded fragments. Native scrolling disperses it, then reforms the same objects into mobility routes, a care signal, a systems framework, molecular cells, an event spectrum or a branching research form. Reverse scrolling restores earlier geometry; interrupted industry choices begin at the currently displayed mixture. Pointer movement influences the sculpture without replacing ordinary navigation.
 
-The signature sequence is 480 viewport heights on desktop and 440 on phones, followed by a normal scrolling portfolio. Six plain-word industry choices avoid a compulsory tour. The menu links directly to all nine ventures and Investors. Supporting pages include keyboard-operated focus explorers, a searchable portfolio, disclosures, journal articles and an interactive research identity study that exports its actual rendered arrangement as a PNG.
+The signature sequence is 4.8 viewport heights on desktop and 4.4 on phones, followed by a normal scrolling portfolio. Six plain-word industry choices avoid a compulsory tour. The menu links directly to all nine ventures and Investors. A nine-venture constellation explains possible relationships through highlighted paths and practical handoff stories. Each venture includes its own audience, connected workflow, three changing scenarios and three native questions, with direct section navigation.
+
+The research playground lets visitors morph the common fragment population into six arrangements, adjust structure and perspective, drag to turn, reset, copy a study URL and export the actual rendering as a PNG. A partnership brief builder changes its framing around a challenge, experiment or experience. Visitors can save or copy the outline and carry it into an editable contact inquiry without sending anything automatically. Search, focus explorers, disclosures and journal articles complete the portfolio.
 
 The motion director is `src/scripts/matter.ts`, shared geometry is `matter-geometry.ts`, and the physically shaded renderer is `matter-renderer.ts`. Rendering stops when settled, hidden or outside the scene; smaller devices use fewer instances, and slow rendering reduces resolution. Pause, reduced motion, short landscape screens, no JavaScript and graphics failure retain original artwork and a natural reading layout. Static artwork is stored in `src/assets/matterfield`; Astro generates responsive WebP images. [Research and design targets](design/matterfield/brief.md) and [browser design review](design-qa.md) record the direction and its verification.
+
+Run `npm run test:enrichment` against the production preview for the constellation, nine venture scenarios, partnership handoff and deeper research controls. Both browser suites capture their reviewed states in ignored `artifacts/matterfield/` directories.
 
 ## Content and publishing
 

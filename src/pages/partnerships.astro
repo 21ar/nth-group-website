@@ -3,11 +3,12 @@ import Layout from '../layouts/Layout.astro';
 import ContactInvitation from '../components/ContactInvitation.astro';
 import {Image} from 'astro:assets';
 import architecture from '../assets/matterfield/matter-architecture.png';
+import PartnershipBrief from '../components/PartnershipBrief.astro';
 ---
 <Layout title='Partnerships' description='Bring a different perspective to NRTH. Discuss operational, technical, research, material or experience partnerships.'>
- <section class='page-heading'><span class='section-label'>Partnerships</span><h1>Bring something<br/><em>we don’t see yet.</em></h1><p>Different expertise can change the question. Tell us where your perspective meets an NRTH venture.</p><a class='inline-link' href='/contact?project=partnership'>Introduce a possibility</a></section>
+ <section class='page-heading'><span class='section-label'>Partnerships</span><h1>Bring something<br/><em>we don’t see yet.</em></h1><p>Different expertise can change the question. Tell us where your perspective meets an NRTH venture.</p><a class='inline-link' href='#prepare'>Shape your introduction</a></section>
  <figure class='wide-art' data-image-reveal><Image src={architecture} alt='Conceptual architectural passage opening into a warm-lit space' widths={[640,1100,1600]} sizes='90vw' format='webp' loading='lazy'/></figure>
  <section class='editorial-split'><div data-enter><span class='section-label'>Potential starting points</span><h2>The connection<br/>is the beginning.</h2></div><div class='text-stack' data-enter><article><h3>Work you understand deeply.</h3><p>Bring an operational challenge, a decision or a handoff. Context from the people doing the work can reveal what a different approach needs to accomplish.</p></article><article><h3>Knowledge worth investigating.</h3><p>A technical method, a research question or material expertise can create a useful direction for a focused exploration.</p></article><article><h3>A reason to gather.</h3><p>Share the purpose of an experience and the people it should connect. The right collaboration begins with what a moment should make possible.</p></article></div></section>
- <section class='editorial-split section-dark'><div data-enter><span class='section-label'>Your introduction</span><h2>A little detail<br/>goes a long way.</h2></div><div data-enter><p>Introduce your organization, the opportunity you see and the venture or field it relates to.</p><p>Add the important constraints: timing, the expertise available, intended responsibilities and what a useful next step would look like.</p><a class='inline-link' href='/contact?project=partnership'>Prepare a partnership inquiry</a></div></section>
+ <PartnershipBrief/>
  <ContactInvitation project='partnership' headline='Bring your perspective.'/>
 </Layout>

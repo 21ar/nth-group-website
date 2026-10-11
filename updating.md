@@ -10,6 +10,8 @@ Run `npm run dev` and save a source file. Changes appear through hot reload. Pub
 | Venture summaries, stages, approved URLs | `src/data/projects.ts` |
 | Six industry introductions | `src/data/industries.ts` |
 | Venture focus explorers | `src/data/project-details.ts` |
+| Venture audiences, workflows, scenarios and questions | `src/data/venture-stories.ts`, `src/components/VentureStories.astro` |
+| Portfolio relationship stories and constellation | `src/data/connections.ts`, `src/components/ConnectionsExplorer.astro`, `src/scripts/connections-explorer.ts` |
 | Journal writing | `src/data/articles.ts` |
 | Homepage / company / investors | `src/components/HomePage.astro`, `CompanyPage.astro`, `InvestorsPage.astro` |
 | Shared venture / article layouts | `src/components/VenturePage.astro`, `ArticlePage.astro` |
@@ -18,13 +20,16 @@ Run `npm run dev` and save a source file. Changes appear through hot reload. Pub
 | Shared fragment forms | `src/scripts/matter-geometry.ts` |
 | Scroll narrative, field choices and timing | `src/scripts/matter.ts`, `src/components/MatterStory.astro` |
 | Chrome material, lighting and camera | `src/scripts/matter-renderer.ts` |
-| Structure / perspective study and image export | `src/scripts/matter-lab.ts`, `src/components/MatterLab.astro` |
+| Research shapes, structure, perspective and image export | `src/scripts/matter-lab.ts`, `src/components/MatterLab.astro`, `src/styles/matter-lab.css` |
+| Partnership outline and inquiry handoff | `src/components/PartnershipBrief.astro`, `src/scripts/partnership-brief.ts`, `src/styles/partnership-brief.css` |
 | Original artwork / venture cover mapping | `src/assets/matterfield/`, `src/data/visuals.ts` |
 | Delivery / editorial configuration | `.env.local` or private Vercel settings |
 
 The geometry is generated directly from deterministic formulas. No baking step is required. Industry order in `industries.ts` follows Mobility, Health, Systems, Materials, Events and Research. Each label matches a form in `matter-geometry.ts`. Preserve the common fragment count across poses so a new selection can begin from the displayed geometry.
 
 Review motion on a phone, a short desktop screen and a reduced-motion browser after changing form scale, camera position or copy. The mobile artwork occupies its own area above the text. Keep field descriptions and navigation clear of each other. Use `npm run test:browser` against a fresh production preview to check the complete experience.
+
+The additional venture scenarios describe illustrative contexts, rather than shipping product features. Keep their distinction and practical decision clear when changing the writing. Relationship stories describe potential information handoffs; update the explanation together with the selected ventures. The partnership tool transfers a prepared outline through tab-local session storage to the contact form, then clears that transfer. It does not send a message or require a service account.
 
 ## Visual content editing
 

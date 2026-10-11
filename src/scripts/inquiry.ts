@@ -8,6 +8,14 @@ if (form) {
   const topic = new URLSearchParams(location.search).get('topic');
   const messageField = form.querySelector<HTMLTextAreaElement>('[name="message"]');
   if (topic && topic.length < 180 && messageField) messageField.value = `I would like to discuss ${topic.toLowerCase()}.\n\n`;
+  if (project === 'partnership' && new URLSearchParams(location.search).get('brief') === 'prepared' && messageField) {
+    try {
+      const stored = sessionStorage.getItem('nrth-partnership-brief');
+      sessionStorage.removeItem('nrth-partnership-brief');
+      const brief = stored ? JSON.parse(stored) : null;
+      if (brief?.version === 1 && typeof brief.message === 'string' && brief.message.length <= 3000 && typeof brief.createdAt === 'number' && brief.createdAt <= Date.now() && Date.now() - brief.createdAt < 3600000) messageField.value = brief.message;
+    } catch { /* A blank inquiry remains available when tab storage is unavailable. */ }
+  }
   const result = form.querySelector<HTMLElement>('[data-inquiry-result]');
   const preview = form.querySelector<HTMLElement>('[data-inquiry-preview]');
   const status = form.querySelector<HTMLElement>('[data-inquiry-status]');

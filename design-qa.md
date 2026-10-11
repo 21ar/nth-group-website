@@ -50,7 +50,7 @@ No unresolved P0, P1 or P2 findings remain in these reviewed states. This conclu
 
 ## Verification
 
-- Astro check: 69 files, zero errors, warnings or hints. Website build: 26 public static pages and the Vercel handlers.
+- Astro check: 78 files, zero errors, warnings or hints. Website build: 26 public static pages and the Vercel handlers.
 - Sanity Studio type check and bundle build passed with documented placeholder project settings.
 - Geometry: 92 checks, including all directed form pairs, finite intermediate states, unique material-cell positions, easing endpoints and exact interruption starts.
 - Services/content: 28 checks with mocked delivery; no email sent.
@@ -61,5 +61,18 @@ No unresolved P0, P1 or P2 findings remain in these reviewed states. This conclu
 The [browser result record](design/matterfield/qa/browser-results.json) accompanies the captures. Software WebGL was identified without driver masking. Physical-GPU frame rate and field performance on actual phones were not benchmarked. The renderer uses instancing, an adaptive resolution and a sleeping loop; its Three.js chunk is lazy-loaded (approximately 132KB gzip), and Vite reports its raw size above the default 500KB advisory threshold. Core copy is server-rendered and immediately available with artwork.
 
 Live email delivery and editorial accounts require the owner's service configuration. Tests use controlled mocks and do not send an inquiry or publish CMS content. Code changes remain reviewable through the GitHub/Vercel preview workflow.
+
+## Venture detail and useful interaction
+
+The expanded portfolio retains the visual direction and adds four purposeful experiences. The [additional captures and browser record](design/matterfield/qa/enrichment/) show the constellation, scenario decisions, research controls and partnership outline on desktop and phones.
+
+- The constellation has nine source perspectives, six industry shortcuts and 24 directional relationships. Selecting a venture traces its paths and explains the possible handoffs; hovering or focusing a relationship emphasizes its specific path. Spatial keyboard instructions accompany the controls, and native venture links plus all nine perspectives remain available without JavaScript.
+- All nine venture pages now have specific audiences, three connected workflow stages, three context scenarios and three practical questions. The selected scenario changes the situation, task and next decision; its inquiry retains the venture and topic. Direct section navigation helps visitors reach the detail.
+- The research playground has six arrangements, keyboard tabs, drag rotation, reset, stateful study URLs and actual PNG exports. Every arrangement exported a distinct, nonblank rendering. Shape changes use a 1.45-second quintic timeline from the displayed mixture, including interrupted choices; structure changes use 800ms. Settled rendering stops.
+- The partnership builder changes its question around a challenge, experiment or experience. Its actual selected expertise and written context appear in a saved outline and an editable inquiry. The tab-local transfer clears after use; an expired transfer is rejected. Review selects the partnerships inbox without sending a test message.
+
+**165 additional production-browser checks passed**, alongside the 325 regression checks, for **490 browser checks** in total. Independent screenshot review covered 1440×1000, 390×844 and 320×568 for the new experiences. No blocking layout or interaction findings remained. Native scenarios and questions remain readable without JavaScript; reduced motion retains direct control without animated transitions.
+
+The review corrected unsupported SVG visibility attributes, clarified the constellation’s keyboard operation and slowed research morphs that advanced too far in a slow-rendering frame. These are functional interactions and illustrative venture contexts; the website does not assert production integrations or product availability.
 
 final result: passed
