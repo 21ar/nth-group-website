@@ -1,8 +1,10 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import ProjectList from '../../components/ProjectList.astro';
+import VentureIndex from '../../components/VentureIndex.astro';
+import ContactInvitation from '../../components/ContactInvitation.astro';
 ---
-<Layout title="Ventures" description="Explore nine NRTH ventures across health, mobility, systems, materials, events, and research. Try interactive concepts and discuss availability.">
-  <section class="page-intro directory-intro"><span class="eyebrow">The ventures</span><h1>Nine perspectives.<br />One direction.</h1><p>Health. Mobility. Systems. Materials. Events. Research. Find a venture, explore its direction, and try a working concept.</p></section>
-  <section class="section project-index"><ProjectList filters /><p class="availability-note">Find your perspective. These introductions describe each project’s direction. <a href="/contact">Start a conversation</a> about current scope, availability, or a potential partnership.</p></section>
+<Layout title='Ventures' description='Find your field within NRTH. Explore nine venture directions in mobility, health, systems, materials, events and research.'>
+ <section class='page-heading'><span class='section-label'>The ventures</span><h1>Choose your<br/><em>next question.</em></h1><p>A name is a starting point. Explore the thinking behind each venture and the connections around it.</p></section>
+ <section class='portfolio-directory'><VentureIndex filters/><p class='index-result'>These pages introduce venture directions. <a class='inline-link' href='/contact'>Discuss current scope and availability</a></p></section>
+ <ContactInvitation headline='A different perspective?'/>
 </Layout>

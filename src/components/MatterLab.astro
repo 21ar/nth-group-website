@@ -1,0 +1,6 @@
+---
+import {Image} from 'astro:assets';
+import mineral from '../assets/matterfield/matter-hero.png';
+---
+<section class='lab-section' data-matter-lab><div class='section-heading'><h2>A question<br/>you can <em>shape.</em></h2><p>How does the same set of fragments read when its structure changes?</p></div><div class='lab-stage' data-lab-world><Image class='lab-still' src={mineral} alt='Chrome mineral artwork accompanying a visual structure study' widths={[640,1100,1600]} sizes='90vw' format='webp' loading='lazy'/></div><div class='lab-controls' data-lab-controls hidden><label>Structure <span data-lab-structure-value>35%</span><input type='range' min='0' max='100' value='35' data-lab-structure aria-label='Structure from mineral to framework'/></label><label>Perspective <span data-lab-angle-value>0°</span><input type='range' min='-70' max='70' value='0' data-lab-angle aria-label='Viewing perspective'/></label></div><div class='lab-notes'><p>An interactive study of structure and variation. Change the arrangement and perspective, then save what you find.</p><button type='button' data-lab-save hidden>Save this arrangement</button></div><p class='sr-only' role='status' data-lab-status></p></section>
+<script>import '../scripts/matter-lab';</script>

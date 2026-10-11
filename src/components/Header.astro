@@ -1,14 +1,10 @@
 ---
 import Logo from './Logo.astro';
 import {projects} from '../data/projects';
-const path = Astro.url.pathname;
+const links=[['Company','/about'],['Approach','/approach'],['Research','/research'],['Investors','/investors'],['Partnerships','/partnerships'],['Journal','/insights'],['Press','/press'],['Contact','/contact']];
 ---
-<header class="site-header">
-  <Logo />
-  <div class='header-words'><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-navigation">Inside NRTH</button><noscript><a href='/projects'>Ventures</a></noscript><a class="header-contact" href="/contact" aria-current={path === '/contact' ? 'page' : undefined}>Let’s talk</a></div>
+<header class='masthead'>
+ <div class='masthead-bar'><Logo/><nav class='primary-navigation' aria-label='Primary'><a href='/projects'>Ventures</a><a href='/about'>Company</a></nav><a class='masthead-connect' href='/contact'>Connect</a>
+ <details class='site-menu' data-site-menu><summary aria-controls='menu-panel'>Menu</summary><div class='menu-panel' id='menu-panel'><div class='menu-intro'><p>Independent thinking.<br/>Extraordinary possibilities.</p><a href='/contact'>hello@nrth.group</a><button type='button' data-motion-toggle hidden aria-pressed='false'>Pause motion</button></div><nav class='menu-company' aria-label='NRTH pages'>{links.map(([label,href])=><a href={href}>{label}</a>)}</nav><nav class='menu-ventures' aria-label='All NRTH ventures'><span>Our ventures</span>{projects.map(project=><a href={'/projects/'+project.slug}>{project.name}</a>)}</nav></div></details>
+ </div>
 </header>
-<nav id="mobile-navigation" class="mobile-navigation" aria-label="Inside NRTH" hidden>
-  <div class='menu-company'><a href="/projects">Ventures</a><a href="/about">Company</a><a href="/research">Research</a><a href="/insights">Journal</a><a href="/investors">Investors</a></div>
-  <div class='menu-ventures'><span>Explore a venture</span>{projects.map(project=><a href={'/projects/'+project.slug}>{project.name}</a>)}</div>
-  <div class='menu-secondary'><a href='/approach'>Our approach</a><a href='/partnerships'>Partnerships</a><a href='/press'>Press resources</a><a href='/contact'>Contact</a></div>
-</nav>

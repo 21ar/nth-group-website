@@ -1,77 +1,39 @@
 ---
-import '@fontsource-variable/inter';
-import interFont from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
-import '../styles/global.css';
-import '../styles/experience.css';
-import '../styles/demos.css';
-import '../styles/living.css';
+import '@fontsource-variable/archivo';
+import '@fontsource-variable/manrope';
+import displayFont from '@fontsource-variable/archivo/files/archivo-latin-wght-normal.woff2?url';
+import '../styles/matterfield.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-interface Props { title?: string; description: string; noindex?: boolean; kind?: 'website' | 'article'; publishedAt?: string; author?: string; socialImagePath?: string; }
-const { title, description, noindex = false, kind = 'website', publishedAt, author = 'NRTH Editorial', socialImagePath } = Astro.props;
-const pageTitle = title ? `${title} — NRTH` : 'NRTH Inc. — Progress unfolds.';
-const canonical = new URL(Astro.url.pathname, Astro.site);
-const socialImage = socialImagePath || `/resources/social/${Astro.url.pathname.replace(/^\/|\/$/g,'').replace(/\//g,'-') || 'home'}.png`;
-const schema: Record<string, unknown>[] = [
-  { '@context': 'https://schema.org', '@type': 'Organization', name: 'NRTH', legalName: 'NRTH Inc.', url: Astro.site?.href, logo: new URL('/resources/nrth-wordmark.svg', Astro.site).href },
-  { '@context': 'https://schema.org', '@type': 'WebPage', name: pageTitle, description, url: canonical.href, isPartOf: { '@type': 'WebSite', name: 'NRTH', url: Astro.site?.href } },
+interface Props {title?:string;description:string;noindex?:boolean;kind?:'website'|'article';publishedAt?:string;author?:string;socialImagePath?:string;}
+const {title,description,noindex=false,kind='website',publishedAt,author='NRTH Editorial',socialImagePath}=Astro.props;
+const pageTitle=title?`${title} — NRTH`:'NRTH Inc. — Build beyond.';
+const canonical=new URL(Astro.url.pathname,Astro.site);
+const socialImage=socialImagePath||`/resources/social/${Astro.url.pathname.replace(/^\/|\/$/g,'').replace(/\//g,'-')||'home'}.png`;
+const schema:Record<string,unknown>[]=[
+ {'@context':'https://schema.org','@type':'Organization',name:'NRTH',legalName:'NRTH Inc.',url:Astro.site?.href,logo:new URL('/resources/nrth-wordmark.svg',Astro.site).href},
+ {'@context':'https://schema.org','@type':'WebPage',name:pageTitle,description,url:canonical.href,isPartOf:{'@type':'WebSite',name:'NRTH',url:Astro.site?.href}},
 ];
-const segments = Astro.url.pathname.split('/').filter(Boolean);
-if (segments.length) schema.push({
-  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
-  itemListElement: [{ '@type': 'ListItem', position: 1, name: 'NRTH', item: Astro.site?.href }, ...segments.map((segment, index) => ({
-    '@type': 'ListItem', position: index + 2,
-    name: index === segments.length - 1 ? title || segment : segment.charAt(0).toUpperCase() + segment.slice(1),
-    item: new URL('/' + segments.slice(0, index + 1).join('/'), Astro.site).href,
-  }))],
-});
-if (kind === 'article') schema.push({ '@context': 'https://schema.org', '@type': 'Article', headline: title, description, mainEntityOfPage: canonical.href, datePublished: publishedAt, author: { '@type': 'Organization', name: author }, publisher: {'@type':'Organization',name:'NRTH Inc.'} });
+const segments=Astro.url.pathname.split('/').filter(Boolean);
+if(segments.length)schema.push({'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'NRTH',item:Astro.site?.href},...segments.map((segment,i)=>({'@type':'ListItem',position:i+2,name:i===segments.length-1?title||segment:segment,item:new URL('/'+segments.slice(0,i+1).join('/'),Astro.site).href}))]});
+if(kind==='article')schema.push({'@context':'https://schema.org','@type':'Article',headline:title,description,mainEntityOfPage:canonical.href,datePublished:publishedAt,author:{'@type':'Organization',name:author},publisher:{'@type':'Organization',name:'NRTH Inc.'}});
 ---
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script is:inline>
-      try {
-        if(!matchMedia('(prefers-reduced-motion: reduce)').matches && localStorage.getItem('nrth-motion')!=='paused')document.documentElement.classList.add('fold-can-animate');
-        setTimeout(()=>{if(!document.querySelector('.fold-enhanced'))document.documentElement.classList.remove('fold-can-animate');},1400);
-        const saved=JSON.parse(sessionStorage.getItem('nrth-artwork-navigation')||'null');
-        if(saved && Date.now()-saved.time<15000 && location.pathname.replace(/\/$/,'')==='/projects/'+saved.slug && !matchMedia('(prefers-reduced-motion: reduce)').matches && localStorage.getItem('nrth-motion')!=='paused') document.documentElement.dataset.sharedVenture=saved.slug;
-      } catch {}
-      addEventListener('pagereveal',event=>{
-        if(!document.documentElement.dataset.sharedVenture)return;
-        document.documentElement.dataset.sharedTransition=event.viewTransition?'running':'unsupported';
-        event.viewTransition?.finished.then(()=>document.documentElement.dataset.sharedTransition='finished');
-      });
-    </script>
-    <meta name="theme-color" content="#f6f6f2" />
-    <meta name="description" content={description} />
-    <meta name="robots" content={noindex ? 'noindex,follow' : 'index,follow'} />
-    <link rel="canonical" href={canonical} />
-    <link rel="icon" href="/favicon.svg?v=nrth-2" type="image/svg+xml" sizes="any" />
-    <link rel="preload" href={interFont} as="font" type="font/woff2" crossorigin />
-    <meta property="og:type" content={kind} />
-    <meta property="og:site_name" content="NRTH" />
-    <meta property="og:title" content={pageTitle} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={new URL(socialImage, Astro.site)} />
-    <meta property="og:image:alt" content="NRTH wordmark" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={pageTitle} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={new URL(socialImage, Astro.site)} />
-    <title>{pageTitle}</title>
-    <script type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, '\\u003c')} />
-  </head>
-  <body>
-    <a class="skip-link" href="#main">Skip to content</a>
-    <Header />
-    <main id="main"><slot /></main>
-    <Footer />
-    <script>import '../scripts/site'; import '../scripts/transitions'; import '../scripts/analytics';</script>
-  </body>
+<html lang='en'>
+ <head>
+  <meta charset='utf-8'/><meta name='viewport' content='width=device-width, initial-scale=1'/>
+  <meta name='theme-color' content='#0a0b0d'/><meta name='description' content={description}/>
+  <meta name='robots' content={noindex?'noindex,follow':'index,follow'}/><link rel='canonical' href={canonical}/>
+  <link rel='icon' href='/favicon.svg?v=nrth-matter' type='image/svg+xml' sizes='any'/>
+  <link rel='preload' href={displayFont} as='font' type='font/woff2' crossorigin/>
+  <meta property='og:type' content={kind}/><meta property='og:site_name' content='NRTH'/>
+  <meta property='og:title' content={pageTitle}/><meta property='og:description' content={description}/>
+  <meta property='og:url' content={canonical}/><meta property='og:image' content={new URL(socialImage,Astro.site)}/>
+  <meta property='og:image:alt' content={pageTitle}/><meta property='og:image:width' content='1200'/><meta property='og:image:height' content='630'/>
+  <meta name='twitter:card' content='summary_large_image'/><meta name='twitter:title' content={pageTitle}/><meta name='twitter:description' content={description}/><meta name='twitter:image' content={new URL(socialImage,Astro.site)}/>
+  <title>{pageTitle}</title><script type='application/ld+json' set:html={JSON.stringify(schema).replace(/</g,'\\u003c')}/>
+ </head>
+ <body><a class='skip-link' href='#main'>Skip to content</a><Header/><main id='main'><slot/></main><Footer/>
+  <script>import '../scripts/app';import '../scripts/inquiry';import '../scripts/analytics';</script>
+ </body>
 </html>

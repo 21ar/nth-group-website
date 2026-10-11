@@ -1,15 +1,8 @@
 ---
 import Logo from './Logo.astro';
-import { projects } from '../data/projects';
 ---
-<footer class="site-footer">
-  <div class="footer-top">
-    <Logo footer />
-    <a class="footer-contact" href="/contact">Let’s find a new direction. </a>
-  </div>
-  <div class="footer-links">
-    <div><span class="eyebrow">The company</span><a href="/about">Company</a><a href="/approach">Our approach</a><a href="/partnerships">Partnerships</a><a href="/research">Research</a><a href="/insights">Journal</a><a href="/investors">Investors</a><a href="/press">Press & resources</a><a href="/contact">Contact</a></div>
-    <div class="footer-projects"><span class="eyebrow">Our projects</span>{projects.map(project => <a href={`/projects/${project.slug}`}>{project.name}</a>)}</div>
-  </div>
-  <div class="footer-bottom"><span>© {new Date().getFullYear()} NRTH Inc.</span><span>Different fields. Shared ambition.</span><div><a href="/privacy">Privacy</a><a href="/terms">Terms</a><button type="button" data-motion-toggle aria-pressed="false">Pause motion</button></div></div>
+<footer class='site-footer'>
+ <div class='footer-top'><p>Independent by intent.<br/>Open to what comes next.</p><nav aria-label='Footer'><a href='/projects'>Ventures</a><a href='/about'>Company</a><a href='/investors'>Investors</a><a href='/contact'>Contact</a></nav><a class='footer-email' href='mailto:hello@nrth.group'>hello@nrth.group</a></div>
+ <Logo footer/>
+ <div class='footer-bottom'><span>© {new Date().getFullYear()} NRTH Inc.</span><span>nrth.group</span><div><a href='/privacy'>Privacy</a><a href='/terms'>Terms</a><button type='button' data-motion-toggle hidden aria-pressed='false'>Pause motion</button></div></div>
 </footer>
