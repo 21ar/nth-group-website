@@ -1,9 +1,0 @@
----
-import PressPage from '../../components/PressPage.astro';
-import {cookieName,validPreviewSession} from '../../server/preview';
-export const prerender = false;
-Astro.response.headers.set('Cache-Control','private, no-store');
-if (!validPreviewSession(Astro.cookies.get(cookieName)?.value)) return Astro.redirect('/preview');
----
-<PressPage draft/>
-<script>import '../../scripts/preview';</script>

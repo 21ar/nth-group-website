@@ -1,8 +1,0 @@
-{
-  "checks": 358,
-  "passed": true,
-  "errors": [],
-  "evidence": [
-    "SVG material assembly is reversible, responsive and idle/offscreen aware; no WebGL benchmark is implied."
-  ]
-}

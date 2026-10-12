@@ -1,4 +1,13 @@
 ---
-import ApproachPage from '../components/ApproachPage.astro';
+import Layout from '../layouts/Layout.astro';
+import ContactInvitation from '../components/ContactInvitation.astro';
+import Icon from '../components/Icon.astro';
 ---
-<ApproachPage/>
+<Layout title='Approach' description='How NRTH frames a question, investigates a direction and chooses a practical next step across its venture portfolio.'>
+ <section class='page-heading is-dark'><span class='section-label'>Our approach</span><h1>Ask carefully.<br/><em>Make deliberately.</em></h1><p>A broad imagination is useful. A specific question gives it somewhere to go.</p></section>
+ <section class='editorial-split'><div data-enter><span class='section-label'>Begin with the work</span><h2>What needs<br/>to change?</h2></div><div data-enter><p>Describe the decision, the task or the experience in concrete terms. Find the person dealing with it and the constraints that make it difficult.</p><p>The useful starting point is a shared question: what is happening now, what could happen differently and why would that matter?</p></div></section>
+ <section class='editorial-split section-dark'><div data-enter><span class='section-label'>Make the idea tangible</span><h2>Give the question<br/>something to meet.</h2></div><div data-enter><p>A sketch, a prototype, a technical study or a conversation can turn an assumption into something people can examine.</p><p>Match the method to the uncertainty. Look for what changes the next decision, including evidence that challenges the original direction.</p><a class='inline-link' href='/research'>Explore the research perspective</a></div></section>
+ <section class='editorial-split'><div data-enter><span class='section-label'>Choose a practical step</span><h2>Set the direction.<br/>Define the edges.</h2></div><div data-enter><p>A useful next step has a purpose, a scope and clear responsibilities. Consider the information, technical requirements and operational details that surround it.</p><p>Specific timing, deliverables and commercial arrangements are defined in the conversation about that opportunity.</p></div></section>
+ <section class='editorial-split'><div><span class='section-label'>Before a conversation</span><h2>Start where<br/>you are.</h2></div><div class='disclosure-list'><details open><summary>Is an early idea enough?<Icon name='plus'/></summary><p>Yes. Describe the context, the question and the change you have in mind. You do not need a polished brief to start a useful discussion.</p></details><details><summary>Can a question cross fields?<Icon name='plus'/></summary><p>Many do. Describe the whole situation and the different perspectives it needs. We can examine where the relevant NRTH directions connect.</p></details><details><summary>What should I bring?<Icon name='plus'/></summary><p>The people involved, the work today, the constraints that matter and any evidence already available. Those details help turn an interest into a specific conversation.</p></details></div></section>
+ <ContactInvitation headline='Where would you begin?'/>
+</Layout>

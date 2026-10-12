@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import {cookieName, validPreviewSession, equalSecret, createPreviewSession,privatePreviewRedirect} from '../../server/preview';
-import {cmsConfigured, getProjects, getArticles,getIndustries} from '../../data/content';
+import {cookieName, validPreviewSession, equalSecret, createPreviewSession} from '../../server/preview';
+import {cmsConfigured, getProjects, getArticles} from '../../data/content';
 export const prerender = false;
 Astro.response.headers.set('Cache-Control','private, no-store');
 let error = '';
@@ -11,7 +11,7 @@ if (Astro.request.method === 'POST') {
     const data = await Astro.request.formData();
     if (equalSecret(String(data.get('secret') || ''))) {
       Astro.cookies.set(cookieName, createPreviewSession(), {httpOnly:true, secure:Astro.url.protocol === 'https:', sameSite:'lax', path:'/', maxAge:3600});
-      return privatePreviewRedirect();
+      return Astro.redirect('/preview');
     }
     error = 'The preview key was not accepted.';
   }
@@ -19,12 +19,10 @@ if (Astro.request.method === 'POST') {
 const authenticated = validPreviewSession(Astro.cookies.get(cookieName)?.value);
 const projects = authenticated && cmsConfigured() ? await getProjects(true) : [];
 const articles = authenticated && cmsConfigured() ? await getArticles(true) : [];
-const industries=authenticated&&cmsConfigured()?await getIndustries(true):[];
-const pagePreviews=[['Homepage','home'],['Company','company'],['Approach','approach'],['Research','research'],['Investors','investors'],['Partnerships','partnerships'],['Press','press']];
 ---
 <Layout title='Editorial preview' description='Private NRTH editorial preview.' noindex>
   <section class='page-heading preview-intro'><span class='section-label'>NRTH / Editorial workspace</span><h1>See the next<br />version take shape.</h1><p>Draft content remains private. Published pages change after a successful deployment.</p></section>
   <section class='section preview-workspace'>
-    {!cmsConfigured() ? <p>Content editing is not connected in this environment. See the CMS setup guide in the repository to connect a Sanity project.</p> : authenticated ? <><span class='section-label'>Editorial drafts / Refresh automatically during editing</span><div class='preview-links'>{pagePreviews.map(([title,path])=><a href={'/preview/'+path}>{title}<span>View draft</span></a>)}{industries.map(industry=><a href={'/preview/industry/'+industry.name.toLowerCase()}>{industry.name}<span>View field draft</span></a>)}{articles.map(article => <a href={'/preview/article/' + article.slug}>{article.title}<span>View draft</span></a>)}{projects.map(project => <a href={'/preview/venture/' + project.slug}>{project.name}<span>View draft</span></a>)}</div><p class='form-note'>The preview session expires after one hour. Sign out to close it.</p><form action='/api/preview/logout' method='POST'><button class='demo-primary' type='submit'>Sign out</button></form></> : <form method='POST' class='preview-login'><label for='preview-key'>Editorial preview key</label><input id='preview-key' name='secret' type='password' autocomplete='current-password' required maxlength='256' /><button class='demo-primary' type='submit'>Open draft preview</button>{error && <p role='alert'>{error}</p>}</form>}
+    {!cmsConfigured() ? <p>Content editing is not connected in this environment. See the CMS setup guide in the repository to connect a Sanity project.</p> : authenticated ? <><span class='section-label'>Venture drafts / Refresh automatically during editing</span><div class='preview-links'><a href='/preview/home'>Homepage<span>View draft</span></a><a href='/preview/company'>Company<span>View draft</span></a><a href='/preview/investors'>Investors<span>View draft</span></a>{articles.map(article => <a href={'/preview/article/' + article.slug}>{article.title}<span>View draft</span></a>)}{projects.map(project => <a href={'/preview/venture/' + project.slug}>{project.name}<span>View draft</span></a>)}</div><p class='form-note'>The preview session expires after one hour. Sign out to close it.</p><form action='/api/preview/logout' method='POST'><button class='demo-primary' type='submit'>Sign out</button></form></> : <form method='POST' class='preview-login'><label for='preview-key'>Editorial preview key</label><input id='preview-key' name='secret' type='password' autocomplete='current-password' required maxlength='256' /><button class='demo-primary' type='submit'>Open draft preview</button>{error && <p role='alert'>{error}</p>}</form>}
   </section>
 </Layout>

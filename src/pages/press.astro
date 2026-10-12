@@ -1,4 +1,12 @@
 ---
-import PressPage from '../components/PressPage.astro';
+import Layout from '../layouts/Layout.astro';
+import Logo from '../components/Logo.astro';
+import ContactInvitation from '../components/ContactInvitation.astro';
+import {projects} from '../data/projects';
 ---
-<PressPage/>
+<Layout title='Press & identity' description='NRTH Inc. company identity, the supplied NRTH wordmark and public resources for editorial use.'>
+ <section class='page-heading'><span class='section-label'>Press & identity</span><h1>The name is NRTH.<br/><em>The outlook is open.</em></h1><p>A clear introduction to the company and the resources that keep its identity consistent.</p></section>
+ <section class='press-brand'><Logo footer/><div><a href='/resources/nrth-wordmark.svg' download>Download the wordmark</a><a href='/resources/nrth-wordmark-outline.svg' download>Download the outline</a></div></section>
+ <section class='editorial-split'><div><span class='section-label'>Company reference</span><h2>NRTH Inc.</h2></div><div><p>NRTH Inc. is the company behind nine venture identities across mobility, health, systems, materials, events and research. NRTH is the shared name; nrth.group is its website.</p><p>{projects.map(project=>project.name).join(', ')} form the public portfolio.</p><p>Preserve the supplied wordmark's proportions and letter shapes. Editorial materials introduce venture directions; request confirmation before reporting product availability or commercial details.</p><a class='inline-link' href='/resources/nrth-company-overview.pdf' download>Public company overview</a></div></section>
+ <ContactInvitation headline='Need a closer look?'/>
+</Layout>

@@ -1,5 +1,4 @@
 import {experimentFields, defaultExperiment, createExperimentOutline, experimentOutlineText} from '../data/experiment-directions';
-import {prepareInquiry,emitDiscovery} from './prepared-inquiry';
 
 const root = document.querySelector<HTMLElement>('[data-experiment-planner]');
 if (root) {
@@ -49,12 +48,11 @@ if (root) {
   fallbackText.focus({preventScroll: true});
   fallbackText.select();
  }
- async function copy(value: string, confirmation: string, label: string, action='research_outline_saved') {
+ async function copy(value: string, confirmation: string, label: string) {
   try {
    await navigator.clipboard.writeText(value);
    fallback.hidden = true;
    status.textContent = confirmation;
-   emitDiscovery(action);
   } catch {
    showCopyFallback(value, label);
    status.textContent = 'Automatic copy is unavailable. Select and copy the text below, or save the outline as a text file.';
@@ -102,7 +100,6 @@ if (root) {
   link.remove();
   setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
   status.textContent = 'Your research outline was saved as a text file.';
-  emitDiscovery('research_outline_saved');
  });
  element<HTMLButtonElement>('[data-experiment-share]').addEventListener('click', () => {
   const url = new URL('/research', location.origin);
@@ -110,7 +107,7 @@ if (root) {
   url.searchParams.set('experiment-method', outline.method.id);
   url.searchParams.set('experiment-starter', String(outline.starter));
   url.hash = 'experiment';
-  void copy(url.href, 'Link copied. It includes the starting point and method, but not your custom question.', 'Your research starting point link','research_outline_shared');
+  void copy(url.href, 'Link copied. It includes the starting point and method, but not your custom question.', 'Your research starting point link');
  });
  element<HTMLButtonElement>('[data-experiment-reset]').addEventListener('click', () => {
   fieldControl.value = defaultExperiment.field;
@@ -126,7 +123,12 @@ if (root) {
    status.textContent = 'This outline is too long to transfer. Save or copy it, then open a blank inquiry.';
    return;
   }
-  prepareInquiry({project:'nrth-labs',draftMessage:message,items:[{kind:'research-outline',label:'Research outline',value:`${outline.field.name} — ${outline.method.name}. Review the question, observations, limits and next decision in this introduction.`}]});
+  try {
+   sessionStorage.setItem('nrth-research-outline', JSON.stringify({version: 1, message, createdAt: Date.now()}));
+   location.assign('/contact?project=nrth-labs&outline=prepared');
+  } catch {
+   status.textContent = 'This browser could not transfer your outline. Save or copy it here, then open a blank NRTH Labs inquiry.';
+  }
  });
  update();
 }

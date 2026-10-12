@@ -65,6 +65,6 @@ sitemap=(root/'sitemap-0.xml').read_text()
 verify('/search-index.json' not in sitemap and '/preview' not in sitemap and '/api/' not in sitemap,'Sitemap exposes documents without internal endpoints')
 for route in documents: verify('https://nrth.group'+route+'<' in sitemap,route+': listed in sitemap')
 report={'pages':len(documents),'checks':checks,'passed':not issues,'issues':issues}
-out=Path('artifacts/next-stage');out.mkdir(parents=True,exist_ok=True);(out/'public-output-results.json').write_text(json.dumps(report,indent=2))
+out=Path('artifacts/matterfield/baseline');out.mkdir(parents=True,exist_ok=True);(out/'public-output-results.json').write_text(json.dumps(report,indent=2))
 print(json.dumps(report,indent=2))
 raise SystemExit(bool(issues))

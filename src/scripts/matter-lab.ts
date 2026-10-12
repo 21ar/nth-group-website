@@ -1,5 +1,4 @@
 import {createMatter,createPose,blendMatter,smooth,type MatterForm} from './matter-geometry';
-import {emitDiscovery} from './prepared-inquiry';
 const lab=document.querySelector<HTMLElement>('[data-matter-lab]');
 if(lab){
  const host=lab.querySelector<HTMLElement>('[data-lab-world]')!;
@@ -133,12 +132,12 @@ if(lab){
   // Export remains available when the artwork has scrolled above its controls.
   if(!visible){transitionDuration=0;weights=[...targetWeights];view=targetView;}
   draw(true);
-  try{const link=document.createElement('a');link.href=renderer.renderer.domElement.toDataURL('image/png');link.download='nrth-structure-study.png';link.click();status.textContent='Arrangement saved as an image.';emitDiscovery('visual_study_saved');}
+  try{const link=document.createElement('a');link.href=renderer.renderer.domElement.toDataURL('image/png');link.download='nrth-structure-study.png';link.click();status.textContent='Arrangement saved as an image.';}
   catch{status.textContent='The image could not be saved. You can copy a study link to keep this arrangement.';}
  });
  lab.querySelector('[data-lab-share]')!.addEventListener('click',async()=>{
   const url=new URL(location.href);url.search='';url.hash='';url.searchParams.set('study',selected);url.searchParams.set('structure',structure.value);url.searchParams.set('angle',angle.value);
-  try{await navigator.clipboard.writeText(url.href);lab!.querySelector<HTMLElement>('[data-lab-share-fallback]')!.hidden=true;status.textContent='Study link copied. It opens with this arrangement, structure and perspective.';emitDiscovery('visual_study_shared');}
+  try{await navigator.clipboard.writeText(url.href);lab!.querySelector<HTMLElement>('[data-lab-share-fallback]')!.hidden=true;status.textContent='Study link copied. It opens with this arrangement, structure and perspective.';}
   catch{const fallback=lab!.querySelector<HTMLElement>('[data-lab-share-fallback]')!,input=lab!.querySelector<HTMLInputElement>('[data-lab-share-link]')!;fallback.hidden=false;input.value=url.href;input.focus();input.select();status.textContent='Your study link is ready to select and copy.';}
  });
  function settle(){if(paused()){stop();transitionDuration=0;weights=[...targetWeights];view=targetView;draw();}else wake();}

@@ -1,16 +1,14 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import {getArticles} from '../../data/content';
+import {Image} from 'astro:assets';
+import {artwork} from '../../data/visuals';
 import ContactInvitation from '../../components/ContactInvitation.astro';
-import JournalCard from '../../components/JournalCard.astro';
-import '../../styles/journal-quality.css';
 const articles=await getArticles();
+const visuals=[artwork.health,artwork.mobility,artwork.labs];
 ---
-<Layout title='Journal' description='Eight illustrated perspectives from NRTH on attention, vehicle signals, materials, events, recovery, movement, experimentation and meaningful motion.'>
+<Layout title='Journal' description='New perspectives from NRTH on attention, movement and experimentation. Read the questions behind the venture directions.'>
  <section class='page-heading'><span class='section-label'>The journal</span><h1>Think out loud.<br/><em>Look a little deeper.</em></h1><p>Notes from the spaces between industries, information and the people doing the work.</p></section>
- <nav class='journal-library-filter' aria-label='Ways into the journal'><a href='#signals'>Signals and movement</a><a href='#people'>People and experience</a><a href='#methods'>Methods and systems</a></nav>
- <section class='page-body'><div class='journal-intro-note'><h2>Useful questions.<br/>Room to think.</h2><p>Each perspective follows an idea into the details of the work: how someone makes a decision, how context crosses a boundary and how an experiment can change what happens next. Every article includes an interactive illustration and questions to take into your own situation.</p></div><div class='journal-grid'>{articles.map(article=><JournalCard article={article}/>)}</div></section>
- <section class='editorial-split section-dark'><div><span class='section-label'>Find a starting point</span><h2>Follow the<br/>question that matters.</h2></div><div class='text-stack'><article id='signals'><h3>Signals and movement.</h3><p>Separate a job, an observation, a resource and a handoff. Then examine what makes a signal usable for a decision.</p><a class='inline-link' href='/insights/freshness-is-part-of-the-signal'>Read about freshness and provenance</a></article><article id='people'><h3>People and experience.</h3><p>Consider the moment that needs attention and the transitions that let a person join, participate and continue.</p><a class='inline-link' href='/insights/design-the-transitions-between-people'>Read about the space between moments</a></article><article id='methods'><h3>Methods and systems.</h3><p>Make an uncertainty testable, connect a requirement to evidence and give interrupted work a usable way back.</p><a class='inline-link' href='/insights/recovery-is-a-design-decision'>Read about designing recovery</a></article></div></section>
- <section class='journal-editorial-note'><h2>Thinking in the open.</h2><div><p>The journal is a place to make the reasoning behind NRTH's venture directions easier to understand. Its examples are illustrative, and its questions are starting points for a specific conversation.</p><p>A perspective can suggest where to investigate. Product availability, integrations and a proposed scope need their own discussion and evidence.</p><a class='inline-link' href='/approach'>How NRTH approaches an idea</a></div></section>
+ <section class='page-body'><div class='journal-grid'>{articles.map((article,i)=><a href={'/insights/'+article.slug} data-enter><Image src={visuals[i%visuals.length].src} widths={[480,800]} sizes='(max-width:767px) 88vw, 30vw' alt={visuals[i%visuals.length].alt} format='webp' loading='lazy'/><span class='section-label'>{article.category}</span><h3>{article.title}</h3><p>{article.description}</p></a>)}</div></section>
  <ContactInvitation/>
 </Layout>

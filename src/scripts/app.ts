@@ -10,9 +10,6 @@ function syncMotion(){
 }
 document.querySelectorAll('[data-motion-toggle]').forEach(button=>button.addEventListener('click',()=>{if(reduced.matches)return;manualPause=!manualPause;try{localStorage.setItem('nrth-motion',manualPause?'paused':'enabled');}catch{}syncMotion();}));
 reduced.addEventListener('change',syncMotion);syncMotion();
-const masthead=document.querySelector<HTMLElement>('.masthead');
-const syncMasthead=()=>masthead?.classList.toggle('is-scrolled',scrollY>40);
-window.addEventListener('scroll',syncMasthead,{passive:true});window.addEventListener('pageshow',syncMasthead);syncMasthead();
 const menu=document.querySelector<HTMLDetailsElement>('[data-site-menu]');
 if(menu){
  const summary=menu.querySelector<HTMLElement>('summary')!,panel=menu.querySelector<HTMLElement>('.menu-panel')!;
@@ -40,47 +37,26 @@ document.querySelectorAll<HTMLElement>('[data-venture-index]').forEach(index=>{
  const tools=index.querySelector<HTMLElement>('[data-index-tools]');if(tools)tools.hidden=false;
  const rows=[...index.querySelectorAll<HTMLAnchorElement>('[data-index-row]')],filters=[...index.querySelectorAll<HTMLButtonElement>('[data-index-filter]')],search=index.querySelector<HTMLInputElement>('[data-index-search]');
  let category='All';
- let selected:HTMLAnchorElement|undefined=rows[0],hovered:HTMLAnchorElement|null=null,scrollFrame=0;
+ let preview:HTMLAnchorElement|undefined;
  const artwork=index.querySelector<HTMLElement>('.index-art');
  function select(row:HTMLAnchorElement|undefined){
-  selected=row;
-  index.dataset.indexSelected=row?.dataset.indexVenture||'';
-  artwork?.classList.toggle('is-empty',!row);
-  rows.forEach(item=>item.classList.toggle('is-previewed',item===row));
-  index.querySelectorAll<HTMLElement>('[data-index-art]').forEach(image=>image.classList.toggle('is-active',Boolean(row)&&image.dataset.indexArt===row?.dataset.indexVenture));
-  const caption=index.querySelector('[data-index-caption]');if(caption)caption.textContent=row?'NRTH '+row.querySelector('.index-name')?.textContent+' · '+row.querySelector('.index-description')?.textContent:'';
+  preview=row;if(artwork)artwork.hidden=!row;
+  const art=row?.dataset.category==='Research'||row?.dataset.category==='Materials'?2:row?.dataset.category==='Health'||row?.dataset.category==='Events'?1:0;
+  index.querySelectorAll<HTMLElement>('[data-index-art]').forEach(image=>image.classList.toggle('is-active',Boolean(row)&&image.dataset.indexArt===String(art)));
+  const caption=index.querySelector('[data-index-caption]');if(caption)caption.textContent=row?'NRTH '+row.querySelector('.index-name')?.textContent:'';
  }
  function update(){
   let count=0;const query=search?.value.trim().toLowerCase()||'';
   rows.forEach(row=>{row.hidden=(category!=='All'&&row.dataset.category!==category)||!(row.dataset.search||'').includes(query);if(!row.hidden)count++;});
   const empty=index.querySelector<HTMLElement>('[data-index-empty]');if(empty)empty.hidden=count>0;
   const result=index.querySelector('[data-index-result]');if(result)result.textContent=count+' '+(count===1?'venture':'ventures');
-  if(!selected||selected.hidden)select(rows.find(row=>!row.hidden));
+  if(!preview||preview.hidden)select(rows.find(row=>!row.hidden));
  }
  filters.forEach(button=>button.addEventListener('click',()=>{category=button.dataset.indexFilter||'All';filters.forEach(item=>item.setAttribute('aria-pressed',String(item===button)));update();}));search?.addEventListener('input',update);
  const requested=new URLSearchParams(location.search).get('field');if(requested)filters.find(button=>button.dataset.indexFilter===requested)?.click();
  rows.forEach(row=>{
-  row.addEventListener('pointerenter',event=>{if(event.pointerType==='mouse'){hovered=row;select(row);}});
-  row.addEventListener('pointerleave',()=>{if(hovered===row)hovered=null;});
-  row.addEventListener('focus',()=>select(row));
+  row.addEventListener('pointerenter',()=>select(row));row.addEventListener('focus',()=>select(row));
  });
- index.querySelector('[data-index-reset]')?.addEventListener('click',()=>{category='All';if(search)search.value='';filters.forEach((button,i)=>button.setAttribute('aria-pressed',String(i===0)));update();search?.focus({preventScroll:true});});
- // Keep the large artwork attached to the venture being read during native scrolling.
- function followReading(){
-  if(scrollFrame||document.hidden||innerWidth<768)return;
-  scrollFrame=requestAnimationFrame(()=>{
-   scrollFrame=0;
-   if(rows.some(row=>row===document.activeElement))return;
-   const bounds=index.getBoundingClientRect();if(bounds.top>=innerHeight||bounds.bottom<=110)return;
-   const line=innerHeight*.46;
-   let closest:HTMLAnchorElement|undefined,distance=Infinity;
-   for(const row of rows){if(row.hidden)continue;const rect=row.getBoundingClientRect();if(rect.bottom<=110||rect.top>=innerHeight)continue;const next=Math.abs((rect.top+rect.bottom)/2-line);if(next<distance){closest=row;distance=next;}}
-   const next=hovered&&!hovered.hidden?hovered:closest;if(next&&next!==selected)select(next);
-  });
- }
- addEventListener('scroll',followReading,{passive:true});addEventListener('resize',followReading,{passive:true});
- addEventListener('pagehide',()=>{if(scrollFrame)cancelAnimationFrame(scrollFrame);});
- select(selected);
 });
 document.querySelectorAll<HTMLElement>('[data-focus-explorer]').forEach(explorer=>{
  explorer.querySelector<HTMLElement>('.focus-choices')!.hidden=false;

@@ -1,4 +1,16 @@
 ---
-import ResearchPage from '../components/ResearchPage.astro';
+import Layout from '../layouts/Layout.astro';
+import MatterLab from '../components/MatterLab.astro';
+import ExperimentPlanner from '../components/ExperimentPlanner.astro';
+import ContactInvitation from '../components/ContactInvitation.astro';
+import {getArticles} from '../data/content';
+const articles=(await getArticles()).filter(article=>article.category==='Research');
 ---
-<ResearchPage/>
+<Layout title='Research' description='Enter NRTH Labs: questions, focused experiments and an interactive visual study of structure and variation.'>
+ <section class='page-heading'><span class='section-label'>Research · NRTH Labs</span><h1>What if is<br/><em>where it starts.</em></h1><p>Give an unfamiliar idea a tangible form. Then ask what it reveals, what it misses and where it could go.</p></section>
+ <MatterLab/>
+ <ExperimentPlanner/>
+ <section class='editorial-split section-dark'><div data-enter><span class='section-label'>The research direction</span><h2>Make uncertainty<br/>useful.</h2></div><div class='text-stack' data-enter><article><h3>A clear question.</h3><p>What would you need to learn to make a different decision? Define the uncertainty before choosing an experiment.</p></article><article><h3>A credible method.</h3><p>A conversation, a prototype or a technical investigation can each answer a different kind of question. Choose the smallest method that can produce useful evidence.</p></article><article><h3>An honest observation.</h3><p>Record what happened and what the method cannot establish. A narrower question or a reason to change course is a useful outcome too.</p></article></div></section>
+ <section class='page-body'><div class='section-heading'><h2>Keep the<br/>question moving.</h2></div><div class='journal-grid'>{articles.map(article=><a href={'/insights/'+article.slug}><span class='section-label'>{article.category}</span><h3>{article.title}</h3><p>{article.description}</p></a>)}</div></section>
+ <ContactInvitation project='nrth-labs' headline='What would you investigate?'/>
+</Layout>

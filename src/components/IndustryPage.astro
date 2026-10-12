@@ -1,33 +1,18 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ContactInvitation from './ContactInvitation.astro';
-import QualityPlate from './QualityPlate.astro';
-import EvidenceExhibit from './EvidenceExhibit.astro';
-import {industryExhibits} from '../data/industry-exhibits';
-import {getProjects,getIndustryEditorial,getIndustries} from '../data/content';
-import {industries as defaultIndustries} from '../data/industries';
-import StructuredEditorial from './StructuredEditorial.astro';
-import {getIndustryStory,industryStories,industryBriefs} from '../data/industry-stories';
+import {getProjects} from '../data/content';
+import {getIndustryStory,industryStories} from '../data/industry-stories';
 import '../styles/industry-stories.css';
-import '../styles/industry-quality.css';
-interface Props {slug: string;draft?:boolean;}
-const {slug,draft=false}=Astro.props;
-const sourceStory=getIndustryStory(slug);
-const entry=(await getIndustries(draft)).find(item=>item.name===sourceStory.name);
-const fallback=defaultIndustries.find(item=>item.name===sourceStory.name);
-const story={...sourceStory,headline:entry&&fallback&&entry.title.join(' ')!==fallback.title.join(' ')?entry.title:sourceStory.headline,introduction:entry&&fallback&&entry.copy!==fallback.copy?entry.copy:sourceStory.introduction};
-const brief=industryBriefs[story.slug];
-const graphicLabels:Record<string,string>={mobility:'Commitment. Resource. Handoff.',health:'Person. Information. Next step.',systems:'Task. Boundary. Connection.',materials:'Conditions. Properties. Application.',events:'Purpose. Rhythm. Exchange.',research:'Question. Experiment. Learning.'};
-const projects=await getProjects(draft);
-const industryEditorial=await getIndustryEditorial(story.name,draft);
+interface Props {slug: string;}
+const story=getIndustryStory(Astro.props.slug);
+const projects=await getProjects();
 const projectFor=(slug:string)=>projects.find(project=>project.slug===slug)!;
 const first=story.contexts[0];
 const selectedPath=story.diagram.paths.find(path=>path.id===first.id)!;
 const sectionId='industry-'+story.slug;
-const contextExhibitIndex=story.slug==='health'?[0,2,1]:[0,1,2];
 ---
-<Layout noindex={draft} title={story.name} description={story.description} socialImagePath={'/resources/social/industries-'+story.slug+'.png'}>
- {draft&&<aside class='preview-banner'><a href='/preview'>Editorial workspace</a><span data-preview-status>Draft preview</span></aside>}
+<Layout title={story.name} description={story.description} socialImagePath={'/resources/social/industries-'+story.slug+'.png'}>
  <section class='industry-heading section-dark'>
   <span class='section-label'>An NRTH industry perspective</span>
   <h1 data-enter>{story.name}</h1>
@@ -35,11 +20,11 @@ const contextExhibitIndex=story.slug==='health'?[0,2,1]:[0,1,2];
    <h2 data-enter>{story.headline[0]}<br/><em>{story.headline[1]}</em></h2>
    <p data-enter>{story.introduction}</p>
   </div>
-  <nav class='industry-section-links' aria-label={story.name+' page sections'}><a href={'#'+sectionId+'-contexts'}>Explore a context</a><a href={'#'+sectionId+'-brief'}>Build a useful brief</a><a href={'#'+sectionId+'-ventures'}>Meet the perspectives</a><a href={'#'+sectionId+'-questions'}>Your questions</a></nav>
+  <nav class='industry-section-links' aria-label={story.name+' page sections'}><a href={'#'+sectionId+'-contexts'}>Explore a context</a><a href={'#'+sectionId+'-ventures'}>Meet the perspectives</a><a href={'#'+sectionId+'-questions'}>Your questions</a></nav>
  </section>
- <section class='industry-perspective industry-perspective-quality'>
-  <div class='industry-perspective-copy' data-enter><span class='section-label'>The wider picture</span><h2>{story.perspective}</h2><p>{story.perspectiveCopy}</p><p class='industry-perspective-question'>{brief.question}</p></div>
-  <QualityPlate kind={story.slug} variant={'industry-'+story.slug} label={graphicLabels[story.slug]}/>
+ <section class='industry-perspective'>
+  <h2 data-enter>{story.perspective}</h2>
+  <p data-enter>{story.perspectiveCopy}</p>
  </section>
  <section class='industry-contexts section-dark' id={sectionId+'-contexts'} data-industry-explorer>
   <div class='industry-context-heading' data-enter><span class='section-label'>Explore the work</span><h2>Start with<br/><em>the decision.</em></h2><p>Open a context to see the connections it brings into focus.</p></div>
@@ -77,7 +62,6 @@ const contextExhibitIndex=story.slug==='health'?[0,2,1]:[0,1,2];
       <ul>{context.questions.map(question=><li>{question}</li>)}</ul>
       <div class='industry-context-takeaway'><h3>A useful starting point</h3><p>{context.takeaway}</p></div>
       <div class='industry-context-ventures'><span>Relevant perspectives</span>{context.ventures.map(slug=><a href={'/projects/'+slug}>{projectFor(slug).name}</a>)}</div>
-      <a class='inline-link industry-context-example-link' href={'#'+sectionId+'-example-'+contextExhibitIndex[i]}>Inspect an illustrative example</a>
       <a class='inline-link' href={'/contact?project='+context.ventures[0]+'&topic='+encodeURIComponent(story.name+': '+context.title)}>Discuss this context</a>
      </div>
     </details>)}
@@ -88,12 +72,6 @@ const contextExhibitIndex=story.slug==='health'?[0,2,1]:[0,1,2];
   <div class='industry-details-heading' data-enter><span class='section-label'>The detail behind a decision</span><h2>Good questions<br/>need real context.</h2></div>
   <div class='industry-details-grid'>{story.details.map(detail=><article data-enter><h3>{detail.title}</h3><p>{detail.text}</p></article>)}</div>
  </section>
- <section class='industry-evidence section-dark' id={sectionId+'-brief'}>
-  <div class='section-heading' data-enter><h2>Make the context<br/><em>concrete.</em></h2><p>Three useful pieces of context for a first {story.name.toLowerCase()} conversation. Bring descriptions or redacted examples you are able to share.</p></div>
-  <div class='industry-exhibit-list'>{brief.exhibits.map((exhibit,index)=><article class='industry-exhibit-row' id={sectionId+'-example-'+index} data-enter><div class='industry-exhibit-preparation'><h3>{exhibit.title}</h3><h4>Bring into view</h4><p>{exhibit.bring}</p><h4>The question it clarifies</h4><p>{exhibit.clarify}</p><p class='industry-exhibit-prompt'>Compare the two states in the example, then bring a description of the condition that changes your own decision.</p></div><EvidenceExhibit exhibit={industryExhibits[story.slug][index]} compact/></article>)}</div>
-  <div class='industry-review-lenses'>{brief.review.map(review=><article data-enter><h3>{review.title}</h3><p>{review.text}</p></article>)}</div>
-  <div class='industry-evidence-continuation'><a class='inline-link' data-prepare-inquiry href={'/contact?project='+story.contact+'&topic='+encodeURIComponent(story.name+': a first conversation')}>Start with your context</a><a class='inline-link' href='/work'>Explore the documented design studies</a><a class='inline-link' href={'/resources/studies/'+story.slug+'-context-worksheet.txt'} download>Save the context worksheet</a></div>
- </section>
  <section class='industry-ventures' id={sectionId+'-ventures'}>
   <div class='industry-ventures-heading' data-enter><span class='section-label'>Within NRTH</span><h2>Different starting points.<br/><em>A wider view.</em></h2><p>These venture directions bring distinct perspectives to {story.name.toLowerCase()} questions. Their relationship is a way to frame the conversation; current scope is confirmed separately.</p></div>
   <div class='industry-ventures-list'>{story.ventures.map(venture=><article data-enter><div><span class='section-label'>{venture.role}</span><h3><a href={'/projects/'+venture.slug}>{projectFor(venture.slug).name}</a></h3></div><div><p>{venture.connection}</p><a class='inline-link' href={'/projects/'+venture.slug}>Explore the venture</a></div></article>)}</div>
@@ -102,8 +80,7 @@ const contextExhibitIndex=story.slug==='health'?[0,2,1]:[0,1,2];
   <div data-enter><span class='section-label'>Before a conversation</span><h2>Your questions.</h2></div>
   <div class='industry-question-list'>{story.questions.map(question=><details><summary>{question.question}<span class='industry-context-sign' aria-hidden='true'></span></summary><p>{question.answer}</p></details>)}{story.slug==='research'&&<a class='inline-link' href='/research'>Try the visual study</a>}</div>
  </section>
- <section class='industry-adjacent industry-adjacent-quality'><div class='section-heading' data-enter><h2>The next<br/><em>connection.</em></h2><p>A {story.name.toLowerCase()} question can open a different perspective. Explore the relationship before deciding where the work belongs.</p></div><div class='industry-adjacent-grid'>{industryStories.filter(item=>item.slug!==story.slug).map(item=><a href={'/industries/'+item.slug} data-enter><h3>{item.name}</h3><p>{brief.adjacent.find(adjacent=>adjacent.slug===item.slug)?.reason||item.perspectiveCopy}</p></a>)}</div><a class='inline-link' href='/projects'>See all nine NRTH ventures</a></section>
- <StructuredEditorial editorial={industryEditorial} id={'industry-'+story.slug+'-editorial'} heading='A closer view of the field.'/>
+ <section class='industry-adjacent'><span class='section-label'>Keep exploring</span><div>{industryStories.filter(item=>item.slug!==story.slug).map(item=><a href={'/industries/'+item.slug}>{item.name}</a>)}</div><a class='inline-link' href='/projects'>See all nine NRTH ventures</a></section>
  <ContactInvitation project={story.contact} headline={'Let’s talk '+story.name+'.'}/>
 </Layout>
 <script>import '../scripts/industry-stories';</script>

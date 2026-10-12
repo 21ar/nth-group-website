@@ -30,7 +30,7 @@ export class MatterRenderer {
     panels.forEach(([x,y,z,w,h,rx,ry,color,intensity])=>{const mat=new THREE.MeshBasicMaterial({color:new THREE.Color(color).multiplyScalar(intensity),side:THREE.DoubleSide});const plane=new THREE.Mesh(new THREE.PlaneGeometry(w,h),mat);plane.position.set(x,y,z);plane.rotation.set(rx,ry,0);room.add(plane);});
     const pmrem=new THREE.PMREMGenerator(this.renderer);this.env=pmrem.fromScene(room,.035);this.scene.environment=this.env.texture;pmrem.dispose();
     room.traverse(object=>{if(object instanceof THREE.Mesh){object.geometry.dispose();(object.material as THREE.Material).dispose();}});
-    const material=new THREE.MeshPhysicalMaterial({color:'#b6bcc5',metalness:.94,roughness:.19,clearcoat:.7,clearcoatRoughness:.18,envMapIntensity:1.3});
+    const material=new THREE.MeshPhysicalMaterial({color:'#a9afb9',metalness:1,roughness:.13,clearcoat:.7,clearcoatRoughness:.12,envMapIntensity:1.25});
     this.mesh=new THREE.InstancedMesh(new RoundedBoxGeometry(1,1,1,3,.15),material,this.count);
     this.mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);this.mesh.frustumCulled=false;
     for(let i=0;i<this.count;i++)this.mesh.setColorAt(i,this.white);
@@ -45,7 +45,6 @@ export class MatterRenderer {
     this.group.add(this.mesh);this.scene.add(this.group);
     const key=new THREE.DirectionalLight('#ffffff',3);key.position.set(4,5,7);this.scene.add(key);
     const rim=new THREE.DirectionalLight('#ff743b',5);rim.position.set(-2,-3,3);this.scene.add(rim);
-    this.scene.add(new THREE.HemisphereLight('#f2f0e9','#282635',.6));
     this.camera.position.set(0,0,8.8);this.camera.lookAt(0,0,0);
     this.renderer.domElement.setAttribute('aria-hidden','true');host.append(this.renderer.domElement);this.resize(host);
   }
@@ -74,7 +73,7 @@ export class MatterRenderer {
       this.object.position.set(x+(x-targetX)*influence,y+(y-targetY)*influence,z+influence*.9);
       this.direction.set(pose.direction[o],pose.direction[o+1],pose.direction[o+2]);
       this.object.quaternion.setFromUnitVectors(this.up,this.direction);
-      const selected=this.detailWeights.reduce((total,weight,j)=>total+weight*pose.inspection[o+j],0);
+      const selected=this.detailWeights.reduce((sum,weight,part)=>sum+weight*pose.inspection[o+part],0);
       this.object.scale.set(pose.size[o]*(1+selected*.055),pose.size[o+1],pose.size[o+2]*(1+selected*.055));this.object.updateMatrix();this.mesh.setMatrixAt(i,this.object.matrix);
       this.fragmentColor.copy(this.white).lerp(this.dim,inspection*.65).lerp(this.warm,selected*.62);this.mesh.setColorAt(i,this.fragmentColor);
       if(!this.centered){

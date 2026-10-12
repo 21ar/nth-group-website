@@ -14,15 +14,9 @@ Run `npm run dev` and save a source file. Changes appear through hot reload. Pub
 | Investor comparison and reading packs | `src/data/investor-perspectives.ts`, `src/components/InvestorCompare.astro`, `src/scripts/investor-compare.ts` |
 | Experiment starter questions and methods | `src/data/experiment-directions.ts`, `src/components/ExperimentPlanner.astro`, `src/scripts/experiment-planner.ts` |
 | Venture focus explorers | `src/data/project-details.ts` |
-| Venture context, preparation, outputs and review criteria | `src/data/venture-perspectives.ts`, `src/styles/venture-quality.css` |
 | Venture audiences, workflows, scenarios and questions | `src/data/venture-stories.ts`, `src/components/VentureStories.astro` |
 | Portfolio relationship stories and constellation | `src/data/connections.ts`, `src/components/ConnectionsExplorer.astro`, `src/scripts/connections-explorer.ts` |
 | Journal writing | `src/data/articles.ts` |
-| Journal reading structure, cards and interactive diagrams | `src/data/journal-guides.ts`, `src/components/JournalCard.astro`, `src/components/JournalDiagram.astro` |
-| Company, approach and partnership illustrated lenses | `src/data/editorial-models.ts`, `src/components/EditorialModel.astro`, `src/scripts/editorial-model.ts` |
-| Research and investor evidence lenses | `src/data/decision-lenses.ts`, `src/components/DecisionLens.astro`, `src/scripts/decision-lens.ts` |
-| Investor industry diligence | `src/data/investor-field-questions.ts` |
-| Original six-field graphics and nine venture variants | `src/data/quality-graphics.ts`, `src/components/QualityPlate.astro`, `src/scripts/quality-plate.ts`, `src/styles/quality-plate.css` |
 | Homepage / company / investors | `src/components/HomePage.astro`, `CompanyPage.astro`, `InvestorsPage.astro` |
 | Shared venture / article layouts | `src/components/VenturePage.astro`, `ArticlePage.astro` |
 | Colour, typography and responsive layout | `src/styles/matterfield.css` |
@@ -34,9 +28,6 @@ Run `npm run dev` and save a source file. Changes appear through hot reload. Pub
 | Partnership outline and inquiry handoff | `src/components/PartnershipBrief.astro`, `src/scripts/partnership-brief.ts`, `src/styles/partnership-brief.css` |
 | Original artwork / venture cover mapping | `src/assets/matterfield/`, `src/data/visuals.ts` |
 | Delivery / editorial configuration | `.env.local` or private Vercel settings |
-| Structured sections, scope, examples and source validation | `src/data/editorial-content.ts`, `src/data/editorial-defaults.ts`, `src/data/content.ts` |
-| Shared editorial detail and resource shelves | `src/components/StructuredEditorial.astro`, `src/styles/structured-editorial.css` |
-| Editor fields and initial draft metadata | `studio/schema.ts`, `scripts/seed-cms.mjs` |
 
 The geometry is generated directly from deterministic formulas. No baking step is required. Industry order in `industries.ts` follows Mobility, Health, Systems, Materials, Events and Research. Each label matches a form in `matter-geometry.ts`. Preserve the common fragment count across poses so a new selection can begin from the displayed geometry.
 
@@ -50,17 +41,11 @@ The research planner supports 24 field/method combinations and 18 starter questi
 
 Run `npm run test:depth` against a fresh production preview after editing these experiences. The existing browser and enrichment suites cover their surrounding flows. The industry directory and all six guides are linked from the homepage, opening inspector and footer.
 
-The vector studies illustrate relationships rather than live product data. Keep their geometry, accessibility description and adjacent explanation aligned. Approved CMS venture covers still take precedence over repository illustrations. Journal diagrams remain attached to their established article URLs after a writing edit. Structured CMS diagram records can update their interpretation, three lenses, and paragraph section boundaries coherently. The detailed reading lenses use native disclosures with position preservation so closing an earlier panel does not move the selected heading out of view. Use `npm run test:quality` after changing these controls, motion or graphics. Homepage, header, footer and contact refinements have separate `*-quality.css` files imported by their components.
-
 ## Visual content editing
 
-Sanity Studio supports venture writing, confirmed stage and review date, current public scope, approved covers, product URLs, industry copy, company facts, journal articles and milestones. Structured sections, worked-example inputs and steps, captions, sources, approved downloads, relationships and article diagram metadata are editable alongside the writing. Editors can use drafts, revision history and publish controls without changing source files. Company facts now feed the Company page directly. See [cms-setup.md](cms-setup.md).
+Sanity Studio supports venture writing, confirmed stage and review date, approved covers, product URLs, industry copy, company facts, journal articles and milestones. Editors can use drafts, revision history and publish controls without changing source files. See [cms-setup.md](cms-setup.md).
 
 Private website previews check drafts every five seconds and refresh while retaining scroll position. Published content is fetched at the next build. The editing infrastructure requires an actual project, dataset, read token, preview key and publish hook to operate with a live account. Repository defaults work without those settings.
-
-Every public page and generated resource uses one frozen content snapshot for that deployment; private draft previews use a separate short-lived cache. A malformed edited record cannot remove a usable repository page, and an unsafe link cannot enter a source or download shelf. Keep stable section IDs when changing their wording, and update article paragraph boundaries if a structural edit adds or removes paragraphs. Create new local resources before adding their paths to `approvedResourcePaths` in `src/data/editorial-content.ts`. Confirm scope, dates, reviewers, availability and company facts with their owner before publishing.
-
-Use `node scripts/verify-editorial.mjs` to verify this structured content contract after editing the loader, schema, or draft initializer. It tests public snapshot consistency and draft separation using mocked content requests.
 
 ## Review and publish
 

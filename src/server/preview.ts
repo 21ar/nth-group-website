@@ -1,6 +1,5 @@
 import {createHmac, timingSafeEqual} from 'node:crypto';
 export const cookieName = 'nrth-preview';
-export function privatePreviewRedirect(path='/preview') {return new Response(null,{status:302,headers:{Location:path,'Cache-Control':'private, no-store'}});}
 const secret = () => process.env.CMS_PREVIEW_SECRET || import.meta.env.CMS_PREVIEW_SECRET || '';
 export function equalSecret(value: string, expected = secret()) {const a = Buffer.from(value), b = Buffer.from(expected); return Boolean(b.length) && a.length === b.length && timingSafeEqual(a,b);}
 export function createPreviewSession() {const expires = String(Date.now() + 3600000); return expires + '.' + createHmac('sha256',secret()).update(expires).digest('hex');}

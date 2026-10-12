@@ -1,5 +1,4 @@
-import {takePreparedInquiry,saveText,emitDiscovery} from './prepared-inquiry';
-import {preparedInquiryText} from '../data/inquiry-context';
+export {};
 const form = document.querySelector<HTMLFormElement>('[data-inquiry-form]');
 if (form) {
   form.hidden = false;
@@ -24,31 +23,6 @@ if (form) {
       const outline = stored ? JSON.parse(stored) : null;
       if (outline?.version === 1 && typeof outline.message === 'string' && outline.message.length <= 4500 && typeof outline.createdAt === 'number' && outline.createdAt <= Date.now() && Date.now() - outline.createdAt < 3600000) messageField.value = outline.message;
     } catch { /* The ordinary editable inquiry remains available. */ }
-  }
-  const prepared = takePreparedInquiry();
-  if (prepared && messageField && select && (!project || project === prepared.project)) {
-    select.value = prepared.project;
-    const carried = preparedInquiryText(prepared);
-    messageField.value = carried + '\n\nWhat I would like to discuss:\n';
-    const context = form.querySelector<HTMLElement>('[data-prepared-context]');
-    const list = context?.querySelector<HTMLElement>('[data-prepared-context-items]');
-    if (context && list) {
-      context.hidden = false;
-      list.replaceChildren(...prepared.items.map(item => {
-        const row = document.createElement('li'),label = document.createElement('strong'),value = document.createElement('span');
-        label.textContent = item.label;value.textContent = item.value;row.append(label,value);return row;
-      }));
-      const contextStatus = context.querySelector<HTMLElement>('[data-prepared-context-status]');
-      context.querySelector('[data-prepared-context-copy]')?.addEventListener('click',async()=>{
-        try {await navigator.clipboard.writeText(carried);if(contextStatus)contextStatus.textContent='Starting point copied. Nothing has been sent.';}
-        catch {messageField.focus();messageField.select();if(contextStatus)contextStatus.textContent='Automatic copy is unavailable. Select the editable message below, or save the starting point.';}
-      });
-      context.querySelector('[data-prepared-context-save]')?.addEventListener('click',()=>saveText(carried,'nrth-prepared-context.txt'));
-      context.querySelector('[data-prepared-context-clear]')?.addEventListener('click',()=>{
-        if(messageField.value.startsWith(carried))messageField.value=messageField.value.slice(carried.length).replace(/^\s*What I would like to discuss:\s*/, '');
-        context.hidden=true;messageField.focus();messageField.dispatchEvent(new Event('input',{bubbles:true}));
-      });
-    }
   }
   const preview = form.querySelector<HTMLElement>('[data-inquiry-preview]');
   const status = form.querySelector<HTMLElement>('[data-inquiry-status]');
@@ -88,7 +62,6 @@ if (form) {
   form.addEventListener('submit', event => {
     event.preventDefault();
     if (!form.reportValidity()) return;
-    emitDiscovery('inquiry_reviewed',{venture:select?.value || 'general'});
     const values = new FormData(form);
     const selectedName = select?.selectedOptions[0]?.textContent || 'General inquiry';
     const subject = `NRTH inquiry — ${selectedName}`;

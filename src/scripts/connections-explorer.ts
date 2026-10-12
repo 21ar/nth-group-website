@@ -99,10 +99,6 @@ for (const explorer of document.querySelectorAll<HTMLElement>('[data-connections
     item.addEventListener('focusin', () => preview(item.dataset.connectionRelated));
     item.addEventListener('focusout', event => { if (!item.contains(event.relatedTarget as Node | null)) preview(); });
   });
-  explorer.querySelectorAll<HTMLDetailsElement>('[data-connection-handoff]').forEach(item=>item.addEventListener('toggle',()=>{
-    if(item.open){preview(item.dataset.connectionHandoff);explorer.dataset.connectionHandoff=item.dataset.connectionHandoff;}
-    else if(explorer.dataset.connectionHandoff===item.dataset.connectionHandoff){preview();delete explorer.dataset.connectionHandoff;}
-  }));
   explorer.querySelectorAll<HTMLElement>('[data-connection-static]').forEach(element => { element.hidden = true; });
   explorer.querySelector<HTMLElement>('[data-connection-controls]')!.hidden = false;
   explorer.querySelector<HTMLElement>('[data-connection-stories]')!.hidden = false;

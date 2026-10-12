@@ -89,45 +89,7 @@ The review corrected early Mobility artwork overlap by reserving its art area be
 
 Astro validation covers 98 files with zero errors, warnings or hints. The build produces 32 public static pages, social images and Vercel handlers. Geometry and mocked-service suites remain 92 and 28 checks. The existing software-graphics, physical-device and optional live-service limits still apply.
 
-## Detail and graphic quality across the portfolio
-
-The homepage now leads into a searchable nine-venture portfolio with distinct artwork for each venture. Its company section explains what stays specific and what knowledge can travel. The research spread introduces the actual studies and outline tool, the journal has illustrated reading cards, and investor links lead to comparison, reference material and a focused inquiry.
-
-Six original chrome vector forms support nine genuinely different venture variants. Curved routes, interwoven information, architectural boundaries, material cells, a folded spectrum and branching research share a coherent material language. Their components assemble reversibly with native scrolling, respond gently to pointer or linked-card focus and stop when settled, hidden, paused or offscreen. Repeated paths are defined once per graphic and reused for material layers. The production homepage is 581,201 bytes of HTML, or 120,940 bytes using gzip; no extra WebGL context is introduced for these illustrations. The existing 3D material has softer reflections and more legible shaded faces.
-
-Every venture adds its own practical question, relevant audience, preparation notes, proposed outputs, review questions and relationship explanations. Six industry guides add evidence exhibits and cross-field reasoning. Company, Approach and Partnerships use original illustrated reading models; Research and Investors connect four evidence lenses to concrete records and next decisions. Three articles have deeper examples, reading navigation and distinct native-radio diagrams that work without JavaScript. Press preserves the original four letter contours in filled and outline specimens, with scalable assets and a downloadable company reference. Contact adds useful preparation and conversation-specific reading paths. Footer links keep those paths accessible.
-
-| Review finding | Correction and evidence |
-| --- | --- |
-| Transparent fixed navigation covered reading content. | An opaque graphite surface appears after scrolling; checked on desktop and both phone widths. |
-| Closing an earlier disclosure moved the chosen heading offscreen. | Enhanced native disclosures preserve the selected summary within 2px and keep keyboard focus. |
-| New portfolio graphics inherited a tall photograph container; industry art was too small. | Matched the sticky composition to the SVG and gave industry illustrations a generous, full-width space. |
-| Detailed chrome layers repeated long path geometry. | Shared SVG definitions preserve the rendering with less markup; IDs and references remain unique and valid. |
-
-The [current screenshots and result records](design/matterfield/qa/quality/) cover the opening, portfolio, company/approach models, research/investor evidence, journal and phone contact. The fresh production output passed **325 browser**, **165 enrichment**, **155 depth** and **358 quality** checks, totaling **1,003 maintained browser assertions**. The focused industry pass completed another **169 checks**, for **1,172 browser checks**. Geometry and mocked-service validation passed **92** and **28** checks respectively. Astro checked **113 files** with zero errors, warnings or hints; the build produced **32 public static pages**, canonical resources, social images and Vercel handlers. No email was sent during verification.
-
-Reviewed states included 1440px desktop, 390px phone and 320px narrow phone, keyboard navigation, no JavaScript, reduced motion, global pause, actual exports and offscreen/idle rest. The prior physical-device and optional live-service limitations remain. No blocking design or interaction findings remained in the reviewed states.
-
 final result: passed
 
-## Prior connected-story overhaul (superseded visual direction)
 
-The next-stage revision adds a joined ribbon surface, geometry-based inspection, a shorter native-scroll sequence, the nine-form atlas, a converging framework, nine semantic worked examples, eighteen industry exhibits, eight illustrated articles and four documented design studies. Global public search and one-hour inquiry context connect discovery to an editable introduction. Structured CMS content preserves diagrams when prose changes and separates public snapshots from private draft reads.
-
-The fresh visual review identified hard fragment seams, dim stopped transitions, an atlas/title collision, remote phone inspection feedback and small timeline labels. The implemented refinements use joined surfaces, clear idle copy, shared atlas silhouettes, stable phone hit regions, nearby selected-part descriptions and 15px responsive legends. The still poster comes from the actual ribbon renderer. Captures made before those refinements are explicitly marked in the independent audit; they are not final release proof.
-
-Final local validation passed 1,775 maintained browser assertions: 325 regression, 165 enrichment, 158 depth, 358 graphic/editorial quality, 316 integrated experience, 36 search/context, 228 studies/exhibits, 38 interrupted example motion and 151 expanded editorial checks. Geometry/data/service contracts passed 319 checks (236 geometry, 28 mocked services, 35 structured editorial and 20 discovery). Astro checked 165 files with zero errors, warnings or hints. The production build generates 42 normal public pages plus 404, 43 social images, fifteen study resources and the Vercel handlers. The generated document audit passed 6,080 checks, including cross-page fragments and assets. No email was sent.
-
-The homepage HTML is approximately 59KB compressed, compared with approximately 121KB in the preceding revision. Three.js remains a lazily imported approximately 134KB compressed chunk with Vite’s standard large-chunk advisory. These byte counts are build evidence, not real-user Core Web Vitals or physical-GPU benchmarks. Live CMS/Resend accounts were not configured in this execution environment. Current results and screenshots are under ignored artifacts/next-stage, artifacts/next-stage-audit, artifacts/studies, artifacts/editorial-review and the maintained regression directories. The implementation record is design/matterfield/next-stage-implementation.md.
-
-
-## Refinement of the preferred version
-
-The visual baseline is again `267131c`: the original mineral opening, its six forms, large portfolio illustrations and architectural company image. The newer icon atlas, ribbon surface, modular framework and standalone homepage transportation model have been removed from the public homepage. Expanded venture/industry examples, search, journal articles, studies, inquiry preparation and structured editorial tools remain in their dedicated reading paths.
-
-The acceptance targets are preservation of that visual identity, continuous reversible motion, readable stopped captions, geometry-based inspection, filtered previews that agree with the results, artwork that follows native reading, keyboard selection priority, recoverable empty searches and usable narrow-phone/native alternatives. Current verification evidence is recorded with the final test run rather than inherited from the superseded overhaul.
-
-
-The restored version passed 1,463 browser assertions: 325 general regression, 170 continuous-story/inspection, 339 integrated experience, 364 graphic/editorial quality, 37 discovery/context and 228 studies/exhibits. Geometry passed 152 checks; discovery, mocked service and structured editorial contracts passed 83 more. Astro checked 165 files with no errors, warnings or hints. The production build and 6,882 public-document checks passed across 42 normal pages. Fresh accepted captures are in ignored `artifacts/preferred-refinement` and the maintained regression directories.
-
-The motion review caught an outgoing layer intercepting a caption and fractional transform residues after reported settlement. Outgoing layers now ignore pointer events, and settled captions reach exact resting values. Tests verify actual hit targets during a transition, full opacity and zero vertical translation after settlement, ordinary inspector clicks and focus restoration. The fallback poster has a shallow protected header region; its size is unchanged. No real inquiry was sent.
+The complete original visual baseline has been restored from the owner-selected revision `a4529e3`. Current acceptance evidence is in [the restoration record](design/matterfield/restoration.md): 918 browser assertions, 180 geometry/service checks, 2,207 public-document checks, both builds and source checks pass. Fresh deployed-reference comparisons confirm the original page structures and rendered imagery, including supporting pages.

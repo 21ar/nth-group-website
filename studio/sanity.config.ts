@@ -8,8 +8,7 @@ const Preview: DocumentActionComponent = ({draft,published}) => {
   const document = draft || published;
   const type = document?._type;
   const slug = document?.slug as string | {current:string} | undefined;
-  const field=typeof document?.name==='string'?document.name.toLowerCase():undefined;
-  const path = type === 'venture' && typeof slug === 'string' ? '/preview/venture/' + slug : type === 'article' && typeof slug === 'object' ? '/preview/article/' + slug.current : type==='industry'&&field?'/preview/industry/'+field:type === 'milestone' ? '/preview/investors' : type==='siteSettings'?'/preview/company':'/preview/home';
+  const path = type === 'venture' && typeof slug === 'string' ? '/preview/venture/' + slug : type === 'article' && typeof slug === 'object' ? '/preview/article/' + slug.current : type === 'milestone' ? '/preview/investors' : '/preview/home';
   return {label:'Preview on website',onHandle:()=>window.open(new URL(path,site).href,'_blank','noopener,noreferrer')};
 };
 export default defineConfig({

@@ -1,8 +1,3 @@
 import {projects} from './projects';
-import {venturePerspectives} from './venture-perspectives';
 export type ProjectDetails={statement:string;audience:string[];capabilities:{title:string;text:string}[];journey:{title:string;text:string}[];connection:string;};
-// Preserve the editable Sanity contract while supplying specific repository defaults.
-export const projectDetails:Record<string,ProjectDetails>=Object.fromEntries(projects.map(project=>{
- const perspective=venturePerspectives[project.slug];
- return [project.slug,{statement:perspective.question,audience:perspective.audience,capabilities:project.focus,journey:perspective.preparation,connection:perspective.connection}];
-}));
+export const projectDetails:Record<string,ProjectDetails>=Object.fromEntries(projects.map(project=>[project.slug,{statement:project.headline,audience:project.category==='Health'?['People navigating care','Care organizations']:project.category==='Mobility'?['Operational teams','Transport partners']:['Potential collaborators','Organizations'],capabilities:project.focus,journey:[{title:'Frame the question',text:'Describe the task, its context and the change you want to examine.'},{title:'Investigate the direction',text:'Discuss constraints, assumptions and the evidence needed for the next decision.'},{title:'Choose the next step',text:'Establish scope and responsibilities around a specific opportunity.'}],connection:'The wider portfolio brings additional perspectives to '+project.category.toLowerCase()+'.'}]));

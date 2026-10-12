@@ -2,36 +2,16 @@
 import Layout from '../layouts/Layout.astro';
 import ArtworkImage from './ArtworkImage.astro';
 import ContactInvitation from './ContactInvitation.astro';
-import JournalDiagram from './JournalDiagram.astro';
-import StructuredEditorial from './StructuredEditorial.astro';
 import {projectArtwork} from '../data/visuals';
-import {getProjects,getArticles,getArticleEditorial,type ContentArticle} from '../data/content';
-import {journalGuideForArticle,journalReadingTime} from '../data/journal-guides';
-import '../styles/journal-quality.css';
-interface Props {article:ContentArticle;draft?:boolean;}
+import {getProjects} from '../data/content';
+interface Props {article:import('../data/articles').Article;draft?:boolean;}
 const {article,draft=false}=Astro.props;
 const related=(await getProjects(draft)).filter(project=>article.related.includes(project.slug));
-const furtherReading=(await getArticles(draft)).filter(item=>item.slug!==article.slug).sort((a,b)=>Number(b.related.some(slug=>article.related.includes(slug)))-Number(a.related.some(slug=>article.related.includes(slug)))).slice(0,3);
-const editorial=await getArticleEditorial(article.slug,draft);
 const art=projectArtwork(article.category==='Research'?'nrth-labs':article.category==='Mobility'?'nrth-tms':'nrth-health');
-const guide=journalGuideForArticle(article);
-const sections=guide?.sections.map((section,i)=>({...section,paragraphs:article.paragraphs.slice(section.startsAt,guide.sections[i+1]?.startsAt)}));
 ---
 <Layout noindex={draft} title={article.title} description={article.description} kind='article' publishedAt={article.publishedAt} author={article.author}>
  {draft&&<aside class='preview-banner'><a href='/preview'>Editorial workspace</a><span data-preview-status>Draft preview</span></aside>}
- <article>
-  <header class='page-heading article-intro journal-article-intro'><span class='section-label'>{article.category} · The NRTH journal</span><h1>{article.title}</h1><p>{article.description}</p><div class='article-meta'><span>{article.author}</span><time datetime={article.publishedAt}>{new Intl.DateTimeFormat('en',{dateStyle:'long',timeZone:'UTC'}).format(new Date(article.publishedAt+'T12:00:00Z'))}</time><span>{journalReadingTime(article)} min read</span></div></header>
-  {guide&&<div class='journal-reading-guide'><span>In this perspective</span><nav aria-label='In this article'>{guide.sections.map(section=><a href={'#'+section.id}>{section.title}</a>)}</nav></div>}
-  {guide?<JournalDiagram guide={guide} slug={article.slug}/>:<figure class='wide-art' data-image-reveal><ArtworkImage src={art.src} width={1600} height={1100} alt={art.alt} widths={[640,1100,1600]} sizes='90vw' format='webp' loading='lazy'/></figure>}
-  <div class='article-prose journal-article-body'>
-   {sections?sections.map(section=><section class='journal-prose-section' id={section.id} aria-labelledby={section.id+'-title'}><h2 id={section.id+'-title'}>{section.title}</h2>{section.paragraphs.map(paragraph=><p>{paragraph}</p>)}</section>):article.paragraphs.map(paragraph=><p>{paragraph}</p>)}
-   {article.prompts?.length&&<section class='journal-reflection'><h2>Take the question<br/>with you.</h2><ul>{article.prompts.map(prompt=><li>{prompt}</li>)}</ul></section>}
-   {article.references?.length&&<section class='journal-reference-list' aria-labelledby='article-references'><h2 id='article-references'>Sources and further reading.</h2><ol>{article.references.map(reference=><li><a href={reference.href} rel='noreferrer'>{reference.title}</a><p>{reference.note}</p></li>)}</ol><p class='journal-figure-note'>The diagrams and scenarios are NRTH editorial illustrations. References support the specific concepts identified above; they do not validate a venture, product or application.</p></section>}
-  </div>
-  {guide&&<section class='journal-application'><h2>{guide.application.title}</h2><div><p>{guide.application.text}</p><a class='inline-link' href={guide.application.href}>{guide.application.link}</a></div></section>}
- </article>
- <StructuredEditorial editorial={{...editorial,references:article.references?.length?[]:editorial.references}} id='article-detail' heading='Follow the idea into the detail.'/>
+ <article><header class='page-heading article-intro'><span class='section-label'>{article.category} · The NRTH journal</span><h1>{article.title}</h1><p>{article.description}</p><div class='article-meta'><span>{article.author}</span><time datetime={article.publishedAt}>{new Intl.DateTimeFormat('en',{dateStyle:'long',timeZone:'UTC'}).format(new Date(article.publishedAt+'T12:00:00Z'))}</time></div></header><figure class='wide-art' data-image-reveal><ArtworkImage src={art.src} width={1600} height={1100} alt={art.alt} widths={[640,1100,1600]} sizes='90vw' format='webp' loading='lazy'/></figure><div class='article-prose'>{article.paragraphs.map(paragraph=><p>{paragraph}</p>)}{article.prompts?.length&&<><h2>Take the question with you.</h2><ul>{article.prompts.map(prompt=><li>{prompt}</li>)}</ul></>}</div></article>
  <section class='editorial-split section-dark'><div><span class='section-label'>Explore the connections</span><h2>The question<br/>continues.</h2></div><div class='related-links'>{related.map(project=><a href={'/projects/'+project.slug}><strong>{project.name}</strong><span>{project.category}</span></a>)}</div></section>
- {furtherReading.length>0&&<section class='journal-further-reading'><div><span class='section-label'>A wider perspective</span><h2>Keep the<br/>question moving.</h2></div><div>{furtherReading.map(item=><a href={'/insights/'+item.slug}><span>{item.category} · {journalReadingTime(item)} min read</span><h3>{item.title}</h3><p>{item.description}</p></a>)}</div></section>}
  <ContactInvitation/>
 </Layout>

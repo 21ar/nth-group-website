@@ -1,12 +1,12 @@
 ---
 import VenturePage from '../../../components/VenturePage.astro';
 import {getProjects} from '../../../data/content';
-import {cookieName,validPreviewSession,privatePreviewRedirect} from '../../../server/preview';
+import {cookieName,validPreviewSession} from '../../../server/preview';
 export const prerender = false;
 Astro.response.headers.set('Cache-Control','private, no-store');
-if (!validPreviewSession(Astro.cookies.get(cookieName)?.value)) return privatePreviewRedirect();
+if (!validPreviewSession(Astro.cookies.get(cookieName)?.value)) return Astro.redirect('/preview');
 const project = (await getProjects(true)).find(item => item.slug === Astro.params.slug);
-if (!project) return privatePreviewRedirect('/404');
+if (!project) return Astro.redirect('/404');
 ---
 <VenturePage project={project} draft />
 <script>import '../../../scripts/preview';</script>
