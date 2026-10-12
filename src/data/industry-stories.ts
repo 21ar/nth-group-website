@@ -262,3 +262,73 @@ export function getIndustryStory(slug: string) {
   if (!story) throw new Error('Unknown industry story: ' + slug);
   return story;
 }
+
+export type IndustryBrief = {
+ question:string;
+ exhibits:{title:string;bring:string;clarify:string}[];
+ review:{title:string;text:string}[];
+ adjacent:{slug:string;reason:string}[];
+};
+
+export const industryBriefs:Record<string,IndustryBrief>={
+ mobility:{
+  question:'Keep the commitment, the resource and the next owner in view.',
+  exhibits:[
+   {title:'A representative movement',bring:'An anonymized request with time windows, access constraints and the parties confirming the job.',clarify:'Which requirements are fixed, which can change and what needs confirmation before an assignment?'},
+   {title:'A resource decision',bring:'The information used to match a vehicle or resource to the work, including one unsuitable or unavailable case.',clarify:'Who can distinguish schedule availability from readiness, and how does that distinction reach planning?'},
+   {title:'A changed commitment',bring:'One delay, changed observation or incomplete handoff, followed through to the receiving person.',clarify:'Which promise is affected, who owns the response and what information reaches the next partner?'},
+  ],
+  review:[{title:'Trace the whole movement',text:'A clearer screen is only useful if its information survives the assignment and the next handoff. Review the decision from request to receiving commitment.'},{title:'Make uncertainty visible',text:'Separate fresh observations, assumptions and confirmed responsibilities. A plan should not gain apparent certainty merely by collecting more data.'}],
+  adjacent:[{slug:'systems',reason:'The definitions and information boundaries between operational tools.'},{slug:'materials',reason:'The application and handling context behind a specialized movement.'},{slug:'research',reason:'A focused investigation into an uncertain planning or coordination assumption.'}],
+ },
+ health:{
+  question:'Follow the person’s question through the information and the next step.',
+  exhibits:[
+   {title:'A question in its setting',bring:'The person’s own wording, the device or setting and the point at which understanding becomes difficult.',clarify:'What is the immediate question, and what can someone appropriately do with the answer?'},
+   {title:'A redacted information sample',bring:'A document or screen description with terminology, hierarchy and relevant qualifications intact.',clarify:'What needs explanation, what needs emphasis and which meaning must not be lost?'},
+   {title:'A coordination example',bring:'An anonymized handoff describing roles, outstanding information and access boundaries.',clarify:'What must stay visible when the task moves, and who accepts responsibility for the unresolved step?'},
+  ],
+  review:[{title:'Check meaning before polish',text:'Assess whether the intended audience can explain the information and find the next appropriate step. Visual simplicity should preserve the qualifications that matter.'},{title:'Define the use before the claim',text:'An information study, a coordination workflow and a clinical application have different requirements. Agree on the intended use and the relevant evidence before extending a conclusion.'}],
+  adjacent:[{slug:'systems',reason:'The access rules and information responsibilities supporting the experience.'},{slug:'research',reason:'A bounded study of comprehension, navigation or interaction.'},{slug:'events',reason:'The access and participation conditions around a shared information experience.'}],
+ },
+ systems:{
+  question:'Make the task, the contract and the recovery path understandable.',
+  exhibits:[
+   {title:'A task walkthrough',bring:'One normal case and one exception, including the people, tools and decisions encountered.',clarify:'What counts as complete, where does the work wait and how can someone recover from a mistake?'},
+   {title:'An information contract',bring:'An example record and its lifecycle, with source ownership, freshness and update expectations.',clarify:'Does the value keep the same meaning when it crosses a boundary, and what happens when it is missing or duplicated?'},
+   {title:'A future change',bring:'One likely change and the dependencies, responsibilities and observable outcomes it affects.',clarify:'How would a failed transition be recognized, and what boundary can evolve without obscuring the rest?'},
+  ],
+  review:[{title:'Follow the difficult state',text:'Review missing input, permission changes, interruption and recovery alongside the ideal workflow. Those cases often determine whether the connection is usable.'},{title:'Leave a readable reason',text:'Record why a boundary exists, who owns it and what it guarantees. A future team should be able to maintain the system without reconstructing the original conversation.'}],
+  adjacent:[{slug:'health',reason:'The human information and access conditions around an interface.'},{slug:'mobility',reason:'Operational timing, resource decisions and handoffs across tools.'},{slug:'research',reason:'A prototype that tests a specific boundary or interaction before wider change.'}],
+ },
+ materials:{
+  question:'Keep the intended application attached to the evidence.',
+  exhibits:[
+   {title:'An application description',bring:'The intended use, environment and properties essential to its performance.',clarify:'Which requirements are mandatory, and which operating conditions could change the assessment?'},
+   {title:'A relevant evidence set',bring:'Available non-confidential specifications, provenance and documents, including the conditions they describe.',clarify:'What does each source establish for this use, and which uncertainty still needs qualified assessment?'},
+   {title:'A practical responsibility map',bring:'The technical, handling and coordination roles around the possible application.',clarify:'Who has the expertise to evaluate suitability, and who owns the documentation and operating responsibilities?'},
+  ],
+  review:[{title:'Compare conditions as well as properties',text:'A specification is meaningful within the circumstances it describes. Review its applicability to the intended use rather than transferring a claim without its limits.'},{title:'Keep interest distinct from commitment',text:'An interesting material direction still requires appropriate expertise, documentation and a defined arrangement. Those requirements belong in the application conversation from the outset.'}],
+  adjacent:[{slug:'research',reason:'The focused question and method needed to investigate an uncertain property or application.'},{slug:'mobility',reason:'The responsibilities and coordination around a potential material movement.'},{slug:'systems',reason:'The information definitions and provenance records behind a technical assessment.'}],
+ },
+ events:{
+  question:'Let purpose guide the rhythm and the practical work.',
+  exhibits:[
+   {title:'An audience and purpose',bring:'Who would attend, why they would gather and the exchange or takeaway the experience should support.',clarify:'What makes the gathering useful to the people present, beyond completing a schedule?'},
+   {title:'An experience rhythm',bring:'A sketch of arrival, shared moments, transitions and time to connect.',clarify:'Where is energy needed, where is space needed and what happens between the programmed moments?'},
+   {title:'A production context',bring:'The timing, venue, access and partner constraints, with responsibility for each key decision.',clarify:'Which practical dependency could change the experience, and what contingency preserves its purpose?'},
+  ],
+  review:[{title:'Walk the experience as an attendee',text:'Review how someone arrives, understands the setting, participates and leaves. The transitions can influence the experience as much as the central moment.'},{title:'Connect every production choice',text:'Link programming, partners and practical responsibilities back to the audience and intention. A coherent experience needs both the idea and the arrangement behind it.'}],
+  adjacent:[{slug:'systems',reason:'The information and coordination interfaces surrounding the gathering.'},{slug:'research',reason:'An experiment with an unfamiliar format or shared interaction.'},{slug:'health',reason:'The access and comprehension needs that can shape participation.'}],
+ },
+ research:{
+  question:'Choose an unknown whose answer would change a decision.',
+  exhibits:[
+   {title:'A decision and its assumption',bring:'What happens next, what would have to be true and the evidence already available.',clarify:'Which unanswered question has the greatest influence on the next commitment?'},
+   {title:'A bounded method',bring:'The conditions that matter, the possible observations and the limits of a first study.',clarify:'Can the method distinguish plausible answers, and what is it incapable of establishing?'},
+   {title:'A learning record',bring:'The observations, the circumstances in which they arose and any unexpected result.',clarify:'Which conclusion is supported, what remains uncertain and should the next step continue, change or stop?'},
+  ],
+  review:[{title:'Separate evidence from interpretation',text:'Keep the observation and its conditions available for scrutiny. An appealing explanation should not become a result simply because it fits the original idea.'},{title:'Make the next choice explicit',text:'A small study creates value when it informs a commitment. Record the reason to continue, revise the question or put the direction aside.'}],
+  adjacent:[{slug:'systems',reason:'The technical boundary and interaction context behind a prototype.'},{slug:'materials',reason:'The operating conditions and evidence around an industrial question.'},{slug:'health',reason:'The person’s setting and comprehension needs around an information study.'}],
+ },
+};

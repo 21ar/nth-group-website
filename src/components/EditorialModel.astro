@@ -1,0 +1,57 @@
+---
+import {editorialModels, type EditorialModelKind} from '../data/editorial-models';
+import {glyphs} from '../data/brand';
+import '../styles/editorial-detail.css';
+interface Props {kind:EditorialModelKind;dark?:boolean;}
+const {kind,dark=false}=Astro.props;
+const model=editorialModels[kind];
+const companyNodes=[{x:105,y:126},{x:355,y:66},{x:575,y:155},{x:570,y:385},{x:335,y:470},{x:102,y:370}];
+const companyPaths=['M168 157 C238 157 230 220 300 230','M386 122 C386 190 374 207 365 230','M573 212 C528 212 485 247 421 258','M566 385 C510 385 491 310 421 290','M365 470 C365 399 355 383 355 323','M168 400 C219 400 241 321 300 291'];
+---
+<section class:list={['editorial-model',`editorial-model--${kind}`,{'editorial-model--dark':dark}]} data-editorial-model={kind}>
+ <div class='editorial-model-heading' data-enter><span class='section-label'>{model.label}</span><h2>{model.title.split('\n').map((line,i)=><Fragment>{i>0&&<br/>}{line}</Fragment>)}</h2><p>{model.description}</p></div>
+ <div class='editorial-model-workspace'>
+  <div class='editorial-model-art' aria-hidden='true'>
+   <svg viewBox='0 0 720 560' fill='none' focusable='false'>
+    <defs>
+     <linearGradient id={`editorial-silver-${kind}`} x1='80' y1='80' x2='640' y2='480' gradientUnits='userSpaceOnUse'><stop stop-color='#f2f0e9'/><stop offset='.32' stop-color='#929398'/><stop offset='.53' stop-color='#f2f0e9'/><stop offset='.76' stop-color='#50525a'/><stop offset='1' stop-color='#dcdbd6'/></linearGradient>
+     <linearGradient id={`editorial-warm-${kind}`} x1='100' y1='160' x2='580' y2='440' gradientUnits='userSpaceOnUse'><stop stop-color='#ff743b'/><stop offset='1' stop-color='#d34718'/></linearGradient>
+     <pattern id={`editorial-grid-${kind}`} width='42' height='42' patternUnits='userSpaceOnUse'><path d='M0 42V0H42' stroke='#6c7079' stroke-opacity='.12'/></pattern>
+    </defs>
+    <rect width='720' height='560' fill={`url(#editorial-grid-${kind})`}/>
+    {kind==='company'&&<>
+     <g class='editorial-company-scaffold'>{companyPaths.map(d=><path d={d} stroke={`url(#editorial-silver-${kind})`} stroke-width='2'/>)}
+      {companyNodes.map(({x,y},i)=><g transform={`translate(${x} ${y})`}><path d='M0 0L63-17L103 7L40 24Z' fill='#41434b'/><path d='M0 0L40 24V68L0 43Z' fill='#202229'/><path d='M40 24L103 7V51L40 68Z' fill='#34363f'/><path d='M0 0L63-17L103 7V51L40 68L0 43Z' stroke='#787a83' stroke-width='1.2'/>{Array.from({length:i===0?4:1},(_,j)=><path d={`M${12+j*17} ${7+j*2}L${12+j*17} ${32+j*2}`} stroke={`url(#editorial-silver-${kind})`} stroke-width='5' stroke-linecap='round'/>)}</g>)}
+     </g>
+     <g class='editorial-model-layer editorial-layer--ventures'>{companyPaths.map(d=><path d={d} stroke={`url(#editorial-warm-${kind})`} stroke-width='3' pathLength='1' class='editorial-trace'/>)}{companyNodes.map(({x,y})=><path d={`M${x} ${y}L${x+63} ${y-17}L${x+103} ${y+7}`} stroke='#ff743b' stroke-width='3'/>)}</g>
+     <g class='editorial-model-layer editorial-layer--questions'><path d='M149 153C224 38 491 52 618 194C740 349 475 554 350 472C230 383 290 102 149 153Z' stroke={`url(#editorial-warm-${kind})`} stroke-width='3' pathLength='1' class='editorial-trace'/><path d='M157 403C319 539 391 120 618 194M149 153C430 86 373 548 605 414' stroke='#f2f0e9' stroke-opacity='.7' stroke-width='1.5' stroke-dasharray='5 9'/></g>
+     <g class='editorial-company-center'><path d='M286 208L382 185L441 220V306L345 335L286 300Z' fill='#14161b' stroke='#787a83' stroke-width='1.4'/><path d='M286 208L345 243L441 220' stroke='#929398' stroke-width='1.4'/><path d='M345 243V335' stroke='#929398' stroke-width='1.4'/><g transform='translate(363 278) scale(10)' fill={`url(#editorial-silver-${kind})`}>{glyphs.map(d=><path d={d}/>)}</g></g>
+     <g class='editorial-model-layer editorial-layer--identity'><path d='M286 208L382 185L441 220V306L345 335L286 300Z' stroke='#ff743b' stroke-width='3'/><path d='M255 204L382 173L471 216M271 311L345 354L454 321' stroke='#ff743b' stroke-width='1' stroke-opacity='.5'/></g>
+    </>}
+    {kind==='approach'&&<>
+     <path class='editorial-approach-road' d='M72 394C72 200 236 74 342 168C457 270 239 423 362 460C510 505 690 259 592 129' stroke={`url(#editorial-silver-${kind})`} stroke-width='34' stroke-linecap='round' stroke-opacity='.24'/>
+     <path d='M72 394C72 200 236 74 342 168C457 270 239 423 362 460C510 505 690 259 592 129' stroke='#d9d9d3' stroke-width='1.5' stroke-opacity='.4'/>
+     <g class='editorial-model-layer editorial-layer--frame'><path d='M72 394C72 260 151 167 237 152' stroke={`url(#editorial-warm-${kind})`} stroke-width='34' stroke-linecap='round' pathLength='1' class='editorial-trace'/><path d='M124 338L206 309L270 354L188 385Z' fill='#373a43' stroke='#ecebe6' stroke-width='1.5'/><path d='M124 338V393L188 437L270 407V354M188 385V437' stroke='#ecebe6' stroke-width='1.5'/><path d='M154 341L217 353L183 374' stroke='#ff743b' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/></g>
+     <g class='editorial-model-layer editorial-layer--investigate'><path d='M237 152C393 131 400 243 356 328' stroke={`url(#editorial-warm-${kind})`} stroke-width='34' stroke-linecap='round' pathLength='1' class='editorial-trace'/><path d='M253 102L324 65L394 102V174L324 213L253 174Z' fill='#24272f' stroke='#ecebe6' stroke-width='1.5'/><path d='M253 102L324 140L394 102M324 140V213' stroke='#ecebe6' stroke-width='1.5'/><path d='M277 90L346 127M291 83L361 120M310 75L377 111' stroke='#ff743b' stroke-width='4' stroke-linecap='round'/></g>
+     <g class='editorial-model-layer editorial-layer--decide'><path d='M356 328C273 446 302 495 425 452' stroke={`url(#editorial-warm-${kind})`} stroke-width='34' stroke-linecap='round' pathLength='1' class='editorial-trace'/><path d='M387 365L459 326L531 365V438L459 477L387 438Z' fill='#24272f' stroke='#ecebe6' stroke-width='1.5'/><path d='M387 365L459 405L531 365M459 405V477' stroke='#ecebe6' stroke-width='1.5'/><path d='M416 363L449 381L505 351' stroke='#ff743b' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/></g>
+     <g class='editorial-model-layer editorial-layer--scope'><path d='M425 452C568 383 657 216 592 129' stroke={`url(#editorial-warm-${kind})`} stroke-width='34' stroke-linecap='round' pathLength='1' class='editorial-trace'/><path d='M524 173L594 137L661 172V244L594 281L524 244Z' fill='#24272f' stroke='#ecebe6' stroke-width='1.5'/><path d='M524 173L594 209L661 172M594 209V281' stroke='#ecebe6' stroke-width='1.5'/><path d='M541 161L607 195M553 154L620 188M567 147L633 181' stroke='#ff743b' stroke-width='4' stroke-linecap='round'/></g>
+    </>}
+    {kind==='partnership'&&<>
+     <g stroke={`url(#editorial-silver-${kind})`} stroke-width='22' stroke-linecap='round' stroke-opacity='.3'><path d='M42 154C229 81 242 370 405 312C507 276 540 112 679 188'/><path d='M48 396C203 483 264 132 407 212C491 258 523 406 683 357'/><path d='M145 48C148 277 565 254 571 505'/></g>
+     <g class='editorial-model-layer editorial-layer--operations'><path d='M42 154C229 81 242 370 405 312C507 276 540 112 679 188' stroke={`url(#editorial-warm-${kind})`} stroke-width='22' stroke-linecap='round' pathLength='1' class='editorial-trace'/><path d='M110 133L148 161M548 177L582 211' stroke='#f2f0e9' stroke-width='6'/></g>
+     <g class='editorial-model-layer editorial-layer--technical'><path d='M48 396C203 483 264 132 407 212C491 258 523 406 683 357' stroke={`url(#editorial-warm-${kind})`} stroke-width='22' stroke-linecap='round' pathLength='1' class='editorial-trace'/><path d='M170 377L204 412M488 325L529 306' stroke='#f2f0e9' stroke-width='6'/></g>
+     <g class='editorial-model-layer editorial-layer--experience'><path d='M145 48C148 277 565 254 571 505' stroke={`url(#editorial-warm-${kind})`} stroke-width='22' stroke-linecap='round' pathLength='1' class='editorial-trace'/><path d='M161 125L200 105M528 411L566 388' stroke='#f2f0e9' stroke-width='6'/></g>
+     <g transform='translate(0 8)'><path d='M299 230L367 196L430 231L364 267Z' fill={`url(#editorial-silver-${kind})`}/><path d='M299 230V301L364 338V267Z' fill='#474a53' stroke='#dcdbd6' stroke-width='1.4'/><path d='M364 267L430 231V301L364 338Z' fill='#24272f' stroke='#dcdbd6' stroke-width='1.4'/><path d='M322 218L387 254M343 208L409 243' stroke='#ff743b' stroke-width='3'/></g>
+    </>}
+   </svg>
+   <p class='editorial-model-caption'>An illustrative model of {kind==='company'?'the portfolio’s structure':kind==='approach'?'how a question develops':'perspectives meeting around a question'}.</p>
+  </div>
+  <div class='editorial-model-lenses'>
+   {model.lenses.map((lens,index)=><details name={`editorial-${kind}`} data-editorial-lens={lens.key} open={index===0}>
+    <summary><span>{lens.title}</span><span class='editorial-lens-mark' aria-hidden='true'></span></summary>
+    <div class='editorial-lens-content'><p>{lens.description}</p><dl><div><dt>{kind==='company'?'What it gives the portfolio':'What it should produce'}</dt><dd>{lens.output}</dd></div><div><dt>{kind==='company'?'A useful boundary':'A useful test'}</dt><dd>{lens.test}</dd></div></dl></div>
+   </details>)}
+  </div>
+ </div>
+</section>
+<script>import '../scripts/editorial-model';</script>

@@ -1,8 +1,11 @@
 ---
 import {getIndustries} from '../data/content';
+import {industryBriefs} from '../data/industry-stories';
+import QualityPlate from './QualityPlate.astro';
 import '../styles/industry-directory.css';
+import '../styles/industry-quality.css';
 interface Props {draft?:boolean;}
 const {draft=false}=Astro.props;
 const fields=await getIndustries(draft);
 ---
-<section class='industry-directory' id='industry-guides'><div class='section-heading' data-enter><h2>Go beyond<br/><em>the surface.</em></h2><p>Explore the work, the decisions and the different perspectives behind each field.</p></div><div class='industry-guide-grid'>{fields.map(field=><a href={'/industries/'+field.name.toLowerCase()} data-enter><h3>{field.name}</h3><p>{field.copy}</p><span>{field.ventures.map(v=>'NRTH '+v).join(' · ')}</span></a>)}</div></section>
+<section class='industry-directory industry-directory-quality' id='industry-guides'><div class='section-heading' data-enter><h2>Go beyond<br/><em>the surface.</em></h2><p>Six fields. Distinct questions, shared curiosity. Explore the decisions, evidence and people behind each direction.</p></div><div class='industry-guide-grid'>{fields.map(field=><a href={'/industries/'+field.name.toLowerCase()} data-enter><div class='industry-guide-art'><QualityPlate kind={field.name.toLowerCase()} variant={'directory-'+field.name.toLowerCase()} compact/></div><div class='industry-guide-copy'><h3>{field.name}</h3><p>{field.copy}</p><p class='industry-guide-question'>{industryBriefs[field.name.toLowerCase()].question}</p><span>{field.ventures.map(v=>'NRTH '+v).join(' · ')}</span></div></a>)}</div></section>

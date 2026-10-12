@@ -1,0 +1,18 @@
+---
+import type {Article} from '../data/articles';
+import {journalGuideForArticle,journalReadingTime} from '../data/journal-guides';
+import QualityPlate from './QualityPlate.astro';
+import '../styles/journal-quality.css';
+interface Props {article:Article;compact?:boolean;}
+const {article,compact=false}=Astro.props;
+const guide=journalGuideForArticle(article);
+const kind=guide?.kind||(article.category==='Research'?'research':article.category==='Mobility'?'mobility':'systems');
+const graphicLabels={health:'Attention and connection.',mobility:'Movement and responsibility.',research:'A question taking shape.',systems:'A structure for the idea.'};
+---
+<a class:list={['journal-card',{'journal-card-compact':compact}]} href={'/insights/'+article.slug} data-enter>
+ <div class='journal-card-art'><QualityPlate kind={kind} variant={article.slug} compact label={graphicLabels[kind]}/></div>
+ <div class='journal-card-meta'><span>{article.category}</span><span>{journalReadingTime(article)} min read</span></div>
+ <h3>{article.title}</h3>
+ <p>{article.description}</p>
+ {guide&&<span class='journal-card-takeaway'>{guide.idea}</span>}
+</a>

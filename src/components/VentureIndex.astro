@@ -1,17 +1,14 @@
 ---
 import {getProjects} from '../data/content';
 import {categories} from '../data/projects';
-import {Image} from 'astro:assets';
-import architecture from '../assets/matterfield/matter-architecture.png';
-import mineral from '../assets/matterfield/matter-hero.png';
-import research from '../assets/matterfield/matter-research.png';
+import QualityPlate from './QualityPlate.astro';
+import '../styles/home-quality.css';
 interface Props {filters?:boolean;draft?:boolean;}
 const {filters=false,draft=false}=Astro.props;
 const projects=await getProjects(draft);
-const images=[architecture,mineral,research];
 ---
 <div class='venture-index' data-venture-index>
  {filters&&<div class='index-tools' hidden data-index-tools><div class='index-filters' role='group' aria-label='Filter ventures'>{categories.map((category,i)=><button type='button' data-index-filter={category} aria-pressed={i===0}>{category}</button>)}</div><label class='index-search'><span class='sr-only'>Search ventures</span><input type='search' placeholder='Find a venture' data-index-search/></label></div>}
- <div class='index-layout'><div class='index-list'>{projects.map(project=><a class='index-row' href={'/projects/'+project.slug} data-index-row data-category={project.category} data-search={(project.name+' '+project.description).toLowerCase()} data-enter><div><span class='index-name'>{project.name.replace('NRTH ','')}</span><span class='index-description'>{project.description}</span></div><span class='index-category'>{project.category}</span></a>)}<p class='index-empty' data-index-empty hidden>No ventures match. Try another field or search.</p></div><div class='index-art' aria-hidden='true'>{images.map((src,i)=><Image src={src} data-index-art={i} class:list={['index-art-image',{'is-active':i===0}]} widths={[480,800]} sizes='33vw' alt='' format='webp' loading='lazy'/>)}<span data-index-caption>Different fields. Uncommon potential.</span></div></div>
+ <div class='index-layout'><div class='index-list'>{projects.map(project=><a class='index-row' href={'/projects/'+project.slug} data-index-row data-category={project.category} data-index-venture={project.slug} data-search={(project.name+' '+project.description).toLowerCase()} data-enter><div><span class='index-name'>{project.name.replace('NRTH ','')}</span><span class='index-description'>{project.description}</span></div><span class='index-category'>{project.category}</span></a>)}<p class='index-empty' data-index-empty hidden>No ventures match. Try another field or search.</p></div><div class='index-art' aria-hidden='true'>{projects.map((project,i)=><div data-index-art={project.slug} class:list={['index-plate',{'is-active':i===0}]}><QualityPlate kind={project.category.toLowerCase()} variant={project.slug} compact/></div>)}<span data-index-caption>{projects[0]?.name} · {projects[0]?.headline}</span></div></div>
  {filters&&<p class='index-result' role='status' data-index-result>9 ventures</p>}
 </div>

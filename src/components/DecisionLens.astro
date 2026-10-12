@@ -1,0 +1,41 @@
+---
+import {decisionLenses} from '../data/decision-lenses';
+import '../styles/decision-lens.css';
+interface Props {mode:'research'|'investor';}
+const {mode}=Astro.props;
+const lens=decisionLenses[mode];
+const id=mode+'-evidence';
+const nodes=[{x:145,y:130},{x:420,y:110},{x:435,y:390},{x:145,y:405}];
+const paths=[
+ 'M145 130 C210 48 360 42 420 110',
+ 'M420 110 C502 182 506 315 435 390',
+ 'M435 390 C364 467 220 480 145 405',
+ 'M145 405 C66 335 64 203 145 130'
+];
+---
+<section class='decision-lens section-dark' id={id} data-decision-lens data-decision-active='question' aria-labelledby={id+'-heading'}>
+ <div class='decision-lens-heading' data-enter><span class='section-label'>{lens.label}</span><h2 id={id+'-heading'}>{lens.title[0]}<br/><em>{lens.title[1]}</em></h2><p>{lens.introduction}</p></div>
+ <div class='decision-lens-layout'>
+  <figure class='decision-lens-figure'>
+   <div class='decision-lens-art'>
+    <svg viewBox='0 0 580 540' role='img' aria-labelledby={id+'-graphic-title'} aria-describedby={id+'-graphic-description'}>
+     <title id={id+'-graphic-title'}>{lens.diagramTitle}</title>
+     <desc id={id+'-graphic-description'}>Four connected perspectives: {lens.steps.map(step=>step.label).join(', ')}. Each perspective can be explored in the adjacent reading panel.</desc>
+     <defs><linearGradient id={id+'-metal'} x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#faf9f4'/><stop offset='.18' stop-color='#8a8b91'/><stop offset='.42' stop-color='#e2e1dd'/><stop offset='.62' stop-color='#47484e'/><stop offset='.79' stop-color='#c9c9c6'/><stop offset='1' stop-color='#67696e'/></linearGradient></defs>
+     <ellipse class='decision-orbit' cx='290' cy='270' rx='221' ry='221'/>
+     <ellipse class='decision-orbit decision-orbit-inner' cx='290' cy='270' rx='156' ry='156'/>
+     <path class='decision-diagonal' d='M145 130 C220 205 355 319 435 390 M420 110 C348 197 224 319 145 405'/>
+     {paths.map((path,index)=><g class='decision-lens-path' data-decision-path={lens.steps[index].key}><path class='decision-path-metal' d={path} stroke={'url(#'+id+'-metal)'}/><path class='decision-path-highlight' d={path} pathLength='1'/></g>)}
+     <g class='decision-center'><circle cx='290' cy='270' r='57'/><path d='M274 270h32M290 254v32'/><circle cx='290' cy='270' r='9'/></g>
+     {nodes.map((node,index)=><g class='decision-lens-node' data-decision-node={lens.steps[index].key}><circle class='decision-node-shell' cx={node.x} cy={node.y} r='25' fill={'url(#'+id+'-metal)'}/><circle class='decision-node-core' cx={node.x} cy={node.y} r='10'/></g>)}
+    </svg>
+    {nodes.map((_,index)=><span class={'decision-node-label decision-node-label-'+index} data-decision-label={lens.steps[index].key}>{lens.steps[index].label}</span>)}
+   </div>
+   <figcaption>{lens.diagramCaption}</figcaption>
+  </figure>
+  <div class='decision-lens-readings'>
+   {lens.steps.map((step,index)=><details data-decision-reading={step.key} open={index===0}><summary><span>{step.label}</span><span class='decision-reading-marker' aria-hidden='true'></span></summary><div class='decision-reading-content'><h3>{step.title}</h3><p>{step.copy}</p><dl><div><dt>Keep in the record</dt><dd>{step.material}</dd></div><div><dt>The question to carry forward</dt><dd>{step.question}</dd></div></dl></div></details>)}
+  </div>
+ </div>
+</section>
+<script>import '../scripts/decision-lens';</script>

@@ -2,6 +2,7 @@
 import {projects} from '../data/projects';
 import {connectionStories, connectionFields, connectionPositions, connectionPath} from '../data/connections';
 import '../styles/connections-explorer.css';
+import '../styles/connections-quality.css';
 interface Props {id?: string;}
 const {id='connections'}=Astro.props;
 const projectFor=(slug:string)=>projects.find(project=>project.slug===slug)!;
@@ -15,7 +16,7 @@ for(const story of connectionStories)for(const link of story.links){
  <div class='connections-heading' data-enter>
   <span class='section-label'>The connections</span>
   <h2 id={id+'-heading'}>Ideas travel.<br/><em>So do we.</em></h2>
-  <p>Nine ventures. One company.<br/>Explore the questions that connect them.</p>
+  <p>Planning meets signals. Care meets information. A question meets an experiment. Choose a venture and explore the relationships around it.</p>
  </div>
  <div class='connections-fields' data-connection-controls hidden aria-label='Choose an industry perspective'>
   {connectionFields.map((field,i)=><button type='button' data-connection-field={field.name} data-connection-source={field.slug} aria-pressed={i===0}>{field.name}</button>)}

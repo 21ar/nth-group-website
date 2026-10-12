@@ -14,9 +14,15 @@ Run `npm run dev` and save a source file. Changes appear through hot reload. Pub
 | Investor comparison and reading packs | `src/data/investor-perspectives.ts`, `src/components/InvestorCompare.astro`, `src/scripts/investor-compare.ts` |
 | Experiment starter questions and methods | `src/data/experiment-directions.ts`, `src/components/ExperimentPlanner.astro`, `src/scripts/experiment-planner.ts` |
 | Venture focus explorers | `src/data/project-details.ts` |
+| Venture context, preparation, outputs and review criteria | `src/data/venture-perspectives.ts`, `src/styles/venture-quality.css` |
 | Venture audiences, workflows, scenarios and questions | `src/data/venture-stories.ts`, `src/components/VentureStories.astro` |
 | Portfolio relationship stories and constellation | `src/data/connections.ts`, `src/components/ConnectionsExplorer.astro`, `src/scripts/connections-explorer.ts` |
 | Journal writing | `src/data/articles.ts` |
+| Journal reading structure, cards and interactive diagrams | `src/data/journal-guides.ts`, `src/components/JournalCard.astro`, `src/components/JournalDiagram.astro` |
+| Company, approach and partnership illustrated lenses | `src/data/editorial-models.ts`, `src/components/EditorialModel.astro`, `src/scripts/editorial-model.ts` |
+| Research and investor evidence lenses | `src/data/decision-lenses.ts`, `src/components/DecisionLens.astro`, `src/scripts/decision-lens.ts` |
+| Investor industry diligence | `src/data/investor-field-questions.ts` |
+| Original six-field graphics and nine venture variants | `src/data/quality-graphics.ts`, `src/components/QualityPlate.astro`, `src/scripts/quality-plate.ts`, `src/styles/quality-plate.css` |
 | Homepage / company / investors | `src/components/HomePage.astro`, `CompanyPage.astro`, `InvestorsPage.astro` |
 | Shared venture / article layouts | `src/components/VenturePage.astro`, `ArticlePage.astro` |
 | Colour, typography and responsive layout | `src/styles/matterfield.css` |
@@ -40,6 +46,8 @@ The opening journey reaches six resting formations at normalized scroll position
 The research planner supports 24 field/method combinations and 18 starter questions. Its share URL contains field, method and starter identifiers; custom question text stays out of the URL. Choosing Continue transfers the outline into the Labs inquiry through tab-local storage, clears the transfer after use and keeps the message editable. The investor comparison shares only selected venture slugs and exports current published scope with qualified reading questions.
 
 Run `npm run test:depth` against a fresh production preview after editing these experiences. The existing browser and enrichment suites cover their surrounding flows. The industry directory and all six guides are linked from the homepage, opening inspector and footer.
+
+The vector studies illustrate relationships rather than live product data. Keep their geometry, accessibility description and adjacent explanation aligned. Approved CMS venture covers still take precedence over repository illustrations. Journal diagrams and their section headings render only while their associated repository writing remains unchanged; CMS edits use a neutral article layout. The detailed reading lenses use native disclosures with position preservation so closing an earlier panel does not move the selected heading out of view. Use `npm run test:quality` after changing these controls, motion or graphics. Homepage, header, footer and contact refinements have separate `*-quality.css` files imported by their components.
 
 ## Visual content editing
 

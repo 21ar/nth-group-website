@@ -10,6 +10,9 @@ function syncMotion(){
 }
 document.querySelectorAll('[data-motion-toggle]').forEach(button=>button.addEventListener('click',()=>{if(reduced.matches)return;manualPause=!manualPause;try{localStorage.setItem('nrth-motion',manualPause?'paused':'enabled');}catch{}syncMotion();}));
 reduced.addEventListener('change',syncMotion);syncMotion();
+const masthead=document.querySelector<HTMLElement>('.masthead');
+const syncMasthead=()=>masthead?.classList.toggle('is-scrolled',scrollY>40);
+window.addEventListener('scroll',syncMasthead,{passive:true});window.addEventListener('pageshow',syncMasthead);syncMasthead();
 const menu=document.querySelector<HTMLDetailsElement>('[data-site-menu]');
 if(menu){
  const summary=menu.querySelector<HTMLElement>('summary')!,panel=menu.querySelector<HTMLElement>('.menu-panel')!;
@@ -46,7 +49,7 @@ document.querySelectorAll<HTMLElement>('[data-venture-index]').forEach(index=>{
  filters.forEach(button=>button.addEventListener('click',()=>{category=button.dataset.indexFilter||'All';filters.forEach(item=>item.setAttribute('aria-pressed',String(item===button)));update();}));search?.addEventListener('input',update);
  const requested=new URLSearchParams(location.search).get('field');if(requested)filters.find(button=>button.dataset.indexFilter===requested)?.click();
  rows.forEach(row=>{
-  const select=()=>{const art=row.dataset.category==='Research'||row.dataset.category==='Materials'?2:row.dataset.category==='Health'||row.dataset.category==='Events'?1:0;index.querySelectorAll<HTMLElement>('[data-index-art]').forEach(image=>image.classList.toggle('is-active',image.dataset.indexArt===String(art)));const caption=index.querySelector('[data-index-caption]');if(caption)caption.textContent='NRTH '+row.querySelector('.index-name')?.textContent;};
+  const select=()=>{index.querySelectorAll<HTMLElement>('[data-index-art]').forEach(image=>image.classList.toggle('is-active',image.dataset.indexArt===row.dataset.indexVenture));const caption=index.querySelector('[data-index-caption]');if(caption)caption.textContent='NRTH '+row.querySelector('.index-name')?.textContent+' · '+row.querySelector('.index-description')?.textContent;};
   row.addEventListener('pointerenter',select);row.addEventListener('focus',select);
  });
 });

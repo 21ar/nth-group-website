@@ -1,0 +1,39 @@
+---
+import type {JournalGuide} from '../data/journal-guides';
+import '../styles/journal-quality.css';
+interface Props {guide:JournalGuide;slug:string;}
+const {guide,slug}=Astro.props;
+const id='journal-'+slug;
+const chrome=id+'-chrome';
+const orange=id+'-orange';
+---
+<section class={'journal-diagram journal-diagram-'+guide.diagram} aria-labelledby={id+'-title'}>
+ <div class='journal-diagram-heading'><span class='section-label'>A closer look</span><h2 id={id+'-title'}>{guide.idea}</h2><p>Choose a perspective to explore the relationship.</p></div>
+ <fieldset class='journal-diagram-controls'><legend class='sr-only'>Choose a perspective in this illustration</legend>{guide.lenses.map((lens,i)=><label><input type='radio' name={id+'-lens'} value={lens.key} checked={i===0} aria-describedby={id+'-reading-'+lens.key}/><span>{lens.label}</span></label>)}</fieldset>
+ <figure class='journal-diagram-figure'>
+  <svg viewBox='0 0 1000 580' aria-hidden='true' focusable='false'>
+   <defs><linearGradient id={chrome} gradientUnits='userSpaceOnUse' x1='100' y1='100' x2='900' y2='480'><stop offset='0%' stop-color='#626a73'/><stop offset='22%' stop-color='#f0ede4'/><stop offset='45%' stop-color='#b4bdc6'/><stop offset='65%' stop-color='#525960'/><stop offset='82%' stop-color='#dee2e5'/><stop offset='100%' stop-color='#747c85'/></linearGradient><linearGradient id={orange} gradientUnits='userSpaceOnUse' x1='100' y1='100' x2='900' y2='480'><stop stop-color='#ffd3a6'/><stop offset='.5' stop-color='#ff743b'/><stop offset='1' stop-color='#923517'/></linearGradient></defs>
+   {guide.diagram==='attention'&&<>
+    <g class='journal-diagram-ground' fill='none' stroke='#252a31'><path d='M70 410H930M130 150H870M130 80V490M870 80V490' stroke-width='1'/><ellipse cx='500' cy='290' rx='400' ry='190'/><ellipse cx='500' cy='290' rx='340' ry='150'/></g>
+    <g data-diagram-part='context' class='journal-diagram-part'><ellipse cx='475' cy='290' rx='280' ry='150' fill='none' stroke={'url(#'+chrome+')'} stroke-width='15'/><path d='M222 228C280 115 520 101 677 186' fill='none' stroke='#aeb7c0' stroke-width='2'/><circle cx='249' cy='391' r='10' fill={'url(#'+chrome+')'}/><circle cx='662' cy='402' r='10' fill={'url(#'+chrome+')'}/><circle cx='694' cy='202' r='10' fill={'url(#'+chrome+')'}/></g>
+    <g data-diagram-part='purpose' class='journal-diagram-part'><rect x='351' y='210' width='208' height='159' rx='37' fill='#101419' stroke={'url(#'+chrome+')'} stroke-width='12'/><path d='M395 259H515M395 289H482M395 320H446' fill='none' stroke={'url(#'+orange+')'} stroke-width='6' stroke-linecap='round'/><circle cx='514' cy='322' r='8' fill={'url(#'+orange+')'}/></g>
+    <g data-diagram-part='continuation' class='journal-diagram-part'><path d='M559 290H786C838 290 850 244 850 214' fill='none' stroke={'url(#'+chrome+')'} stroke-width='12' stroke-linecap='round'/><circle cx='851' cy='187' r='31' fill='#101419' stroke={'url(#'+chrome+')'} stroke-width='9'/><circle cx='786' cy='290' r='11' fill={'url(#'+orange+')'}/></g>
+   </>}
+   {guide.diagram==='movement'&&<>
+    <g class='journal-diagram-ground' fill='none' stroke='#252a31'><path d='M100 140H900M100 290H900M100 440H900M200 80V490M500 80V490M800 80V490'/></g>
+    <g data-diagram-part='purpose' class='journal-diagram-part'><path d='M190 155H431C473 155 492 189 514 222L565 290' fill='none' stroke={'url(#'+chrome+')'} stroke-width='13' stroke-linecap='round'/><rect x='149' y='126' width='103' height='62' rx='22' fill='#101419' stroke={'url(#'+chrome+')'} stroke-width='8'/><path d='M180 149H223M180 166H207' fill='none' stroke={'url(#'+orange+')'} stroke-width='4' stroke-linecap='round'/></g>
+    <g data-diagram-part='context' class='journal-diagram-part'><path d='M188 290H565M190 425H432C475 425 497 384 520 350L565 290' fill='none' stroke={'url(#'+chrome+')'} stroke-width='13' stroke-linecap='round'/><circle cx='200' cy='290' r='30' fill='#101419' stroke={'url(#'+chrome+')'} stroke-width='8'/><path d='M184 290H192L199 275L206 304L213 290H219' stroke={'url(#'+orange+')'} stroke-width='4' fill='none' stroke-linejoin='round'/><rect x='154' y='397' width='95' height='54' rx='18' fill='#101419' stroke={'url(#'+chrome+')'} stroke-width='8'/><circle cx='178' cy='460' r='8' fill='#d1d7dc'/><circle cx='225' cy='460' r='8' fill='#d1d7dc'/></g>
+    <g data-diagram-part='continuation' class='journal-diagram-part'><path d='M565 290H802' fill='none' stroke={'url(#'+chrome+')'} stroke-width='13' stroke-linecap='round'/><circle cx='840' cy='290' r='47' fill='#101419' stroke={'url(#'+chrome+')'} stroke-width='11'/><path d='M817 290H863M840 267V313' stroke={'url(#'+orange+')'} stroke-width='5' stroke-linecap='round'/></g>
+    <circle class='journal-diagram-junction' cx='565' cy='290' r='23' fill={'url(#'+orange+')'}/>
+   </>}
+   {guide.diagram==='experiment'&&<>
+    <g class='journal-diagram-ground' fill='none' stroke='#252a31'><path d='M70 140H930M70 290H930M70 440H930M160 70V500M500 70V500M840 70V500'/></g>
+    <g data-diagram-part='purpose' class='journal-diagram-part'><path d='M120 180L221 139L285 217L206 290L132 338L222 429M285 217L327 321L206 290M327 321L222 429' fill='none' stroke={'url(#'+chrome+')'} stroke-width='7' stroke-linecap='round'/>{[{x:120,y:180},{x:221,y:139},{x:285,y:217},{x:132,y:338},{x:222,y:429},{x:327,y:321}].map(point=><circle cx={point.x} cy={point.y} r='15' fill={'url(#'+chrome+')'}/>)}<circle cx='206' cy='290' r='22' fill={'url(#'+orange+')'}/><path d='M232 290H400' fill='none' stroke={'url(#'+chrome+')'} stroke-width='10' stroke-linecap='round'/></g>
+    <g data-diagram-part='context' class='journal-diagram-part'><rect x='406' y='190' width='194' height='200' rx='30' fill='#101419' stroke={'url(#'+chrome+')'} stroke-width='11'/><circle cx='503' cy='290' r='43' fill='none' stroke={'url(#'+orange+')'} stroke-width='9'/><path d='M503 217V246M503 334V363M429 290H458M549 290H578' stroke='#afb8c1' stroke-width='3' stroke-linecap='round'/></g>
+    <g data-diagram-part='continuation' class='journal-diagram-part'><path d='M600 290H678C737 290 747 185 818 185M678 290C737 290 747 395 818 395M678 290H818' fill='none' stroke={'url(#'+chrome+')'} stroke-width='10' stroke-linecap='round'/><circle cx='845' cy='185' r='26' fill='#101419' stroke={'url(#'+orange+')'} stroke-width='8'/><circle cx='845' cy='290' r='26' fill='#101419' stroke={'url(#'+chrome+')'} stroke-width='8'/><circle cx='845' cy='395' r='26' fill='#101419' stroke={'url(#'+chrome+')'} stroke-width='8'/></g>
+   </>}
+  </svg>
+  <figcaption>{guide.caption}</figcaption>
+ </figure>
+ <div class='journal-diagram-readings'>{guide.lenses.map(lens=><div id={id+'-reading-'+lens.key} data-diagram-reading={lens.key}><h3>{lens.title}</h3><p>{lens.text}</p></div>)}</div>
+</section>

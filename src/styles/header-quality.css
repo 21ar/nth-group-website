@@ -1,0 +1,1 @@
+.masthead{transition:background-color .4s,border-color .4s}.masthead.is-scrolled{mix-blend-mode:normal;background:rgba(10,11,13,.96);border-bottom:1px solid #ffffff12;backdrop-filter:blur(14px)}.masthead.is-scrolled .masthead-bar{color:#f2f0e9}.masthead:has(.site-menu[open]){border-color:transparent;backdrop-filter:none;background:#0a0b0d}

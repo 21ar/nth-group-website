@@ -89,4 +89,23 @@ The review corrected early Mobility artwork overlap by reserving its art area be
 
 Astro validation covers 98 files with zero errors, warnings or hints. The build produces 32 public static pages, social images and Vercel handlers. Geometry and mocked-service suites remain 92 and 28 checks. The existing software-graphics, physical-device and optional live-service limits still apply.
 
+## Detail and graphic quality across the portfolio
+
+The homepage now leads into a searchable nine-venture portfolio with distinct artwork for each venture. Its company section explains what stays specific and what knowledge can travel. The research spread introduces the actual studies and outline tool, the journal has illustrated reading cards, and investor links lead to comparison, reference material and a focused inquiry.
+
+Six original chrome vector forms support nine genuinely different venture variants. Curved routes, interwoven information, architectural boundaries, material cells, a folded spectrum and branching research share a coherent material language. Their components assemble reversibly with native scrolling, respond gently to pointer or linked-card focus and stop when settled, hidden, paused or offscreen. Repeated paths are defined once per graphic and reused for material layers. The production homepage is 581,201 bytes of HTML, or 120,940 bytes using gzip; no extra WebGL context is introduced for these illustrations. The existing 3D material has softer reflections and more legible shaded faces.
+
+Every venture adds its own practical question, relevant audience, preparation notes, proposed outputs, review questions and relationship explanations. Six industry guides add evidence exhibits and cross-field reasoning. Company, Approach and Partnerships use original illustrated reading models; Research and Investors connect four evidence lenses to concrete records and next decisions. Three articles have deeper examples, reading navigation and distinct native-radio diagrams that work without JavaScript. Press preserves the original four letter contours in filled and outline specimens, with scalable assets and a downloadable company reference. Contact adds useful preparation and conversation-specific reading paths. Footer links keep those paths accessible.
+
+| Review finding | Correction and evidence |
+| --- | --- |
+| Transparent fixed navigation covered reading content. | An opaque graphite surface appears after scrolling; checked on desktop and both phone widths. |
+| Closing an earlier disclosure moved the chosen heading offscreen. | Enhanced native disclosures preserve the selected summary within 2px and keep keyboard focus. |
+| New portfolio graphics inherited a tall photograph container; industry art was too small. | Matched the sticky composition to the SVG and gave industry illustrations a generous, full-width space. |
+| Detailed chrome layers repeated long path geometry. | Shared SVG definitions preserve the rendering with less markup; IDs and references remain unique and valid. |
+
+The [current screenshots and result records](design/matterfield/qa/quality/) cover the opening, portfolio, company/approach models, research/investor evidence, journal and phone contact. The fresh production output passed **325 browser**, **165 enrichment**, **155 depth** and **358 quality** checks, totaling **1,003 maintained browser assertions**. The focused industry pass completed another **169 checks**, for **1,172 browser checks**. Geometry and mocked-service validation passed **92** and **28** checks respectively. Astro checked **113 files** with zero errors, warnings or hints; the build produced **32 public static pages**, canonical resources, social images and Vercel handlers. No email was sent during verification.
+
+Reviewed states included 1440px desktop, 390px phone and 320px narrow phone, keyboard navigation, no JavaScript, reduced motion, global pause, actual exports and offscreen/idle rest. The prior physical-device and optional live-service limitations remain. No blocking design or interaction findings remained in the reviewed states.
+
 final result: passed

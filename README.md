@@ -42,6 +42,10 @@ The investor page compares up to three venture directions, restores shared selec
 
 Run `npm run test:depth` for the scroll journey, inspection dialogs, sector guides, comparisons and research outlines. Run `npm run test:enrichment` against the production preview for the constellation, nine venture scenarios, partnership handoff and deeper research controls. Both browser suites capture their reviewed states in ignored `artifacts/matterfield/` directories.
 
+The deeper editorial pages use original chrome vector studies for six fields and nine distinct venture variants. Their fragments assemble reversibly as a section enters, respond gently to pointer/focus, and rest when settled, hidden or paused. SVG definitions share repeated geometry to keep the detailed artwork compact. Company, Approach and Partnerships connect illustrated reading lenses to concrete outputs and review criteria; Research and Investors include evidence lenses. Journal articles have native, keyboard-operable diagrams, a reading guide and practical examples. Venture focus explorers include preparation, proposed outputs and review questions, while industry guides add evidence exhibits and cross-field explanations. The fixed masthead gains an opaque surface when scrolled to keep long-form reading clear.
+
+Run `npm run test:quality` for the illustrated reading lenses, native article diagrams, distinct portfolio artwork, graphics motion controls and new resource/navigation paths. The suite covers desktop, phone, narrow phone, reduced motion and no JavaScript against production output.
+
 ## Content and publishing
 
 See [updating.md](updating.md) for editable sources, [cms-setup.md](cms-setup.md) for Sanity editing, and [inquiries.md](inquiries.md) for Resend delivery. Content describes venture directions and invites a conversation about current scope. It does not invent customers, launches, clinical outcomes, financial results or certifications. Confirmed stages and product URLs require approved content.

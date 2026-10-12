@@ -1,0 +1,33 @@
+.venture-heading-quality .venture-heading-art{display:grid;align-items:center;padding:95px 0 35px}
+.venture-heading-quality .quality-plate{width:100%;margin:0}
+.venture-heading-direction{font-size:17px;line-height:1.65;color:#b9b9bd;max-width:390px;margin-top:22px;padding-right:28px}
+.venture-overview-text>p+p{font-size:19px;margin-top:28px;color:#56575b}
+.venture-audience{margin-top:38px;border-top:1px solid #bcbcb7;padding-top:26px}
+.venture-audience h3{font-family:var(--reading);font-size:16px;font-weight:650;letter-spacing:0;margin-bottom:17px}
+.venture-audience ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:12px 24px;font-size:16px;line-height:1.55}
+.venture-audience li{position:relative;padding-left:17px}
+.venture-audience li:before{content:'';position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:50%;background:var(--accent-text)}
+.venture-focus{scroll-margin-top:95px}
+.venture-focus-evidence{margin:32px 0 0;display:grid;gap:24px;border-top:1px solid #b7b7b3;padding-top:28px}
+.venture-focus-evidence>div{position:relative;padding-left:25px}
+.venture-focus-evidence>div:before{content:'';position:absolute;left:0;top:6px;width:7px;height:7px;border:1.5px solid var(--accent-text);border-radius:50%;background:var(--paper)}
+.venture-focus-evidence>div:not(:last-child):after{content:'';position:absolute;left:4px;top:21px;bottom:-13px;width:1px;background:#c9c9c4}
+.venture-focus-evidence dt{font-size:15px;line-height:1.5;font-weight:650;margin-bottom:8px}
+.venture-focus-evidence dd{margin:0;font-size:17px;line-height:1.65;color:#56575b;max-width:58ch}
+.venture-connections>div:first-child>p{font-size:18px;margin-top:30px;color:#b9b9bd}
+.venture-connections .related-links a{display:grid;grid-template-columns:1fr auto;gap:12px 20px}
+.venture-connections .related-links a>p{grid-column:1/-1;color:#b9b9bd;font-size:17px;line-height:1.65;max-width:55ch;margin:0}
+.venture-connections .related-links a:hover strong{color:var(--orange)}
+.venture-preparation{padding:110px var(--gutter) 95px}
+.venture-preparation .section-heading h2{font-size:clamp(62px,7vw,108px)}
+.venture-preparation-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:50px;position:relative}
+.venture-preparation-grid:before{content:'';position:absolute;left:8px;right:8px;top:7px;border-top:1px solid #bcbcb7}
+.venture-preparation-grid article{position:relative;padding-top:43px}
+.venture-preparation-grid article:before{content:'';position:absolute;top:0;left:0;width:15px;height:15px;background:var(--paper);border:2px solid var(--accent-text);border-radius:50%}
+.venture-preparation-grid h3{font-size:clamp(29px,2.7vw,41px);margin-bottom:20px}
+.venture-preparation-grid p{font-size:18px;line-height:1.7}
+.venture-preparation-next{display:flex;gap:35px 50px;justify-content:space-between;align-items:flex-start;border-top:1px solid #bcbcb7;margin-top:65px;padding-top:30px}
+.venture-preparation-next p{font-size:15px;color:#56575b;line-height:1.7;max-width:72ch}
+.venture-preparation-next a{font-size:17px;white-space:nowrap}
+@media(max-width:1023px){.venture-preparation-grid{gap:30px}.venture-preparation-next{flex-wrap:wrap}.venture-heading-direction{font-size:16px}}
+@media(max-width:767px){.venture-heading-quality .venture-heading-art{height:auto;padding:0 0 28px}.venture-heading-quality .quality-plate{max-width:620px;justify-self:center}.venture-heading-direction{font-size:16px;padding-right:0;max-width:34ch}.venture-audience ul{display:grid;gap:12px;font-size:15px}.venture-focus-evidence{gap:25px}.venture-focus-evidence dd{font-size:16px}.venture-connections .related-links a{gap:12px}.venture-connections .related-links a>p{font-size:16px}.venture-preparation{padding-top:75px;padding-bottom:70px}.venture-preparation .section-heading h2{font-size:clamp(56px,12vw,82px)}.venture-preparation-grid{display:block;padding-left:28px}.venture-preparation-grid:before{left:7px;right:auto;top:7px;bottom:40px;border-top:0;border-left:1px solid #bcbcb7}.venture-preparation-grid article{padding:0 0 38px}.venture-preparation-grid article:before{left:-28px;top:8px}.venture-preparation-grid h3{font-size:31px;margin-bottom:17px}.venture-preparation-grid p{font-size:17px}.venture-preparation-next{display:block;margin-top:12px}.venture-preparation-next a{margin-top:25px;white-space:normal;display:table}}
