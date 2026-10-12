@@ -130,6 +130,18 @@ async function examineEditorial(page, route, kind, width) {
   }).join('|')));
   check(new Set(geometrySignatures).size === 9, 'All nine venture previews have genuinely distinct geometry.');
   await rows.first().hover();check(await page.locator('[data-index-art].is-active').getAttribute('data-index-art') === 'nrth-health', 'Pointer exploration and keyboard exploration select the same portfolio art.');
+  await page.mouse.move(10,120);await page.evaluate(()=>document.activeElement?.blur());
+  for(const index of [7,2]){
+    const row=rows.nth(index),slug=await row.getAttribute('data-index-venture');
+    await row.evaluate(element=>{const bounds=element.getBoundingClientRect();scrollTo({top:bounds.top+scrollY+bounds.height/2-innerHeight*.46,behavior:'instant'});});
+    await page.waitForFunction(slug=>document.querySelector('[data-venture-index]').dataset.indexSelected===slug,slug);
+    check(await page.locator('[data-index-art].is-active').getAttribute('data-index-art')===slug,'Native scrolling follows '+slug+' with the matching material artwork.');
+    check(await row.evaluate(element=>element.classList.contains('is-previewed')),'The venture being read has a matching visible selection cue.');
+  }
+  await rows.nth(4).focus();
+  await rows.nth(7).evaluate(element=>{const bounds=element.getBoundingClientRect();scrollTo({top:bounds.top+scrollY+bounds.height/2-innerHeight*.46,behavior:'instant'});});
+  await page.waitForTimeout(100);
+  check(await page.locator('[data-index-art].is-active').getAttribute('data-index-art')==='nrth-systems','Scroll-driven artwork respects an explicit keyboard selection.');
   await idsAndFragments(page, 'The nine-art portfolio');
   await capture(page, 'portfolio-desktop', '[data-venture-index]');
 
@@ -220,8 +232,10 @@ async function examineEditorial(page, route, kind, width) {
   // The full homepage is inspected only with reduced motion.
   await page.setViewportSize({width: 1440, height: 1000});await visit(page, '/');
   await idsAndFragments(page, 'The complete homepage');await fit(page, 'The detailed homepage');
-  const guideDestinations=await page.locator('[data-portfolio-atlas] .atlas-links a[href^="/industries/"]').evaluateAll(links=>[...new Set(links.map(link=>link.getAttribute('href')))]);
-  check(guideDestinations.length===6&&['mobility','health','systems','materials','events','research'].every(field=>guideDestinations.includes('/industries/'+field)),'The homepage atlas retains all six industry guide destinations.');
+  const guideDestinations=await page.locator('.industry-guide-grid>a[href^="/industries/"]').evaluateAll(links=>[...new Set(links.map(link=>link.getAttribute('href')))]);
+  check(guideDestinations.length===6&&['mobility','health','systems','materials','events','research'].every(field=>guideDestinations.includes('/industries/'+field)),'The homepage directory retains all six industry guide destinations.');
+  check(await page.locator('.industry-guide-art [data-quality-plate]').count()===6,'Each industry direction has its own large material illustration.');
+  await capture(page,'homepage-industry-directory','.industry-directory');
   check(errors.length === 0, 'No uncaught browser errors in the quality review.');
   evidence.push('SVG material assembly is reversible, responsive and idle/offscreen aware; no WebGL benchmark is implied.');
   fs.writeFileSync(path.join(out, 'results.json'), JSON.stringify({checks, passed: true, errors, evidence}, null, 2));

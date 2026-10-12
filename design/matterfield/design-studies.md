@@ -2,6 +2,8 @@
 
 The `/work` library records four implemented website design studies. Every record identifies its date, subject, related venture perspectives, public artifact, method, support, limits and a practical review. The records concern creative interface work on this website. Their synthetic examples do not report customer deployments, user research, clinical effects, materials tests or produced-event outcomes.
 
+The form study describes the restored mineral-and-fragment opening. The homepage retains large industry arrangements, semantic part inspection and the readable venture index with framed QualityPlate illustrations. Those illustrations share the chrome/copper material language but are separate authored SVG drawings, not a claim that the same 3D fragments continue into every portfolio artwork. The public form record links to both the opening and the venture index so that distinction can be inspected. The ribbon core, nine-icon atlas and cube-grid framework from the superseded homepage are not acceptance targets for this record.
+
 ## Source and editing
 
 - `src/data/design-studies.ts`: the four public records, their routes and download metadata.

@@ -110,7 +110,7 @@ Reviewed states included 1440px desktop, 390px phone and 320px narrow phone, key
 
 final result: passed
 
-## Connected story and useful detail
+## Prior connected-story overhaul (superseded visual direction)
 
 The next-stage revision adds a joined ribbon surface, geometry-based inspection, a shorter native-scroll sequence, the nine-form atlas, a converging framework, nine semantic worked examples, eighteen industry exhibits, eight illustrated articles and four documented design studies. Global public search and one-hour inquiry context connect discovery to an editable introduction. Structured CMS content preserves diagrams when prose changes and separates public snapshots from private draft reads.
 
@@ -119,3 +119,15 @@ The fresh visual review identified hard fragment seams, dim stopped transitions,
 Final local validation passed 1,775 maintained browser assertions: 325 regression, 165 enrichment, 158 depth, 358 graphic/editorial quality, 316 integrated experience, 36 search/context, 228 studies/exhibits, 38 interrupted example motion and 151 expanded editorial checks. Geometry/data/service contracts passed 319 checks (236 geometry, 28 mocked services, 35 structured editorial and 20 discovery). Astro checked 165 files with zero errors, warnings or hints. The production build generates 42 normal public pages plus 404, 43 social images, fifteen study resources and the Vercel handlers. The generated document audit passed 6,080 checks, including cross-page fragments and assets. No email was sent.
 
 The homepage HTML is approximately 59KB compressed, compared with approximately 121KB in the preceding revision. Three.js remains a lazily imported approximately 134KB compressed chunk with Vite’s standard large-chunk advisory. These byte counts are build evidence, not real-user Core Web Vitals or physical-GPU benchmarks. Live CMS/Resend accounts were not configured in this execution environment. Current results and screenshots are under ignored artifacts/next-stage, artifacts/next-stage-audit, artifacts/studies, artifacts/editorial-review and the maintained regression directories. The implementation record is design/matterfield/next-stage-implementation.md.
+
+
+## Refinement of the preferred version
+
+The visual baseline is again `267131c`: the original mineral opening, its six forms, large portfolio illustrations and architectural company image. The newer icon atlas, ribbon surface, modular framework and standalone homepage transportation model have been removed from the public homepage. Expanded venture/industry examples, search, journal articles, studies, inquiry preparation and structured editorial tools remain in their dedicated reading paths.
+
+The acceptance targets are preservation of that visual identity, continuous reversible motion, readable stopped captions, geometry-based inspection, filtered previews that agree with the results, artwork that follows native reading, keyboard selection priority, recoverable empty searches and usable narrow-phone/native alternatives. Current verification evidence is recorded with the final test run rather than inherited from the superseded overhaul.
+
+
+The restored version passed 1,463 browser assertions: 325 general regression, 170 continuous-story/inspection, 339 integrated experience, 364 graphic/editorial quality, 37 discovery/context and 228 studies/exhibits. Geometry passed 152 checks; discovery, mocked service and structured editorial contracts passed 83 more. Astro checked 165 files with no errors, warnings or hints. The production build and 6,882 public-document checks passed across 42 normal pages. Fresh accepted captures are in ignored `artifacts/preferred-refinement` and the maintained regression directories.
+
+The motion review caught an outgoing layer intercepting a caption and fractional transform residues after reported settlement. Outgoing layers now ignore pointer events, and settled captions reach exact resting values. Tests verify actual hit targets during a transition, full opacity and zero vertical translation after settlement, ordinary inspector clicks and focus restoration. The fallback poster has a shallow protected header region; its size is unchanged. No real inquiry was sent.

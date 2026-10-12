@@ -25,10 +25,11 @@ function check(value,message){assert.ok(value,message);checks++;}
  }
  check(new Set(samples).size===6,'Native scrolling reaches six distinct arrangements.');
  await progress(.469);
+ await page.waitForFunction(()=>document.querySelector('[data-matter-story]').dataset.readingMoving==='false',null,{timeout:30000});
  check(await page.locator('[data-field-panel]:visible').count()===1&&await page.locator('[data-field-panel]:visible').evaluate(element=>Number(getComputedStyle(element).opacity)>.99),'Stopping between formations leaves one fully legible reading.');
  await progress(.99);
- check(await page.locator('[data-story-atlas-preview]>g').count()===9&&await page.locator('[data-story-atlas-preview]').evaluate(element=>Number(getComputedStyle(element).opacity)>.99),'The ending resolves into nine clear silhouettes used by the portfolio atlas.');
- check(await page.evaluate(()=>{const title=document.querySelector('[data-matter-ending] h2').getBoundingClientRect(),art=document.querySelector('[data-story-atlas-preview]').getBoundingClientRect();return title.right<art.left;}),'The desktop ending keeps the title beside the atlas.');
+ check(await page.locator('[data-matter-world] canvas').evaluate(element=>Number(getComputedStyle(element).opacity)>.99)&&await page.locator('[data-story-atlas-preview]').count()===0,'The original fragment sculpture remains visible through the portfolio handoff.');
+ check(await page.locator('[data-matter-ending]').evaluate(element=>Number(getComputedStyle(element).opacity)>.99)&&await page.locator('[data-matter-ending] h2').textContent().then(text=>text.includes('possibilities')),'The ending resolves into the preferred spacious portfolio introduction.');
  await progress(.43);check(await page.locator('[data-matter-story]').getAttribute('data-active-form')==='Mobility','Reverse scrolling restores the first field.');
  await page.locator('[data-matter-field="Events"]').click();await page.waitForTimeout(1700);
  check(await page.locator('[data-matter-story]').getAttribute('data-field-mode')==='selected','Manual choice overrides the scroll position.');
@@ -36,7 +37,11 @@ function check(value,message){assert.ok(value,message);checks++;}
  await progress(.59);await page.waitForTimeout(1200);check(await page.locator('[data-matter-story]').getAttribute('data-field-mode')==='scroll','Moving onward rejoins the continuous journey.');
  await capture('journey-desktop');
  for(const field of fields){
-  await page.locator('[data-matter-field="'+field+'"]').click();await page.waitForTimeout(1600);
+  await page.locator('[data-matter-field="'+field+'"]').click();
+  await page.waitForFunction(field=>{const panel=document.querySelector('[data-field-panel="'+field+'"]');return !panel.hidden&&Number(getComputedStyle(panel).opacity)>.2;},field,{timeout:30000});
+  check(await page.locator('[data-field-panel="'+field+'"] [data-story-inspect]').evaluate(element=>{const box=element.getBoundingClientRect();return document.elementFromPoint(box.x+box.width/2,box.y+box.height/2)?.closest('[data-story-inspect]')===element;}),field+' active reading receives pointer events while outgoing copy clears.');
+  await page.waitForFunction(()=>document.querySelector('[data-matter-story]').dataset.readingMoving==='false',null,{timeout:30000});
+  check(await page.locator('[data-field-panel="'+field+'"]').evaluate(element=>{const style=getComputedStyle(element);return Number(style.opacity)===1&&new DOMMatrixReadOnly(style.transform).m42===0;}),field+' settles at a stable, fully legible position.');
   const opener=page.locator('[data-field-panel="'+field+'"] [data-story-inspect]');await opener.click();
   check(await page.locator('[data-story-inspector]').evaluate(e=>e.open),field+' opens its detail inspector.');
   check(await page.locator('[data-inspector-group]:visible [data-inspector-tab]').count()===3,field+' has three useful perspectives.');

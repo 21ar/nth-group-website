@@ -44,11 +44,15 @@ let checks=0;const check=(value,label)=>{assert.ok(value,label);checks++;};
  check(!(await page.locator('[data-prepared-context]').isVisible())&&await page.locator('#message').inputValue()==='','The visitor can remove a carried starting point.');
  const homeResponse=await page.goto(base+'/');check(homeResponse.ok(),'The connected homepage renders.');
  {
-  await page.locator('[data-atlas-choice="nrth-tms"]').waitFor();
-  await page.locator('[data-atlas-choice="nrth-tms"]').click();
-  await page.locator('[data-atlas-panel="nrth-tms"] [data-atlas-open]').click();
+  await page.locator('[data-index-venture="nrth-tms"]').hover();
+  await page.mouse.move(10,120);
+  await page.locator('[data-index-venture="nrth-telematics"]').evaluate(element=>{const bounds=element.getBoundingClientRect();scrollTo({top:bounds.top+scrollY+bounds.height/2-innerHeight*.46,behavior:'instant'});});
+  await page.goto(base+'/about');
+  check(await page.evaluate(()=>sessionStorage.getItem('nrth-public-journey'))===null,'Automatic scroll and hover previews do not imply a chosen venture for an inquiry.');
+  await page.goto(base+'/');
+  await page.locator('[data-index-venture="nrth-tms"]').click();
   await page.waitForURL('**/projects/nrth-tms');await page.locator('.masthead-connect').click();await page.waitForURL('**/contact?project=general');
-  check((await page.locator('[data-prepared-context-items]').textContent()).includes('NRTH TMS'),'A selected atlas perspective survives an intermediate page.');
+  check((await page.locator('[data-prepared-context-items]').textContent()).includes('NRTH TMS'),'An explicitly opened portfolio venture survives an intermediate page.');
  }
  await page.goto(base+'/');
  const handoff=page.locator('[data-connection-story="nrth-tms"] [data-connection-handoff]').first();

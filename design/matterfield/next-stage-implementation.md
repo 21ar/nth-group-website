@@ -2,13 +2,15 @@
 
 The website introduces NRTH Inc. and its nine venture directions. This revision expands the public showcase into a connected visual story with inspectable examples and useful reading paths. It preserves the supplied four-letter logo and established URLs.
 
-## The homepage sequence
+## The preferred visual foundation
 
-An authored chrome ribbon becomes an ordered unfolding, six industry arrangements, and a nine-form portfolio atlas. Joined surfaces remove the hard block seams in the curved forms. The orange seam stays attached to those surfaces. Copy and geometry share the progress director; resting between forms presents a clear nearest reading. Inspection membership follows actual routes, boundaries, rows and branches rather than arbitrary portions of an array.
+The user preferred revision `267131c` over the ribbon/atlas overhaul. This implementation restores that revision's chrome-and-orange mineral, original poster, fragment arrangements, large venture illustrations, architectural image, six illustrated industry guides and spacious typography. The rejected composition remains recoverable in Git history; it is not the public homepage.
 
-The opening is 5.6 viewport heights on desktop and 4.6 on phones. Direct navigation, field selection and inspection remain available. The atlas consolidates the prior portfolio and industry directories, reorganizing its forms on desktop and retaining non-overlapping grid controls on phones. The ending uses the same lightweight silhouettes as the atlas. A nine-module framework converges through native scrolling, followed by information contracts, a concrete transportation example, research and writing.
+The opening keeps its previous 8.4 viewport heights on desktop and 7.4 on phones. Direct navigation and field selection make the whole sequence optional. One shared fragment population changes through six arrangements and remains visible through the lighter portfolio ending. The original shape channels are unchanged; geometry-based inspection membership is additive. Copy follows form progress and smoothly resolves to one readable caption when scrolling stops. Interrupted selections continue from the displayed mixture.
 
-One WebGL renderer serves the opening. SVG handles the atlas, framework, worked examples, studies and reading illustrations. Render loops stop when settled, outside the viewport, hidden or paused. Reduced motion, unavailable graphics and no JavaScript have ordinary reading paths. A high-resolution poster is rendered from the actual ribbon implementation.
+The portfolio uses the preferred large venture rows and distinct full-size QualityPlate artwork. Selecting a field or typing a query now selects artwork among the matching rows. No-result searches remove stale artwork and provide a reset. On desktop, ordinary scrolling lets the artwork follow the venture being read; hover and keyboard focus select their corresponding previews. Keyboard focus takes priority over automatic following. Existing research and journal spreads carry links to the expanded material without additional showcase blocks.
+
+One WebGL renderer serves the opening. SVG handles the venture illustrations, industry cards, worked examples, studies and reading diagrams. Animation stops when settled, outside the viewport, hidden or paused. Reduced motion, unavailable graphics and no JavaScript retain useful reading paths. Supporting pages preserve the newer interactive examples and editorial detail.
 
 ## The public library
 
@@ -36,3 +38,6 @@ Sanity and Resend credentials were absent from the execution environment. Their 
 Verification includes geometry continuity and semantic membership, meaningful browser interactions, keyboard and native reading, narrow-phone reflow, private preview guards, generated artifacts, unique metadata and cross-page anchors. CI now runs representative browser checks against the built Vercel output. Fresh screenshots and execution reports are stored under ignored `artifacts/next-stage*`, `artifacts/studies`, `artifacts/editorial-review` and the maintained regression output directories.
 
 Review criteria are specific: visible parts explain the selected question; inputs change the dependent work; interrupted motion continues from the current state; settled content stays legible; reading and navigation remain usable without the enhanced graphics. No award, search ranking or physical hardware performance claim follows from these checks.
+
+
+For the restored visual foundation, Astro checked 165 files without diagnostics; the build and 6,882 public-document checks passed. There were 152 geometry checks, 83 discovery/mocked service/editorial contract checks, and 1,463 browser assertions across general regression, story depth, integrated experience, graphic quality, discovery and studies. Accepted opening, portfolio, industry and narrow-phone captures live in `artifacts/preferred-refinement`, with animated-state evidence in `artifacts/matterfield/browser` and `artifacts/matterfield/depth`.
