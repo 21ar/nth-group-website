@@ -3,6 +3,7 @@ import type { ImageMetadata } from 'astro';
 import { getImage } from 'astro:assets';
 import ArtworkImage from './ArtworkImage.astro';
 import { ventureDepth, ventureIllustrationNote } from '../data/venture-depth';
+import { workStepReadings } from '../data/work-step-readings';
 import '../styles/venture-experience.css';
 
 interface Props {
@@ -68,13 +69,30 @@ function contactTopic(label: string, decision: string) {
             <h4>Start with</h4>
             <ul>{context.inputs.map(input => <li>{input}</li>)}</ul>
           </aside>
-          <ol class='ve-work-flow'>
-            {context.flow.map(step => <li><h4>{step.title}</h4><p>{step.text}</p></li>)}
+          <ol class='ve-work-flow' data-ve-step-choices>
+            {context.flow.map((step, index) => <li data-ve-flow-step={index + 1}>
+              <h4><span data-ve-step-title>{step.title}</span><button type='button' id={contextSection + '-' + context.id + '-step-' + (index + 1)} aria-controls={contextSection + '-' + context.id + '-reading-' + (index + 1)} aria-describedby={contextSection + '-' + context.id + '-explanation-' + (index + 1)} data-ve-step={index + 1} hidden>{step.title}</button></h4>
+              <p id={contextSection + '-' + context.id + '-explanation-' + (index + 1)}>{step.text}</p>
+            </li>)}
           </ol>
+        </div>
+        <div class='ve-step-readings'>
+          {context.flow.map((step, index) => <section class='ve-step-reading' id={contextSection + '-' + context.id + '-reading-' + (index + 1)} aria-labelledby={contextSection + '-' + context.id + '-reading-title-' + (index + 1)} data-ve-step-panel={index + 1}>
+            <div class='ve-step-record'>
+              <span class='ve-step-label'>A working record</span>
+              <h4 id={contextSection + '-' + context.id + '-reading-title-' + (index + 1)}>{step.title}</h4>
+              <p>{workStepReadings[slug]?.[context.id]?.[index]?.record}</p>
+            </div>
+            <div class='ve-step-checkpoint'>
+              <span class='ve-step-label'>The question to check</span>
+              <p>{workStepReadings[slug]?.[context.id]?.[index]?.checkpoint}</p>
+              <div class='ve-step-next'><span>{index + 1 < context.flow.length ? 'Then continue with' : 'Bring it to the next decision'}</span><p>{context.flow[index + 1]?.title || context.decision}</p></div>
+            </div>
+          </section>)}
         </div>
         <div class='ve-work-decision'>
           <div><span>The next decision</span><p>{context.decision}</p></div>
-          <a class='inline-link' href={'/contact?project=' + encodeURIComponent(slug) + '&topic=' + encodeURIComponent(contactTopic(context.label, context.decision))}>Discuss this context</a>
+          <a class='inline-link' data-ve-inquiry data-ve-context-label={context.label} data-ve-decision={context.decision} href={'/contact?project=' + encodeURIComponent(slug) + '&topic=' + encodeURIComponent(contactTopic(context.label, context.decision))}>Discuss this context</a>
         </div>
         <div class='ve-context-connection'>
           <p>{context.connection.text}</p>
