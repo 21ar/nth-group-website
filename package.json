@@ -14,7 +14,8 @@
     "test:browser": "node verify-browser.cjs",
     "test:enrichment": "node verify-enrichment.cjs",
     "test:depth": "node verify-depth.cjs",
-    "test:baseline": "node scripts/verify-baseline.cjs"
+    "test:baseline": "node scripts/verify-baseline.cjs",
+    "test:ventures": "node scripts/verify-venture-experiences.cjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",

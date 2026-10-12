@@ -1,0 +1,44 @@
+.venture-spotlight{--accent-text:var(--orange);padding:110px var(--gutter) 125px;background:var(--dark);color:var(--white);overflow:hidden}
+.spotlight-heading{display:grid;grid-template-columns:1.2fr 1fr;align-items:end;gap:45px 7vw;margin-bottom:55px}
+.spotlight-heading h2{font-size:clamp(64px,7.4vw,116px)}
+.spotlight-heading>p{font-size:20px;max-width:440px;line-height:1.6;padding-bottom:8px}
+.spotlight-controls{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;margin-bottom:28px;border-bottom:1px solid #383940}
+.spotlight-tabs{display:flex;flex-wrap:wrap;gap:10px 38px;min-width:0}
+.spotlight-tabs button{position:relative;color:#b7b8bd;font-size:20px;font-weight:500;min-height:48px;padding:10px 0 16px;transition:color .25s}
+.spotlight-tabs button::after{content:'';position:absolute;inset:auto 0 -1px;height:2px;background:var(--orange);transform:scaleX(0);transform-origin:left;transition:transform .55s cubic-bezier(.16,1,.3,1)}
+.spotlight-tabs button[aria-selected='true']{color:var(--white)}
+.spotlight-tabs button[aria-selected='true']::after{transform:scaleX(1)}
+.spotlight-tabs button:hover{color:var(--white)}
+.spotlight-share{display:flex;flex-direction:column;align-items:flex-end;position:relative;flex-shrink:0}
+.spotlight-share button{font-size:15px;min-height:48px;padding:12px 0 16px;color:#b7b8bd;text-decoration:underline;text-underline-offset:5px;text-decoration-color:#5b5c62}
+.spotlight-share button:hover{color:var(--white);text-decoration-color:var(--white)}
+.spotlight-copy-feedback{font-size:13px;color:var(--orange);position:absolute;top:100%;right:0;z-index:3;white-space:nowrap;padding-top:8px}
+.spotlight-panel+.spotlight-panel{margin-top:95px}
+.spotlight-image{position:relative;margin:0;overflow:hidden;background:#151619;height:70svh;min-height:420px;max-height:950px}
+.spotlight-image-motion{position:absolute;inset:-30px 0;width:100%;height:calc(100% + 60px);transform:translate3d(0,0,0)}
+.spotlight-image img{height:100%;width:100%;object-fit:cover;object-position:center}
+[data-spotlight-panel='health'] .spotlight-image img{object-position:70% center}
+[data-spotlight-panel='movement'] .spotlight-image img{object-position:80% center}
+[data-spotlight-panel='materials'] .spotlight-image img{object-position:60% center}
+.spotlight-image figcaption{position:absolute;left:24px;bottom:21px;color:#f2f0e9;font-size:13px;line-height:1.5;max-width:calc(100% - 48px);padding:6px 9px;background:#0a0b0da6}
+.spotlight-copy{display:grid;grid-template-columns:1.2fr 1fr;align-items:start;gap:35px 7vw;margin-top:48px}
+.spotlight-copy h3{font-size:clamp(44px,4.7vw,74px);line-height:1.04;max-width:740px}
+.spotlight-context>p{font-size:18px;line-height:1.75;color:#c3c4c8;max-width:560px}
+.spotlight-venture-links{display:flex;flex-wrap:wrap;gap:15px 28px;margin-top:29px}
+.spotlight-venture-links a{font-size:18px;line-height:1.5;border-bottom:1px solid #66676e;padding:7px 0 5px;min-height:44px;transition:color .25s,border-color .25s}
+.spotlight-venture-links a:hover{color:var(--orange);border-color:var(--orange)}
+.spotlight-industry-link{display:inline-block;margin-top:20px;font-size:16px;min-height:44px;padding:8px 0 7px;text-decoration:underline;text-decoration-color:#66676e;text-underline-offset:6px;transition:color .25s,text-decoration-color .25s}
+.spotlight-industry-link:hover{color:var(--orange);text-decoration-color:var(--orange)}
+.venture-spotlight :focus-visible{outline-color:var(--orange)}
+.venture-spotlight.is-enhanced .spotlight-panels{display:grid}
+.venture-spotlight.is-enhanced .spotlight-panel{grid-area:1/1;min-width:0;margin:0;visibility:hidden;pointer-events:none}
+.venture-spotlight.is-enhanced .spotlight-panel.is-selected{visibility:visible;pointer-events:auto}
+.venture-spotlight.is-enhanced .spotlight-panel.is-leaving{visibility:visible;pointer-events:none}
+.venture-spotlight.is-enhanced .spotlight-panel.is-leaving .spotlight-copy,.venture-spotlight.is-enhanced .spotlight-panel.is-leaving figcaption{visibility:hidden}
+@media(min-width:1600px){.spotlight-context>p{font-size:20px}.spotlight-venture-links a{font-size:20px}}
+@media(max-width:1050px){.spotlight-controls{align-items:flex-start}.spotlight-tabs{gap:10px 28px}.spotlight-tabs button{font-size:18px}.spotlight-heading>p{font-size:18px}.spotlight-copy{grid-template-columns:1.1fr 1fr;gap:30px 5vw}.spotlight-copy h3{font-size:clamp(44px,5vw,65px)}}
+@media(max-width:767px){.venture-spotlight{padding-top:80px;padding-bottom:80px}.spotlight-heading{display:block;margin-bottom:35px}.spotlight-heading h2{font-size:clamp(58px,13vw,88px)}.spotlight-heading>p{font-size:18px;margin-top:28px;padding:0}.spotlight-controls{display:block;margin-bottom:25px;padding-bottom:5px}.spotlight-tabs{gap:5px 28px}.spotlight-tabs button{font-size:17px;min-height:46px;padding:10px 0 12px}.spotlight-share{align-items:flex-start;margin-top:8px}.spotlight-share button{font-size:14px;min-height:44px;padding:9px 0}.spotlight-copy-feedback{position:static;min-height:22px;padding:0 0 6px;font-size:13px}.spotlight-image{height:70svh;min-height:370px;max-height:700px}.spotlight-image figcaption{left:13px;bottom:13px;font-size:12px;max-width:calc(100% - 26px)}.spotlight-copy{display:block;margin-top:31px}.spotlight-copy h3{font-size:clamp(42px,10.6vw,62px);max-width:540px}.spotlight-context{margin-top:26px}.spotlight-context>p{font-size:17px}.spotlight-venture-links{gap:12px 25px;margin-top:20px}.spotlight-venture-links a{font-size:17px}.spotlight-industry-link{font-size:16px;margin-top:15px}.spotlight-panel+.spotlight-panel{margin-top:65px}}
+@media(max-width:359px){.spotlight-tabs{gap:3px 20px}.spotlight-tabs button{font-size:16px}.spotlight-heading h2{font-size:58px}.spotlight-copy h3{font-size:39px}.spotlight-context>p{font-size:16px}.spotlight-image{min-height:340px}}
+@media(max-height:560px) and (orientation:landscape){.spotlight-image{height:78svh;min-height:340px}.venture-spotlight{padding-top:75px}}
+@media(prefers-reduced-motion:reduce){.spotlight-image-motion{transform:none!important}.venture-spotlight *{transition:none!important}}
+.motion-paused .spotlight-image-motion{transform:none!important}

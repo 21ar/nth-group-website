@@ -21,7 +21,7 @@ jobs:
       - run: npm run build
       - run: python3 scripts/verify-public-output.py
       - run: npx playwright install --with-deps chromium
-      - name: Verify the restored portfolio and native alternatives
+      - name: Verify portfolio, venture experiences and native alternatives
         run: |
           node scripts/preview.mjs --host 127.0.0.1 --port 4173 > /tmp/nrth-preview.log 2>&1 &
           preview_pid=$!
@@ -32,6 +32,7 @@ jobs:
           fi
           export CHROMIUM_PATH="$(node -e "process.stdout.write(require('@playwright/test').chromium.executablePath())")"
           npm run test:baseline
+          npm run test:ventures
         env:
           NRTH_TEST_URL: http://127.0.0.1:4173
       - uses: actions/setup-node@v4

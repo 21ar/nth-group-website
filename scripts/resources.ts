@@ -65,9 +65,16 @@ const pages = [
 ];
 const escape = (text: string) => text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 for (const page of pages) {
+  const venture = projects.find(project => page.path === 'projects-' + project.slug);
   const words = page.title.split(' '), lines: string[] = [];let line = '';
-  for (const word of words) {if ((line + word).length > 26 && line) {lines.push(line.trim());line = '';}line += word + ' ';}if(line) lines.push(line.trim());
+  for (const word of words) {if ((line + word).length > (venture ? 19 : 26) && line) {lines.push(line.trim());line = '';}line += word + ' ';}if(line) lines.push(line.trim());
   const markup = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"><rect width="1200" height="630" fill="#0a0b0d"/><text x="64" y="75" font-family="sans-serif" font-size="14" letter-spacing="2" fill="#c1c0bb">${escape(page.label)}</text>${lines.slice(0,3).map((text,i)=>`<text x="64" y="${190+i*72}" font-family="sans-serif" font-size="64" letter-spacing="-3" fill="#f2f0e9">${escape(text)}</text>`).join('')}<g transform="translate(982 505) scale(28)" fill="#f2f0e9">${glyphs.map(path=>`<path d="${path}"/>`).join('')}</g><path d="M64 452H1136" stroke="#ff743b"/><text x="64" y="539" font-family="sans-serif" font-size="16" fill="#c1c0bb">nrth.group</text></svg>`;
-  await writeFile(directory + '/social/' + page.path + '.png',await sharp(Buffer.from(markup)).png().toBuffer());
+  if (venture) {
+    const image = await sharp('src/assets/ventures/' + venture.slug.replace('nrth-','') + '.png').resize(552,630,{fit:'cover'}).png().toBuffer();
+    const overlay = markup.replace('<rect width="1200" height="630" fill="#0a0b0d"/>','<rect width="648" height="630" fill="#0a0b0d"/>').replace(/font-size="64"/g,'font-size="52"');
+    await writeFile(directory + '/social/' + page.path + '.png',await sharp({create:{width:1200,height:630,channels:4,background:'#0a0b0d'}}).composite([{input:image,left:648,top:0},{input:Buffer.from(overlay),left:0,top:0}]).png().toBuffer());
+  } else {
+    await writeFile(directory + '/social/' + page.path + '.png',await sharp(Buffer.from(markup)).png().toBuffer());
+  }
 }
 console.log('Generated ' + pages.length + ' page-specific social images.');
