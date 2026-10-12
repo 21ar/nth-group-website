@@ -44,8 +44,8 @@ fs.mkdirSync(out,{recursive:true});
   await choices.nth(1).focus();await page.keyboard.press('End');
   check(await choices.last().getAttribute('aria-selected')==='true'&&await choices.last().evaluate(e=>e===document.activeElement),venture+' supports keyboard scenario selection.');
   check(await page.locator('[data-venture-stories] .vs-questions details').count()===3,venture+' answers three practical questions.');
-  await page.locator('[data-venture-stories] details summary').first().click();
-  check(await page.locator('[data-venture-stories] details').first().getAttribute('open')!==null,venture+' questions expand natively.');
+  await page.locator('[data-venture-stories] .vs-questions details summary').first().click();
+  check(await page.locator('[data-venture-stories] .vs-questions details').first().getAttribute('open')!==null,venture+' questions expand natively.');
  }
  await capture('[data-venture-stories]','venture-desktop');
  console.log('All nine venture scenarios and questions passed.');

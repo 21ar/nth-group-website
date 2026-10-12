@@ -1,6 +1,6 @@
 const assert=require('node:assert/strict');
 const {chromium}=require('@playwright/test');
-const base=process.env.NRTH_TEST_URL||'http://127.0.0.1:4193';
+const base=process.env.NRTH_TEST_URL||'http://127.0.0.1:4173';
 let checks=0;const check=(value,label)=>{assert.ok(value,label);checks++;};
 (async()=>{
  const browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||'/usr/bin/chromium',headless:true,args:['--no-sandbox','--disable-webgl']});

@@ -72,7 +72,7 @@ function check(value,message){assert.ok(value,message);checks++;}
  const download=page.waitForEvent('download');await page.locator('[data-investor-save]').click();const file=await download;
  const pack=fs.readFileSync(await file.path(),'utf8');check(pack.includes('NRTH Chemicals')&&pack.includes('Published scope:')&&pack.includes('https://nrth.group/about'),'The saved reading pack contains selected ventures, actual scope and working resource links.');
  await capture('investors-desktop');
- await page.locator('[data-investor-inquiry]').click();await page.waitForURL('**/contact?*');check(await page.locator('[name="project"]').inputValue()==='investor','The comparison prepares an investor inquiry.');check((await page.locator('[name="message"]').inputValue()).includes('nrth chemicals'),'The chosen comparison is retained in the inquiry.');
+ await page.locator('[data-investor-inquiry]').click();await page.waitForURL('**/contact?*');check(await page.locator('[name="project"]').inputValue()==='investor','The comparison prepares an investor inquiry.');check((await page.locator('[name="message"]').inputValue()).toLowerCase().includes('nrth chemicals'),'The chosen comparison is retained in the inquiry.');
  await visit('/investors?compare=nrth-events,nrth-fleet');check(await page.locator('[data-investor-card]').count()===2,'A shared comparison restores two selected perspectives.');await page.locator('[data-investor-reset]').click();check(await page.locator('[data-investor-card]').count()===3,'Reset restores the initial comparison.');
  await visit('/research');await page.locator('[data-experiment-planner]').scrollIntoViewIfNeeded();
  const outlines=new Set();

@@ -1,7 +1,7 @@
 const {chromium}=require('playwright');
 const fs=require('node:fs/promises');
 const path=require('node:path');
-const base=process.env.NRTH_TEST_URL||'http://127.0.0.1:4193';
+const base=process.env.NRTH_TEST_URL||'http://127.0.0.1:4173';
 const output=process.env.NRTH_STUDY_REPORT||'artifacts/studies';
 let assertions=0;
 function assert(value,message){assertions++;if(!value)throw new Error(message);}
