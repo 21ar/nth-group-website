@@ -1,4 +1,4 @@
-export {};
+import {prepareInquiry,emitDiscovery} from './prepared-inquiry';
 const root=document.querySelector<HTMLElement>('[data-partnership-brief]');
 if(root){
  const form=root.querySelector<HTMLFormElement>('[data-brief-form]')!;
@@ -12,8 +12,8 @@ if(root){
  form.addEventListener('input',update);
  form.addEventListener('change',event=>{if((event.target as HTMLInputElement).name==='direction'){const panel=root.querySelector('.brief-preview')!;panel.classList.remove('is-changing');requestAnimationFrame(()=>panel.classList.add('is-changing'));}});
  form.addEventListener('reset',()=>requestAnimationFrame(update));
- form.addEventListener('submit',event=>{event.preventDefault();if(!form.reportValidity())return;try{sessionStorage.setItem('nrth-partnership-brief',JSON.stringify({version:1,message:text(),createdAt:Date.now()}));location.assign('/contact?project=partnership&brief=prepared');}catch{status.textContent='This browser could not transfer your brief. Save or copy it here, then open an inquiry.';}});
- root.querySelector('[data-brief-save]')!.addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([text()],{type:'text/plain;charset=utf-8'})),link=document.createElement('a');link.href=url;link.download='nrth-partnership-outline.txt';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);status.textContent='Your partnership outline was saved as a text file.';});
+ form.addEventListener('submit',event=>{event.preventDefault();if(!form.reportValidity())return;prepareInquiry({project:'partnership',draftMessage:text(),items:[{kind:'partnership-outline',label:'Partnership starting point',value:titles[read().direction]}]});});
+ root.querySelector('[data-brief-save]')!.addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([text()],{type:'text/plain;charset=utf-8'})),link=document.createElement('a');link.href=url;link.download='nrth-partnership-outline.txt';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);status.textContent='Your partnership outline was saved as a text file.';emitDiscovery('partnership_outline_saved');});
  root.querySelector('[data-brief-copy]')!.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(text());status.textContent='Your outline is copied.';}catch{status.textContent='Copy is unavailable here. You can save a text copy instead.';}});
  update();
 }

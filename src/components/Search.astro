@@ -1,0 +1,17 @@
+---
+import {searchTypes,searchTypeLabels} from '../data/search-engine';
+import '../styles/discovery-search.css';
+import '../styles/prepared-context.css';
+---
+<a class='masthead-search' href='/search' data-search-open>Search</a>
+<dialog class='search-dialog' data-search-dialog aria-labelledby='search-dialog-title'>
+ <div class='search-dialog-header'><span id='search-dialog-title'>Find your perspective.</span><button type='button' data-search-close>Close</button></div>
+ <div class='search-interface' data-public-search>
+  <label for='site-search-input'>What are you looking for?</label><input id='site-search-input' type='search' maxlength='120' placeholder='A venture, question or idea' autocomplete='off' data-public-search-input/>
+  <div class='search-type-filters' role='group' aria-label='Search within'>{searchTypes.map(type=><button type='button' data-search-type={type} aria-pressed={type==='all'}>{searchTypeLabels[type]}</button>)}</div>
+  <p class='search-result-status' role='status' aria-live='polite' data-public-search-status>Search NRTH’s ventures, industries, thinking and resources.</p>
+  <ul class='search-results' data-public-search-results></ul>
+  <p class='search-footnote'>Search stays in your browser. <a href='/search'>Browse the public directory</a>.</p>
+ </div>
+</dialog>
+<script>import '../scripts/public-search';import '../scripts/prepared-inquiry';</script>

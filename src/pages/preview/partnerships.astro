@@ -1,0 +1,9 @@
+---
+import PartnershipsPage from '../../components/PartnershipsPage.astro';
+import {cookieName,validPreviewSession} from '../../server/preview';
+export const prerender = false;
+Astro.response.headers.set('Cache-Control','private, no-store');
+if (!validPreviewSession(Astro.cookies.get(cookieName)?.value)) return Astro.redirect('/preview');
+---
+<PartnershipsPage draft/>
+<script>import '../../scripts/preview';</script>

@@ -1,0 +1,15 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import WorkLibrary from '../../components/WorkLibrary.astro';
+import ContactInvitation from '../../components/ContactInvitation.astro';
+import {designStudies,studyTitle} from '../../data/design-studies';
+import '../../styles/work-library.css';
+const studyIndex={'@context':'https://schema.org','@type':'ItemList',name:'NRTH documented design studies',itemListElement:designStudies.map((study,index)=>({'@type':'ListItem',position:index+1,name:studyTitle(study),url:'https://nrth.group/work/'+study.slug}))};
+---
+<Layout title='Design studies' description='Inspect NRTH’s documented website design studies: visual continuity, information handoffs, evidence in context and event rhythm. Explore artifacts, methods and limits.'>
+ <script type='application/ld+json' set:html={JSON.stringify(studyIndex).replace(/</g,'\\u003c')}/>
+ <section class='page-heading'><span class='section-label'>Work · documented design studies</span><h1>Show the work.<br/><em>Keep the reason.</em></h1><p>A useful artifact has more than an appearance. These records connect an implemented example to the question it explores, the choices it makes and the conclusions it can support.</p></section>
+ <WorkLibrary/>
+ <section class='study-section study-protocol'><div><h2>A record<br/>you can examine.</h2><div><p>Each study includes a dated scope, an interactive artifact, an explanation of the design method and a practical review. Download the worksheet when you want to bring the question into your own setting.</p><p>These are records of the website’s creative interface work. Synthetic examples are identified, and observations describe the authored artifact. They do not substitute for user research, clinical evidence, materials testing or a produced event.</p><a class='inline-link' href='/research'>Explore the research tools</a></div></div></section>
+ <ContactInvitation project='nrth-labs' headline='Which question is yours?'/>
+</Layout>

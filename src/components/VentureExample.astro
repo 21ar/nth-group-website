@@ -1,0 +1,80 @@
+---
+import {ventureExamples, exampleNodes, exampleCurve, examplePath} from '../data/venture-examples';
+import '../styles/venture-example.css';
+interface Props {slug:string;standalone?:boolean;compact?:boolean;}
+const {slug,standalone=false,compact=false}=Astro.props;
+const model=ventureExamples[slug];
+const uid=`example-${slug}`;
+const nodes=model ? exampleNodes(model,0) : [];
+const edgeKeys=model ? [...new Set(model.states.flatMap(state=>state.edges.map(edge=>`${edge.from}|${edge.to}`)))] : [];
+const state=model?.states[0];
+const initialPart=nodes.find(node=>node.id===state?.focus);
+const curve=(from:string,to:string)=>exampleCurve(nodes.find(node=>node.id===from)!,nodes.find(node=>node.id===to)!);
+const serialized=model ? JSON.stringify(model).replace(/</g,'\\u003c') : '';
+const shapes={record:'M-52-47H30L52-25V47H-52Z',capsule:'M-55-27C-55-48 55-48 55-27V27C55 48-55 48-55 27Z',orb:'M0-48C26.5-48 48-26.5 48 0S26.5 48 0 48-48 26.5-48 0-26.5-48 0-48Z',diamond:'M0-58L64-1Q67 2 64 5L0 58-64 5Q-67 2-64-1Z',module:'M-59-35L0-59 59-35V35L0 59-59 35Z',stage:'M-61-22Q0-55 61-22V28Q0 61-61 28Z'};
+---
+{model && state && <div class:list={['venture-example',{'venture-example--compact':compact}]} data-worked-example data-venture={slug} data-example={model.id} data-example-state='0' data-example-part={state.focus} data-example-dependencies='false' data-example-settled='true'>
+  <div class='ve-heading'><p class='ve-artifact'>{model.artifact}</p><h3>{model.title}</h3><p>{model.question}</p></div>
+  {standalone&&<div class='ve-standalone-controls' data-example-controls aria-label='Change the illustrative scenario' hidden>{model.states.map((state,index)=><button type='button' data-example-choice={index} aria-pressed={index===0}>{state.title}</button>)}</div>}
+  <div class='ve-graphic-layout'>
+    <figure class='ve-figure'>
+      <div class='ve-figure-surface'>
+        <svg class='ve-diagram' viewBox='0 0 960 560' role='img' aria-labelledby={uid+'-title'} aria-describedby={uid+'-description'} data-example-diagram>
+          <title id={uid+'-title'}>{model.artifact}</title><desc id={uid+'-description'} data-example-description>{state.caption} This is a synthetic editorial example. Numbered parts are described below.</desc>
+          <defs>
+            <linearGradient id={uid+'-metal'} x1='0' y1='0' x2='.7' y2='1'><stop stop-color='#5d636b'/><stop offset='.17' stop-color='#f6f3eb'/><stop offset='.35' stop-color='#797f86'/><stop offset='.49' stop-color='#252c35'/><stop offset='.68' stop-color='#d3d2cf'/><stop offset='.85' stop-color='#646b75'/><stop offset='1' stop-color='#242b35'/></linearGradient>
+            <linearGradient id={uid+'-plane'} x1='0' y1='0' x2='1' y2='1'><stop stop-color='#41464e'/><stop offset='.5' stop-color='#171b22'/><stop offset='1' stop-color='#282c32'/></linearGradient>
+            <radialGradient id={uid+'-light'}><stop stop-color='#c0aaa0' stop-opacity='.07'/><stop offset='1' stop-color='#c0aaa0' stop-opacity='0'/></radialGradient>
+          </defs>
+          <ellipse cx='480' cy='280' rx='470' ry='270' fill={'url(#'+uid+'-light)'} aria-hidden='true'/>
+          <g class='ve-model-ground' fill='none' stroke='#7c838a' stroke-width='1' aria-hidden='true'>
+            {slug==='nrth-tms' && <><path d='M92 68H880M92 248H880M92 428H880M210 48V475M450 48V475M690 48V475'/><path d='M105 74V52H295V74M340 74V52H530V74'/></>}
+            {slug==='nrth-health' && <><path d='M95 315Q370 50 650 315T900 315'/><path d='M93 355Q370 90 650 355T900 355'/><path d='M130 440H260M650 470H815'/></>}
+            {slug==='nrth-chemicals' && <><path d='M240 150L720 150 480 370Z'/><path d='M150 105L810 105 480 450Z'/><circle cx='480' cy='250' r='195'/></>}
+            {slug==='nrth-telematics' && <><circle cx='480' cy='245' r='125'/><circle cx='480' cy='245' r='220'/><path d='M480 20V42M480 448V470M255 245H277M683 245H705'/></>}
+            {slug==='nrth-logistics' && <><path d='M65 310Q300 340 480 275T920 210'/><path d='M65 350Q300 380 480 315T920 250'/><path d='M65 410H235M735 95H900'/></>}
+            {slug==='nrth-systems' && <><path d='M80 110L190 55 300 110V345L190 400 80 345Z M670 110L780 55 890 110V345L780 400 670 345Z'/><path d='M480 45V465' stroke-dasharray='4 9'/></>}
+            {slug==='nrth-fleet' && <><path d='M90 75H870M90 245H870M90 415H870M325 55V455M650 55V455'/><path d='M430 92H625M430 400H625'/></>}
+            {slug==='nrth-labs' && <><path d='M115 70Q470 35 910 120M115 440Q470 515 910 430'/><path d='M370 70Q470 245 370 440M630 70Q530 245 630 440'/></>}
+            {slug==='nrth-events' && <><path d='M95 410Q480-35 875 410M155 460Q480 60 815 460M215 500Q480 155 755 500'/><path d='M480 215V505'/></>}
+          </g>
+          <g class='ve-edges' fill='none' stroke-linecap='round'>
+            {edgeKeys.map(key=>{const [from,to]=key.split('|');const edge=state.edges.find(edge=>edge.from===from&&edge.to===to);const dependency=nodes.find(node=>node.id===from)?.dependency||nodes.find(node=>node.id===to)?.dependency;return <g data-example-edge={key} data-from={from} data-to={to} data-dependency={dependency?'true':'false'} data-mode={edge?.mode||'known'} opacity={edge?1:0}><path class='ve-edge-base' d={examplePath(curve(from,to))}/><path class='ve-edge-trace' d={examplePath(curve(from,to))} pathLength='1'/></g>;})}
+          </g>
+          <g class='ve-nodes'>
+            {nodes.map((node,index)=><g class='ve-node' data-example-node={node.id} data-dependency={node.dependency?'true':'false'} data-status={node.status} transform={`translate(${node.x} ${node.y})`}>
+              <ellipse class='ve-node-ground' cx='5' cy='62' rx='58' ry='10' fill='#030407' opacity='.4'/>
+              <path class='ve-node-edge' d={shapes[node.shape]} transform='translate(0 7)' fill='#0b0e12' stroke='#414954' stroke-width='3'/>
+              <path class='ve-node-body' d={shapes[node.shape]} fill={'url(#'+uid+'-plane)'} stroke={'url(#'+uid+'-metal)'} stroke-width='6' stroke-linejoin='round'/>
+              {node.shape==='record'&&<path d='M30-45V-25H50M-32-15H13M-32 0H28M-32 15H15' fill='none' stroke='#b7bbc0' stroke-width='1.5' opacity='.6'/>}
+              {node.shape==='module'&&<path d='M-58-34L0-10 58-34M0-10V57' fill='none' stroke='#9da4ab' stroke-width='1' opacity='.4'/>}
+              {node.shape==='capsule'&&<path d='M-38-20Q0-32 38-20' fill='none' stroke='#bdc1c5' stroke-width='1.5' opacity='.5'/>}
+              {node.shape==='stage'&&<path d='M-60-22Q0 12 60-22M-42 21Q0 42 42 21' fill='none' stroke='#bdc1c5' stroke-width='1.5' opacity='.4'/>}
+              <circle class='ve-node-focus' r='76' fill='none' stroke='#ed8d58' stroke-width='1.5'/>
+              <text class='ve-node-number' text-anchor='middle' y='8' fill='#f4f0e8' font-size='25' font-family='Manrope Variable, sans-serif'>{index+1}</text>
+              <text class='ve-node-label' text-anchor='middle' y='91' fill='#d9d8d3' font-size='19' font-family='Manrope Variable, sans-serif' data-example-node-label>{node.label}</text>
+              <circle class='ve-node-status' cx='44' cy='-35' r='6' fill='#959fa6'/>
+            </g>)}
+          </g>
+        </svg>
+      </div>
+      <div class='ve-selected-reading' aria-live='polite'><strong data-example-selected-label>{initialPart&&`${nodes.indexOf(initialPart)+1}. ${initialPart.label}`}</strong><p data-example-selected-detail>{initialPart?.detail}</p></div>
+      <figcaption><span class='ve-caption' data-example-caption>{state.caption}</span><span class='ve-synthetic'>Synthetic example. No live records.</span></figcaption>
+      <p class='ve-native-note'>The diagram shows the first scenario. The records below describe how the other scenarios change the work.</p>
+    </figure>
+    <div class='ve-inspection'>
+      <div class='ve-inspection-heading'><h4>Inspect the work</h4><button type='button' data-example-dependencies-toggle aria-pressed='false' hidden>Trace downstream work</button></div>
+      <div class='ve-parts'>
+        {nodes.map((node,index)=><details data-example-part-record={node.id} data-dependency={node.dependency?'true':'false'} open={node.id===state.focus}><summary><span class='ve-part-number'>{index+1}</span><span data-example-part-label>{node.label}</span><span class='ve-part-status' data-example-part-status>{node.status==='known'?'Defined':node.status==='pending'?'Needs confirmation':node.status==='changed'?'Changed':'Held'}</span></summary><div><h5 data-example-part-role>{node.role}</h5><p data-example-part-detail>{node.detail}</p></div></details>)}
+      </div>
+      <p class='ve-inspection-note'>Numbers connect the drawing to the responsibilities and information it represents.</p>
+    </div>
+  </div>
+  <div class='ve-records' data-example-records>
+    {model.states.map((state,index)=><div data-example-record={index}><h4>{state.title}</h4><p class='ve-record-id'>{state.record}</p><p><strong>The dependent work</strong>{state.consequence}</p></div>)}
+  </div>
+  <details class='ve-technical'><summary>Read the scope and technical notes<span aria-hidden='true'></span></summary><div class='ve-technical-content'><div class='ve-scope-grid'><div><h4>What the example covers</h4><p>{model.scope}</p></div><div><h4>The boundary of the example</h4><p>{model.limits}</p></div><div><h4>Illustrative inputs</h4><ul>{model.inputs.map(input=><li>{input}</li>)}</ul></div></div><div class='ve-technical-grid'>{model.technical.map(note=><article><h4>{note.title}</h4><p>{note.text}</p></article>)}</div></div></details>
+  <p class='sr-only' data-example-announcement aria-live='polite' aria-atomic='true'></p>
+  <script is:inline type='application/json' data-example-model set:html={serialized}/>
+</div>}
+<script>import '../scripts/venture-example';</script>

@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import PreparedContext from '../components/PreparedContext.astro';
 import {projects} from '../data/projects';
 import '../styles/contact-quality.css';
 const email=import.meta.env.PUBLIC_CONTACT_EMAIL||'hello@nrth.group',investors=import.meta.env.PUBLIC_INVESTORS_EMAIL||'investors@nrth.group',partnerships=import.meta.env.PUBLIC_PARTNERSHIPS_EMAIL||'partnerships@nrth.group';
@@ -8,6 +9,7 @@ const email=import.meta.env.PUBLIC_CONTACT_EMAIL||'hello@nrth.group',investors=i
  <section class='contact-heading'><span class='section-label'>Connect with NRTH</span><h1>Make an<br/><em>introduction.</em></h1><p>Tell us what you see, what you are working on and where you think a conversation could lead.</p></section>
  <section class='contact-layout'><div class='contact-side'><p>A short introduction is enough to begin. Choose the relevant venture or the type of conversation, then add the context that matters.</p><div class='contact-preparation'><h2>Bring the work<br/>into focus.</h2><ol><li><strong>The situation</strong><p>Who is involved, what happens today and where the friction or opportunity sits.</p></li><li><strong>The question</strong><p>What you need to understand, change or make possible. A specific example helps.</p></li><li><strong>The next decision</strong><p>What a useful conversation would help you decide, and any timing or constraints around it.</p></li></ol></div><div class='contact-addresses'><span>General & venture inquiries</span><a href={'mailto:'+email}>{email}</a><span>Partnerships</span><a href={'mailto:'+partnerships}>{partnerships}</a><span>Investors</span><a href={'mailto:'+investors}>{investors}</a></div></div>
  <form class='contact-form' hidden data-inquiry-form data-contact-email={email} data-partnerships-email={partnerships} data-investors-email={investors}>
+  <PreparedContext/>
   <div class='form-field'><label for='name'>Your name</label><input id='name' name='name' autocomplete='name' required maxlength='120' placeholder='How should we address you?'/></div>
   <div class='form-field'><label for='email'>Email address</label><input id='email' name='email' type='email' autocomplete='email' required maxlength='254' placeholder='you@company.com'/></div>
   <div class='form-field'><label for='organization'>Organization <span>Optional</span></label><input id='organization' name='organization' autocomplete='organization' maxlength='180' placeholder='Your company or team'/></div>

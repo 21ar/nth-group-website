@@ -1,0 +1,9 @@
+---
+import ResearchPage from '../../components/ResearchPage.astro';
+import {cookieName,validPreviewSession,privatePreviewRedirect} from '../../server/preview';
+export const prerender=false;
+Astro.response.headers.set('Cache-Control','private, no-store');
+if(!validPreviewSession(Astro.cookies.get(cookieName)?.value))return privatePreviewRedirect();
+---
+<ResearchPage draft/>
+<script>import '../../scripts/preview';</script>

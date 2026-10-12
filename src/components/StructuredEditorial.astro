@@ -1,0 +1,35 @@
+---
+import QualityPlate from './QualityPlate.astro';
+import {projects} from '../data/projects';
+import type {EditorialContent,VentureScope} from '../data/editorial-content';
+import '../styles/structured-editorial.css';
+interface Props {editorial:EditorialContent;scope?:VentureScope;heading?:string;id?:string;showExamples?:boolean;showRelated?:boolean;}
+const {editorial,scope,heading='Scope, made clear.',id='editorial-detail',showExamples=true,showRelated=true}=Astro.props;
+const hasContent=scope||editorial.sections.length||(showExamples&&editorial.examples.length)||editorial.references.length||editorial.downloads.length||(showRelated&&Object.values(editorial.related).some(items=>items.length));
+const ventureName=(slug:string)=>projects.find(item=>item.slug===slug)?.name||slug;
+---
+{hasContent&&<section class='structured-editorial' id={id} aria-labelledby={id+'-heading'} data-structured-editorial>
+ <div class='structured-heading' data-enter><h2 id={id+'-heading'}>{heading}</h2>{scope&&<p>{scope.currentScope}</p>}</div>
+ {scope&&<div class='structured-scope'><p>{scope.availability}</p>{(scope.reviewedAt||scope.owner)&&<p class='structured-review'>{scope.reviewedAt&&<>Scope reviewed <time datetime={scope.reviewedAt}>{scope.reviewedAt}</time></>}{scope.owner&&<span>Reviewed by {scope.owner}</span>}</p>}</div>}
+ {editorial.sections.map(section=><article class:list={['structured-section',{'structured-section-illustrated':section.variant}]} id={id+'-'+section.id} data-enter>
+  <div><h3>{section.title}</h3>{section.paragraphs.map(paragraph=><p>{paragraph}</p>)}</div>
+  {section.variant&&<figure><QualityPlate kind={section.variant} label={section.caption||section.title}/></figure>}
+  {section.caption&&!section.variant&&<p class='structured-caption'>{section.caption}</p>}
+ </article>)}
+ {showExamples&&editorial.examples.map(example=><article class='structured-example' id={id+'-'+example.id} data-enter>
+  <header><span>Worked example</span><h3>{example.title}</h3><p>{example.context}</p></header>
+  {example.inputs.length>0&&<dl class='structured-inputs'>{example.inputs.map(input=><div><dt>{input.label}</dt><dd>{input.value}</dd></div>)}</dl>}
+  {example.steps.length>0&&<ol class='structured-steps'>{example.steps.map(step=><li><h4>{step.title}</h4><p>{step.text}</p></li>)}</ol>}
+  <div class='structured-output'><h4>What becomes visible</h4><p>{example.output}</p><details><summary>Read the limits of this example</summary><p>{example.limits}</p></details></div>
+  {example.caption&&<p class='structured-caption'>{example.caption}</p>}
+ </article>)}
+ {(editorial.references.length>0||editorial.downloads.length>0)&&<div class='structured-shelf'>
+  {editorial.references.length>0&&<div><h3>Follow the evidence.</h3><ul>{editorial.references.map(reference=><li><a href={reference.url} rel={reference.url.startsWith('https:')?'noreferrer':undefined}>{reference.label}</a>{reference.note&&<p>{reference.note}</p>}</li>)}</ul></div>}
+  {editorial.downloads.length>0&&<div><h3>Keep the context.</h3><ul>{editorial.downloads.map(download=><li><a href={download.href} download={download.href.startsWith('/resources/')?true:undefined} rel={download.href.startsWith('https:')?'noreferrer':undefined}>{download.label}</a>{download.format&&<span class='structured-format'>{download.format}</span>}{download.description&&<p>{download.description}</p>}</li>)}</ul></div>}
+ </div>}
+ {showRelated&&Object.values(editorial.related).some(items=>items.length)&&<nav class='structured-related' aria-label='Related perspectives'>
+  {editorial.related.ventures.map(slug=><a href={'/projects/'+slug}>{ventureName(slug)}</a>)}
+  {editorial.related.industries.map(slug=><a href={'/industries/'+slug}>{slug[0].toUpperCase()+slug.slice(1)} perspective</a>)}
+  {editorial.related.articles.map(slug=><a href={'/insights/'+slug}>{slug.split('-').join(' ')}</a>)}
+ </nav>}
+</section>}

@@ -22,6 +22,9 @@ document.querySelectorAll<HTMLElement>('[data-venture-stories]').forEach(stories
   const announcement = stories.querySelector<HTMLElement>('[data-scenario-announcement]');
   if (!choices || !tabs.length || tabs.length !== panels.length) return;
 
+  const narrow=matchMedia('(max-width: 767px)');
+  const orient=()=>choices.setAttribute('aria-orientation',narrow.matches?'vertical':'horizontal');
+  orient();narrow.addEventListener('change',orient);
   let selected = 0;
   function choose(requested: number, focus = false, announce = true) {
     const next = (requested + tabs.length) % tabs.length;
@@ -39,6 +42,7 @@ document.querySelectorAll<HTMLElement>('[data-venture-stories]').forEach(stories
       panel.tabIndex = index === next ? 0 : -1;
     });
     selected = next;
+    stories.dispatchEvent(new CustomEvent('nrth:scenario',{detail:{index:next,venture:stories.dataset.venture},bubbles:true}));
     if (changed && !paused && !reduced.matches) {
       const animation = panels[next].animate([
         { opacity: 0, transform: 'translateY(14px)' },

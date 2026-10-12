@@ -1,0 +1,7 @@
+---
+import StudyPage from '../../components/StudyPage.astro';
+import {designStudies} from '../../data/design-studies';
+export function getStaticPaths(){return designStudies.map(study=>({params:{slug:study.slug},props:{study}}));}
+const {study}=Astro.props;
+---
+<StudyPage study={study}/>

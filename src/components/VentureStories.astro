@@ -1,4 +1,5 @@
 ---
+import VentureExample from './VentureExample.astro';
 import { ventureStories } from '../data/venture-stories';
 import '../styles/venture-stories.css';
 
@@ -7,7 +8,7 @@ const { slug } = Astro.props;
 const story = ventureStories[slug];
 const scenarioId = slug + '-scenario';
 ---
-{story && <div class='venture-stories' data-venture-stories>
+{story && <div class='venture-stories' data-venture-stories data-venture={slug}>
   <section class='vs-workflow' id={slug+'-workflow'} aria-labelledby={slug + '-workflow-title'}>
     <div class='vs-heading' data-enter>
       <span class='section-label'>The work around the idea</span>
@@ -29,6 +30,7 @@ const scenarioId = slug + '-scenario';
       <div class='vs-scenario-choices' role='tablist' aria-label='Change the scenario context' aria-orientation='vertical' data-scenario-choices hidden>
         {story.scenario.options.map((option, i) => <button type='button' id={scenarioId + '-choice-' + i} role='tab' aria-controls={scenarioId + '-panel-' + i} aria-selected={i === 0} tabindex={i === 0 ? 0 : -1} data-scenario-choice>{option.label}</button>)}
       </div>
+      <VentureExample slug={slug} compact/>
       <div class='vs-panels'>
         {story.scenario.options.map((option, i) => <article id={scenarioId + '-panel-' + i} data-scenario-panel>
           <h3>{option.label}</h3>

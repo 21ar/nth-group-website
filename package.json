@@ -14,7 +14,14 @@
     "test:browser": "node verify-browser.cjs",
     "test:enrichment": "node verify-enrichment.cjs",
     "test:depth": "node verify-depth.cjs",
-    "test:quality": "node scripts/verify-quality.cjs"
+    "test:quality": "node scripts/verify-quality.cjs",
+    "test:editorial": "node scripts/verify-editorial.mjs",
+    "test:discovery": "node scripts/verify-discovery.mjs",
+    "test:discovery-browser": "node scripts/verify-discovery-browser.cjs",
+    "test:experience": "node scripts/verify-experience.cjs",
+    "test:editorial-browser": "node scripts/verify-editorial.cjs",
+    "test:studies": "node scripts/verify-studies.cjs",
+    "test:examples": "node scripts/verify-examples.cjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",

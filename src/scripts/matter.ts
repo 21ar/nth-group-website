@@ -1,4 +1,4 @@
-import {createMatter,createPose,blendMatter,matterForms,smooth,type MatterForm} from './matter-geometry';
+import {createMatter,createPose,createAtlas,blendMatter,matterForms,smooth,type MatterForm} from './matter-geometry';
 const root=document.querySelector<HTMLElement>('[data-matter-story]');
 if(root){
   const host=root.querySelector<HTMLElement>('[data-matter-world]')!,stage=root.querySelector<HTMLElement>('.matter-stage')!;
@@ -10,7 +10,7 @@ if(root){
   let current=0,target=0,last=performance.now(),raf=0,visible=true,paused=false,initialized=false;
   let pointer={x:0,y:0},pointerTarget={x:0,y:0};
   let fieldWeights:number[]=matterForms.map((_,i)=>i===2?1:0),fieldFrom=[...fieldWeights],fieldTo=[...fieldWeights],fieldStart=0,fieldMoving=false;
-  let manualAt:number|null=null,returningToScroll=false,inspectPart:number|null=null;
+  let manualAt:number|null=null,returningToScroll=false,inspectPart:number|null=null,selectedVenture:number|null=null;
   const fieldStartProgress=.43,fieldEndProgress=.82,fieldStep=(fieldEndProgress-fieldStartProgress)/(tabs.length-1);
   try{paused=localStorage.getItem('nrth-motion')==='paused';}catch{}
   function allowed(){return !reduced.matches&&!short.matches&&!paused;}
@@ -18,13 +18,22 @@ if(root){
     active=(index+tabs.length)%tabs.length;
     const name=tabs[active].dataset.matterField as MatterForm;
     tabs.forEach((tab,i)=>{tab.setAttribute('aria-selected',String(i===active));tab.tabIndex=i===active?0:-1;});
-    panels.forEach((panel,i)=>{panel.hidden=i!==active;if(i===active&&allowed()){
-      panel.getAnimations().forEach(animation=>animation.cancel());
-      panel.animate([{opacity:0,transform:'translateY(12px)'},{opacity:1,transform:'translateY(0)'}],{duration:580,easing:'cubic-bezier(.22,1,.36,1)'});
-    }});
+    panels.forEach((panel,i)=>{panel.setAttribute('aria-hidden',String(i!==active));panel.inert=i!==active;});
     root!.dataset.activeForm=name;
     root!.dispatchEvent(new CustomEvent('nrth:field',{bubbles:true,detail:{index:active,form:name}}));
     if(focus)tabs[active].focus({preventScroll:true});
+  }
+  // Copy and form share one timeline. Reversing or interrupting a morph therefore
+  // reverses the reading transition rather than launching an unrelated fade.
+  function fieldCopy(weights:number[]){
+    const settled=!fieldMoving&&Math.abs(target-current)<.001;
+    panels.forEach((panel,i)=>{
+      const weight=settled?Number(i===active):weights[i+2]||0;
+      panel.hidden=weight<.005;
+      panel.style.opacity=String(smooth((weight-.3)/.7));
+      panel.style.transform=`translateY(${(i<active?-1:1)*(1-weight)*24}px)`;
+      panel.inert=i!==active;panel.setAttribute('aria-hidden',String(i!==active));
+    });
   }
   function choose(index:number,focus=false){
     selectContent(index,focus);
@@ -32,7 +41,7 @@ if(root){
     // A selection always begins at the displayed mixture, including an interrupted morph.
     fieldFrom=[...fieldWeights];fieldTo=matterForms.map(form=>form===name?1:0);fieldStart=performance.now();fieldMoving=allowed();
     manualAt=target;returningToScroll=false;root!.dataset.fieldMode='selected';
-    if(!fieldMoving)fieldWeights=[...fieldTo];wake();
+    if(!fieldMoving){fieldWeights=[...fieldTo];fieldCopy(fieldWeights);}wake();
   }
   function scrollFields(progress:number){
     const journey=Math.max(0,Math.min(tabs.length-1,(progress-fieldStartProgress)/fieldStep));
@@ -52,6 +61,9 @@ if(root){
     explorer.hidden=fields<.01;explorer.style.opacity=String(fields);explorer.inert=fields<.5;
     ending.style.opacity=String(end);ending.style.transform=`translateY(${(1-end)*40}px)`;
     const light=smooth((p-.84)/.16),background=Math.round(10+(237-10)*light),ink=Math.round(237-(237-22)*light);
+    const atlasInk=smooth((p-.89)/.105);
+    const preview=root!.querySelector<SVGSVGElement>('[data-story-atlas-preview]');if(preview)preview.style.opacity=String(atlasInk);
+    const canvas=host.querySelector('canvas');if(canvas)canvas.style.opacity=String(1-atlasInk);
     stage.style.backgroundColor=`rgb(${background} ${background} ${background+Math.round(3*(1-light))})`;stage.style.color=`rgb(${ink} ${ink} ${ink})`;
     stage.style.setProperty('--accent-text',`rgb(${Math.round(255-70*light)} ${Math.round(116-49*light)} ${Math.round(59-37*light)})`);
     return light;
@@ -78,10 +90,13 @@ if(root){
       const progress=Math.min(1,(now-fieldStart)/1450),mix=smooth(progress);
       fieldWeights=fieldFrom.map((v,i)=>v+(fieldTo[i]-v)*mix);fieldMoving=progress<1;
     }
-    const weights=new Array(matterForms.length).fill(0),toCloud=smooth(current/.31),toField=smooth((current-.31)/.13),toNext=smooth((current-.85)/.15);
+    fieldCopy(fieldWeights);
+    const weights=new Array(poses.length).fill(0),toCloud=smooth(current/.31),toField=smooth((current-.31)/.13),toNext=smooth((current-.85)/.15);
     weights[0]=(1-toCloud)*(1-toNext);weights[1]=toCloud*(1-toField)*(1-toNext);
-    fieldWeights.forEach((weight,i)=>{weights[i]+=weight*toField*(1-toNext);});weights[7]+=toNext;
-    blendMatter(poses,weights,output);const light=content(current);renderer.draw(output,current,pointer,light,inspectPart);
+    fieldWeights.forEach((weight,i)=>{weights[i]+=weight*toField*(1-toNext);});weights[8]=toNext;
+    const surface=weights[0]+weights[1]+weights[2]+weights[3];
+    blendMatter(poses,weights,output);const light=content(current);renderer.draw(output,current,pointer,light,inspectPart,{atlas:toNext,selectedVenture,surface});
+    root!.dataset.atlasProgress=toNext.toFixed(4);
     root!.dataset.matterProgress=current.toFixed(4);root!.dataset.frames=String(renderer.frames);
     root!.dataset.matterSample=JSON.stringify([...output.position.slice(0,9)]);
     const moving=Math.abs(target-current)>.00015||Math.abs(pointerTarget.x-pointer.x)>.00015||Math.abs(pointerTarget.y-pointer.y)>.00015||fieldMoving||renderer.detailMoving;
@@ -92,15 +107,15 @@ if(root){
     if(initialized||!allowed())return;initialized=true;
     try{
       const {MatterRenderer}=await import('./matter-renderer');if(!allowed()){initialized=false;return;}
-      renderer=new MatterRenderer(host);poses=matterForms.map(form=>createMatter(form,renderer!.count));output=createPose(renderer.count);
+      renderer=new MatterRenderer(host);poses=[...matterForms.map(form=>createMatter(form,renderer!.count)),createAtlas(renderer.count)];output=createPose(renderer.count);
       root!.classList.add('matter-ready');root!.dataset.mode='webgl';readScroll();
-      blendMatter(poses,[1,0,0,0,0,0,0,0],output);renderer.draw(output,0,pointer,0);host.classList.add('matter-running');
+      blendMatter(poses,[1,0,0,0,0,0,0,0,0],output);renderer.draw(output,0,pointer,0,null,{surface:1});host.classList.add('matter-running');
       renderer.renderer.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();fallback();});wake();
-    }catch{fallback();}
+    }catch(error){root!.dataset.graphicsFailure=error instanceof Error?error.message.slice(0,180):'Graphics unavailable';fallback();}
   }
-  function fallback(){if(raf)cancelAnimationFrame(raf);raf=0;renderer?.dispose();renderer=undefined;host.classList.remove('matter-running');root!.classList.remove('matter-ready');root!.dataset.mode='static';stage.removeAttribute('style');opening.removeAttribute('style');opening.inert=false;}
+  function fallback(){if(raf)cancelAnimationFrame(raf);raf=0;renderer?.dispose();renderer=undefined;initialized=false;host.classList.remove('matter-running');root!.classList.remove('matter-ready');root!.dataset.mode='static';stage.removeAttribute('style');opening.removeAttribute('style');opening.inert=false;}
   function sync(){
-    if(!allowed()){if(raf)cancelAnimationFrame(raf);raf=0;root!.classList.remove('matter-ready');root!.dataset.mode='static';stage.removeAttribute('style');opening.removeAttribute('style');opening.inert=false;explorer.hidden=true;host.classList.remove('matter-running');}
+    if(!allowed()){if(raf)cancelAnimationFrame(raf);raf=0;root!.classList.remove('matter-ready');root!.dataset.mode='static';stage.removeAttribute('style');opening.removeAttribute('style');opening.inert=false;explorer.hidden=true;host.classList.remove('matter-running');host.querySelector('canvas')?.style.removeProperty('opacity');}
     else if(renderer){root!.classList.add('matter-ready');root!.dataset.mode='webgl';host.classList.add('matter-running');renderer.resize(host);readScroll();wake();}else void init();
   }
   window.addEventListener('scroll',readScroll,{passive:true});
@@ -114,6 +129,10 @@ if(root){
     const value=(e as CustomEvent<{index:number|null}>).detail?.index;
     inspectPart=typeof value==='number'&&Number.isInteger(value)&&value>=0&&value<3?value:null;
     root!.dataset.inspectPart=inspectPart===null?'none':String(inspectPart);wake();
+  });
+  window.addEventListener('nrth:venture',e=>{
+    const index=(e as CustomEvent<{index:number}>).detail?.index;
+    selectedVenture=Number.isInteger(index)&&index>=0&&index<9?index:null;wake();
   });
   window.addEventListener('pagehide',()=>{if(raf)cancelAnimationFrame(raf);raf=0;});window.addEventListener('pageshow',()=>{if(renderer){renderer.resize(host);readScroll();wake();}});
   root.dataset.activeForm='Mobility';root.dataset.fieldMode='scroll';root.dataset.inspectPart='none';void init();

@@ -6,6 +6,7 @@ const {guide,slug}=Astro.props;
 const id='journal-'+slug;
 const chrome=id+'-chrome';
 const orange=id+'-orange';
+const diagramLabels:Record<string,{label:string;value:string}[]>={provenance:[{label:'Observed',value:'10:02 · when activity occurred'},{label:'Received',value:'10:07 · when the system received it'},{label:'Read',value:'10:08 · when someone interpreted it'}],production:[{label:'Arrival',value:'Orientation and access'},{label:'Shared moment',value:'Purpose and participation'},{label:'Departure',value:'A clear continuation'}],recovery:[{label:'Prepared',value:'The work is preserved'},{label:'Attempt',value:'An exchange can be incomplete'},{label:'Accepted',value:'Receipt needs confirmation'}]};
 ---
 <section class={'journal-diagram journal-diagram-'+guide.diagram} aria-labelledby={id+'-title'}>
  <div class='journal-diagram-heading'><span class='section-label'>A closer look</span><h2 id={id+'-title'}>{guide.idea}</h2><p>Choose a perspective to explore the relationship.</p></div>
@@ -32,8 +33,44 @@ const orange=id+'-orange';
     <g data-diagram-part='context' class='journal-diagram-part'><rect x='406' y='190' width='194' height='200' rx='30' fill='#101419' stroke={'url(#'+chrome+')'} stroke-width='11'/><circle cx='503' cy='290' r='43' fill='none' stroke={'url(#'+orange+')'} stroke-width='9'/><path d='M503 217V246M503 334V363M429 290H458M549 290H578' stroke='#afb8c1' stroke-width='3' stroke-linecap='round'/></g>
     <g data-diagram-part='continuation' class='journal-diagram-part'><path d='M600 290H678C737 290 747 185 818 185M678 290C737 290 747 395 818 395M678 290H818' fill='none' stroke={'url(#'+chrome+')'} stroke-width='10' stroke-linecap='round'/><circle cx='845' cy='185' r='26' fill='#101419' stroke={'url(#'+orange+')'} stroke-width='8'/><circle cx='845' cy='290' r='26' fill='#101419' stroke={'url(#'+chrome+')'} stroke-width='8'/><circle cx='845' cy='395' r='26' fill='#101419' stroke={'url(#'+chrome+')'} stroke-width='8'/></g>
    </>}
+   {guide.diagram==='provenance'&&<>
+    <path d='M145 390H855M145 170V420M500 170V420M855 170V420' stroke='#343b45' stroke-width='2' fill='none'/>
+    <path d='M145 275C290 275 330 230 500 230C658 230 704 300 855 300' stroke={'url(#'+chrome+')'} stroke-width='16' fill='none' stroke-linecap='round'/>
+    <g class='journal-diagram-part' data-diagram-part='purpose'><circle cx='145' cy='275' r='38' fill='#101419' stroke={'url(#'+orange+')'} stroke-width='11'/><path d='M130 275H137L145 258L152 291L160 275H165' stroke='#f4f1e9' stroke-width='4' fill='none'/><path d='M145 327V390' stroke={'url(#'+orange+')'} stroke-width='3'/></g>
+    <g class='journal-diagram-part' data-diagram-part='context'><rect x='462' y='192' width='76' height='76' rx='23' fill='#101419' stroke={'url(#'+chrome+')'} stroke-width='11'/><path d='M500 210V232L513 240M500 282V390' stroke={'url(#'+orange+')'} stroke-width='4' fill='none' stroke-linecap='round'/><path d='M209 340H446' stroke={'url(#'+orange+')'} stroke-width='3' stroke-dasharray='5 10'/></g>
+    <g class='journal-diagram-part' data-diagram-part='continuation'><circle cx='855' cy='300' r='40' fill='#101419' stroke={'url(#'+chrome+')'} stroke-width='11'/><path d='M838 300L851 313L876 285M855 353V390' fill='none' stroke={'url(#'+orange+')'} stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/></g>
+    <g fill='#c8d0d7' font-family='Manrope,sans-serif' font-size='24' text-anchor='middle'><text x='145' y='457'>10:02 · observed</text><text x='500' y='457'>10:07 · received</text><text x='855' y='457'>10:08 · read</text></g>
+   </>}
+   {guide.diagram==='specification'&&<>
+    <path d='M500 85L760 215V420L500 535L240 420V215Z' stroke='#343b45' stroke-width='2' fill='none'/>
+    <g class='journal-diagram-part' data-diagram-part='purpose'><path d='M500 109C726 109 889 252 773 396C708 481 627 506 500 506C316 506 165 389 218 253C260 151 347 109 500 109Z' fill='none' stroke={'url(#'+chrome+')'} stroke-width='14'/><path d='M268 188L301 227M710 171L681 217M760 421L713 398M287 438L317 400' stroke={'url(#'+orange+')'} stroke-width='8' stroke-linecap='round'/></g>
+    <g class='journal-diagram-part' data-diagram-part='context'><path d='M425 247L505 203L581 247V335L505 379L425 335Z' fill='#171c23' stroke={'url(#'+chrome+')'} stroke-width='9'/><path d='M425 247L505 291L581 247M505 291V379' fill='none' stroke={'url(#'+orange+')'} stroke-width='5'/><path d='M581 290C641 290 631 146 727 146' fill='none' stroke={'url(#'+chrome+')'} stroke-width='6'/><rect x='715' y='109' width='72' height='92' rx='11' fill='#101419' stroke={'url(#'+chrome+')'} stroke-width='6'/><path d='M735 135H769M735 152H762M735 169H754' stroke={'url(#'+orange+')'} stroke-width='4' stroke-linecap='round'/></g>
+    <g class='journal-diagram-part' data-diagram-part='continuation'><path d='M505 379V451C505 485 645 485 672 453' fill='none' stroke={'url(#'+chrome+')'} stroke-width='10' stroke-linecap='round'/><circle cx='697' cy='440' r='30' fill='#101419' stroke={'url(#'+orange+')'} stroke-width='9'/><path d='M684 440L694 450L712 430' stroke='#eee9df' stroke-width='4' fill='none' stroke-linecap='round' stroke-linejoin='round'/></g>
+   </>}
+   {guide.diagram==='production'&&<>
+    <path d='M65 412H935' fill='none' stroke='#343b45' stroke-width='2'/>
+    <g class='journal-diagram-part' data-diagram-part='purpose'><path d='M100 386C162 386 172 219 302 219' fill='none' stroke={'url(#'+chrome+')'} stroke-width='25' stroke-linecap='round'/><circle cx='110' cy='386' r='24' fill={'url(#'+orange+')'}/><path d='M202 314L228 320M213 281L239 289' stroke='#f0ede4' stroke-width='5' stroke-linecap='round'/></g>
+    <g class='journal-diagram-part' data-diagram-part='context'><path d='M302 219C418 219 431 327 499 327C568 327 578 171 700 171' fill='none' stroke={'url(#'+chrome+')'} stroke-width='25' stroke-linecap='round'/><path d='M385 142V259M434 122V292M484 183V327M534 145V307M584 105V245M634 116V195' stroke={'url(#'+orange+')'} stroke-width='13' stroke-linecap='round'/><circle cx='499' cy='327' r='25' fill={'url(#'+orange+')'}/></g>
+    <g class='journal-diagram-part' data-diagram-part='continuation'><path d='M700 171C823 171 778 386 890 386' fill='none' stroke={'url(#'+chrome+')'} stroke-width='25' stroke-linecap='round'/><circle cx='890' cy='386' r='24' fill={'url(#'+orange+')'}/><path d='M866 386H923C945 386 950 365 950 347' fill='none' stroke='#e1e4e6' stroke-width='4' stroke-linecap='round'/></g>
+    <g fill='#c8d0d7' font-family='Manrope,sans-serif' font-size='24' text-anchor='middle'><text x='165' y='470'>Arrival</text><text x='499' y='470'>Shared moment</text><text x='847' y='470'>Departure</text></g>
+   </>}
+   {guide.diagram==='recovery'&&<>
+    <path d='M155 180H845M155 430H845' stroke='#343b45' stroke-width='2' fill='none'/>
+    <path d='M195 240H807' stroke={'url(#'+chrome+')'} stroke-width='14' stroke-linecap='round' fill='none'/>
+    <g class='journal-diagram-part' data-diagram-part='purpose'><rect x='133' y='190' width='120' height='100' rx='25' fill='#101419' stroke={'url(#'+chrome+')'} stroke-width='10'/><path d='M164 220H222M164 242H210M164 264H192' fill='none' stroke={'url(#'+orange+')'} stroke-width='5' stroke-linecap='round'/></g>
+    <g class='journal-diagram-part' data-diagram-part='context'><circle cx='500' cy='240' r='37' fill='#101419' stroke={'url(#'+orange+')'} stroke-width='11'/><path d='M500 224V243M500 258V260' stroke='#f4f1e9' stroke-width='5' stroke-linecap='round'/><path d='M500 282C500 391 374 427 292 399C186 363 193 295 193 294' fill='none' stroke={'url(#'+orange+')'} stroke-width='12' stroke-linecap='round'/><circle cx='330' cy='408' r='12' fill='#f4f1e9'/></g>
+    <g class='journal-diagram-part' data-diagram-part='continuation'><circle cx='835' cy='240' r='49' fill='#101419' stroke={'url(#'+chrome+')'} stroke-width='11'/><path d='M812 240L829 257L860 224' stroke={'url(#'+orange+')'} stroke-width='6' fill='none' stroke-linejoin='round' stroke-linecap='round'/><path d='M835 302V366C835 389 806 396 781 396' fill='none' stroke={'url(#'+chrome+')'} stroke-width='7' stroke-linecap='round'/></g>
+    <g fill='#c8d0d7' font-family='Manrope,sans-serif' font-size='24' text-anchor='middle'><text x='193' y='155'>Prepared</text><text x='500' y='155'>Attempt</text><text x='835' y='155'>Accepted</text><text x='345' y='470'>Work preserved for return</text></g>
+   </>}
+   {guide.diagram==='motion'&&<>
+    <g class='journal-diagram-part' data-diagram-part='purpose'><ellipse cx='500' cy='290' rx='320' ry='170' fill='none' stroke='#6d7885' stroke-width='2' stroke-dasharray='5 13'/></g>
+    <g class='journal-diagram-part' data-diagram-part='context'><path d='M283 190C503 77 728 150 720 293C712 441 510 494 283 390C444 391 570 189 720 293' fill='none' stroke={'url(#'+orange+')'} stroke-width='5'/></g>
+    <g class='journal-diagram-part' data-diagram-part='continuation'><path d='M333 173L500 116L667 173V407L500 464L333 407Z' fill='none' stroke={'url(#'+chrome+')'} stroke-width='8'/><path d='M333 173L500 232L667 173M500 232V464' fill='none' stroke={'url(#'+chrome+')'} stroke-width='6'/></g>
+    <g class='journal-motion-pieces'>{[{x:280,y:180,r:-30,cx:330,cy:220,cr:-15,sx:333,sy:185,sr:0},{x:500,y:110,r:20,cx:480,cy:162,cr:15,sx:500,sy:125,sr:0},{x:720,y:220,r:-10,cx:657,cy:210,cr:25,sx:667,sy:185,sr:0},{x:730,y:397,r:35,cx:683,cy:371,cr:-15,sx:667,sy:407,sr:0},{x:500,y:460,r:-15,cx:510,cy:419,cr:10,sx:500,sy:451,sr:0},{x:270,y:365,r:15,cx:334,cy:366,cr:30,sx:333,sy:407,sr:0}].map(p=><rect x='-16' y='-46' width='32' height='92' rx='14' fill={'url(#'+chrome+')'} stroke='#dfe1e2' stroke-width='1' style={`--open-x:${p.x}px;--open-y:${p.y}px;--open-r:${p.r}deg;--context-x:${p.cx}px;--context-y:${p.cy}px;--context-r:${p.cr}deg;--structure-x:${p.sx}px;--structure-y:${p.sy}px;--structure-r:${p.sr}deg`}/>)}</g>
+   </>}
   </svg>
   <figcaption>{guide.caption}</figcaption>
+  {diagramLabels[guide.diagram]&&<dl class='journal-responsive-legend'>{diagramLabels[guide.diagram].map(item=><div><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl>}
  </figure>
  <div class='journal-diagram-readings'>{guide.lenses.map(lens=><div id={id+'-reading-'+lens.key} data-diagram-reading={lens.key}><h3>{lens.title}</h3><p>{lens.text}</p></div>)}</div>
 </section>

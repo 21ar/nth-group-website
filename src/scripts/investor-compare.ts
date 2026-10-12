@@ -1,4 +1,4 @@
-export {};
+import {emitDiscovery} from './prepared-inquiry';
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 let paused = document.documentElement.classList.contains('motion-paused');
@@ -150,6 +150,7 @@ for (const root of document.querySelectorAll<HTMLElement>('[data-investor-compar
     link.remove();
     setTimeout(() => URL.revokeObjectURL(url),1000);
     status.textContent = `Reading pack saved with ${selected.length} venture perspectives and five discussion questions.`;
+    emitDiscovery('reading_pack_saved',{venture:'investor'});
   });
   window.addEventListener('popstate', () => update(readQuery(),{announce:true,motion:false}));
 

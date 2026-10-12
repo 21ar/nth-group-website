@@ -135,7 +135,7 @@ async function examineEditorial(page, route, kind, width) {
 
   await visit(page, '/press');
   const download = page.waitForEvent('download');
-  await page.locator('a[href="/resources/editorial-reference.txt"]').click();
+  await page.getByRole('link',{name:'Download the company reference',exact:true}).click();
   const reference = fs.readFileSync(await (await download).path(), 'utf8');
   check(reference.includes('NRTH Inc.') && reference.includes('nrth.group'), 'The downloaded reference distinguishes the company and domain.');
   check(slugs.every(slug => reference.includes('NRTH ' + (slug === 'tms' ? 'TMS' : slug.charAt(0).toUpperCase() + slug.slice(1)))), 'The company reference contains every venture identity.');
@@ -220,7 +220,8 @@ async function examineEditorial(page, route, kind, width) {
   // The full homepage is inspected only with reduced motion.
   await page.setViewportSize({width: 1440, height: 1000});await visit(page, '/');
   await idsAndFragments(page, 'The complete homepage');await fit(page, 'The detailed homepage');
-  check(await page.locator('.industry-guide-grid a').count() === 6, 'The richer home industry directory retains all six guide destinations.');
+  const guideDestinations=await page.locator('[data-portfolio-atlas] .atlas-links a[href^="/industries/"]').evaluateAll(links=>[...new Set(links.map(link=>link.getAttribute('href')))]);
+  check(guideDestinations.length===6&&['mobility','health','systems','materials','events','research'].every(field=>guideDestinations.includes('/industries/'+field)),'The homepage atlas retains all six industry guide destinations.');
   check(errors.length === 0, 'No uncaught browser errors in the quality review.');
   evidence.push('SVG material assembly is reversible, responsive and idle/offscreen aware; no WebGL benchmark is implied.');
   fs.writeFileSync(path.join(out, 'results.json'), JSON.stringify({checks, passed: true, errors, evidence}, null, 2));

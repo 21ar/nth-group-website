@@ -1,0 +1,19 @@
+---
+import {designStudies,studyTitle} from '../data/design-studies';
+import StudyGraphic from './StudyGraphic.astro';
+import '../styles/work-library.css';
+interface Props {compact?:boolean;heading?:string;}
+const {compact=false,heading='Make the idea<br/>inspectable.'}=Astro.props;
+const uid='work-library-'+crypto.randomUUID().slice(0,8);
+---
+<section class:list={['work-library',{'is-compact':compact}]} id={uid} data-work-library>
+ <div class='work-library-heading' data-enter><div><span class='section-label'>Documented design studies</span><h2 set:html={heading}/></div><p>Actual work from the NRTH website, with the question, the artifact and its limits in one place. Explore the examples and take a useful review into your own context.</p></div>
+ {!compact&&<fieldset class='work-library-filter' data-work-filter hidden><legend>Choose a subject</legend><div>{[{label:'All studies',value:'all'},{label:'Continuity',value:'form'},{label:'Information',value:'handoff'},{label:'Evidence',value:'conditions'},{label:'Rhythm',value:'rhythm'}].map((filter,index)=><button type='button' data-work-kind={filter.value} aria-pressed={index===0}>{filter.label}</button>)}</div></fieldset>}
+ <div class='work-library-grid'>{designStudies.map(study=><article class='work-library-entry' data-work-entry={study.kind}>
+  <a class='work-library-art-link' href={'/work/'+study.slug} aria-label={studyTitle(study)}><StudyGraphic kind={study.kind} title={studyTitle(study)} compact/></a>
+  <div class='work-library-entry-content'><div class='work-library-entry-meta'><span>{study.subject}</span><time datetime={study.date}>October 2026</time></div><h3><a href={'/work/'+study.slug} set:html={study.title}/></h3><p>{study.description}</p><dl><div><dt>Artifact</dt><dd>{study.artifact.type}</dd></div><div><dt>Scope</dt><dd>Illustrative design work</dd></div></dl><a class='work-library-record-link' href={'/work/'+study.slug}>Open the study record</a></div>
+ </article>)}</div>
+ <p class='work-library-empty' role='status' data-work-status aria-live='polite' hidden></p>
+ <div class='work-library-footer'><p>These records document creative interface work. They report no customer, clinical, laboratory or event outcomes.</p>{compact?<a class='inline-link' href='/work'>Explore the complete study library</a>:<a class='inline-link' href='/resources/studies/design-study-reference.txt' download>Save the library reference</a>}</div>
+</section>
+<script>import '../scripts/work-library';</script>

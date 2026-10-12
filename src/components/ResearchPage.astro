@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+import MatterLab from './MatterLab.astro';
+import WorkLibrary from './WorkLibrary.astro';
+import ExperimentPlanner from './ExperimentPlanner.astro';
+import DecisionLens from './DecisionLens.astro';
+import ContactInvitation from './ContactInvitation.astro';
+import {getArticles,getPageEditorial} from '../data/content';
+import StructuredEditorial from './StructuredEditorial.astro';
+import '../styles/research-investor-quality.css';
+interface Props {draft?:boolean;}
+const {draft=false}=Astro.props;
+const editorial=await getPageEditorial('research',draft);
+const articles=(await getArticles(draft)).filter(article=>article.category==='Research');
+---
+<Layout noindex={draft} title='Research & visual studies' description='Enter NRTH Labs: explore a visual structure study, prepare a focused research outline and examine the evidence behind a next decision.'>
+ {draft&&<aside class='preview-banner'><a href='/preview'>Editorial workspace</a><span data-preview-status>Draft preview</span></aside>}
+ <section class='page-heading'><span class='section-label'>Research · NRTH Labs</span><h1>What if is<br/><em>where it starts.</em></h1><p>Give an unfamiliar idea a tangible form. Make the question specific, choose a way to investigate it and keep the limits of the observation in view.</p></section>
+ <nav class='research-section-nav' aria-label='Research page sections'><a href='#visual-study'>Shape a visual study</a><a href='#experiment'>Prepare an investigation</a><a href='/work'>Inspect the study records</a></nav>
+ <section class='research-route' aria-label='Ways into NRTH research'><article data-enter><h2>Explore a possibility.</h2><p>Change the structure and perspective of the same fragments. Six arrangements make a small study of order, connection and perception tangible.</p><p><strong>Leave with</strong> an image or a shareable view, and a question about what the arrangement reveals.</p><a class='inline-link' href='#visual-study'>Enter the visual study</a></article><article data-enter><h2>Prepare an investigation.</h2><p>Start with a field, refine a question and compare four methods. Turn an open-ended idea into an outline with inputs, observations and a next decision.</p><p><strong>Leave with</strong> an editable research outline you can copy, save or take into an NRTH Labs conversation.</p><a class='inline-link' href='#experiment'>Build a research outline</a></article></section>
+ <div id='visual-study'></div>
+ <MatterLab/>
+ <ExperimentPlanner/>
+ <DecisionLens mode='research'/>
+ <WorkLibrary heading='The question.<br/>The work behind it.'/>
+ <section class='page-body research-reading'><div class='section-heading'><h2>Keep the<br/>question moving.</h2><p>Follow the reasoning, place it in a field and decide what a practical first investigation would involve.</p></div><div class='journal-grid'>{articles.map(article=><a href={'/insights/'+article.slug}><span class='section-label'>{article.category}</span><h3>{article.title}</h3><p>{article.description}</p><span class='reading-continuation'>Read the perspective</span></a>)}<a href='/industries/research'><span class='section-label'>A field of inquiry</span><h3>Room for the<br/>unfamiliar.</h3><p>Explore research contexts, preparation questions and the role NRTH Labs could play in a focused investigation.</p><span class='reading-continuation'>Explore the research field</span></a><a href='/approach'><span class='section-label'>The working approach</span><h3>Make the next<br/>step deliberate.</h3><p>Connect the question to the work, define an appropriate scope and establish what a useful review would need to consider.</p><span class='reading-continuation'>Read the approach</span></a></div></section>
+ <StructuredEditorial editorial={editorial} id='research-detail' heading='A closer view of the investigation.'/>
+ <ContactInvitation project='nrth-labs' headline='What would you investigate?'/>
+</Layout>

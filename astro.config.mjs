@@ -4,7 +4,7 @@ import vercel from '@astrojs/vercel';
 
 export default defineConfig({
   site: 'https://nrth.group',
-  integrations: [sitemap({filter:page=>!new URL(page).pathname.startsWith('/preview') && !new URL(page).pathname.startsWith('/api')})],
+  integrations: [sitemap({filter:page=>{const path=new URL(page).pathname;return !path.startsWith('/preview')&&!path.startsWith('/api')&&path!=='/search-index.json';}})],
   output: 'static',
   adapter: vercel(),
   image: {domains: ['cdn.sanity.io']},

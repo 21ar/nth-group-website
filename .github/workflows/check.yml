@@ -18,7 +18,22 @@ jobs:
       - run: npm run check
       - run: npm run test:services
       - run: npm run test:geometry
+      - run: npm run test:editorial
+      - run: npm run test:discovery
       - run: npm run build
+      - run: python3 scripts/verify-public-output.py
+      - run: npx playwright install --with-deps chromium
+      - name: Verify public interactions and accessible alternatives
+        run: |
+          npm run preview -- --host 127.0.0.1 --port 4173 > /tmp/nrth-preview.log 2>&1 &
+          preview_pid=$!
+          trap 'kill "$preview_pid"' EXIT
+          node scripts/wait-preview.mjs
+          export CHROMIUM_PATH="$(node -e "process.stdout.write(require('@playwright/test').chromium.executablePath())")"
+          npm run test:discovery-browser
+          npm run test:experience
+        env:
+          NRTH_TEST_URL: http://127.0.0.1:4173
       - uses: actions/setup-node@v4
         with:
           node-version: 24

@@ -3,6 +3,7 @@ import {mkdir, writeFile, readFile} from 'node:fs/promises';
 import fontkit from '@pdf-lib/fontkit';
 import {glyphs} from '../src/data/brand';
 import {getProjects, getContentRevision, getArticles, fetchContent} from '../src/data/content';
+import {designStudies,studyTitle} from '../src/data/design-studies';
 import {stageLabel} from '../src/data/projects';
 import sharp from 'sharp';
 const directory = 'public/resources';
@@ -55,6 +56,8 @@ const pages = [
   {path:'partnerships',title:'Bring something we do not see yet.',label:'PARTNERSHIPS'},
   {path:'press',title:'The name is NRTH. The outlook is open.',label:'PRESS & RESOURCES'},
   {path:'research',title:'What if is where it starts.',label:'NRTH LABS / RESEARCH'},
+  {path:'work',title:'Ideas, made inspectable.',label:'DESIGN STUDIES'},
+  {path:'search',title:'Find your direction.',label:'EXPLORE NRTH'},
   {path:'insights',title:'Think out loud. Look a little deeper.',label:'JOURNAL'},
   {path:'contact',title:'Make an introduction.',label:'CONTACT'},
   {path:'privacy',title:'Website privacy.',label:'NRTH INC.'},
@@ -62,6 +65,7 @@ const pages = [
   {path:'404',title:'Find another direction.',label:'NRTH INC.'},
   ...projects.map(project=>({path:'projects-' + project.slug,title:project.headline,label:project.name.toUpperCase() + ' / ' + project.category.toUpperCase()})),
   ...(await getArticles()).map(article=>({path:'insights-' + article.slug,title:article.title,label:'JOURNAL / ' + article.category.toUpperCase()})),
+  ...designStudies.map(study=>({path:'work-'+study.slug,title:studyTitle(study),label:'DESIGN STUDY / '+study.field.toUpperCase()})),
 ];
 const escape = (text: string) => text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 for (const page of pages) {

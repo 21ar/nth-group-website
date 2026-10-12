@@ -24,6 +24,11 @@ function check(value,message){assert.ok(value,message);checks++;}
   samples.push(await page.locator('[data-matter-story]').getAttribute('data-matter-sample'));
  }
  check(new Set(samples).size===6,'Native scrolling reaches six distinct arrangements.');
+ await progress(.469);
+ check(await page.locator('[data-field-panel]:visible').count()===1&&await page.locator('[data-field-panel]:visible').evaluate(element=>Number(getComputedStyle(element).opacity)>.99),'Stopping between formations leaves one fully legible reading.');
+ await progress(.99);
+ check(await page.locator('[data-story-atlas-preview]>g').count()===9&&await page.locator('[data-story-atlas-preview]').evaluate(element=>Number(getComputedStyle(element).opacity)>.99),'The ending resolves into nine clear silhouettes used by the portfolio atlas.');
+ check(await page.evaluate(()=>{const title=document.querySelector('[data-matter-ending] h2').getBoundingClientRect(),art=document.querySelector('[data-story-atlas-preview]').getBoundingClientRect();return title.right<art.left;}),'The desktop ending keeps the title beside the atlas.');
  await progress(.43);check(await page.locator('[data-matter-story]').getAttribute('data-active-form')==='Mobility','Reverse scrolling restores the first field.');
  await page.locator('[data-matter-field="Events"]').click();await page.waitForTimeout(1700);
  check(await page.locator('[data-matter-story]').getAttribute('data-field-mode')==='selected','Manual choice overrides the scroll position.');

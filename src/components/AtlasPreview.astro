@@ -1,0 +1,10 @@
+---
+import {atlasPaths} from '../data/atlas-paths';
+const uid='preview-atlas-'+crypto.randomUUID().slice(0,8);
+---
+<svg class='story-atlas-preview' viewBox='0 0 900 780' aria-hidden='true' data-story-atlas-preview>
+ <defs><linearGradient id={uid+'-silver'} x1='0' y1='0' x2='.7' y2='1'><stop stop-color='#fdfbf5'/><stop offset='.16' stop-color='#59636e'/><stop offset='.37' stop-color='#d7dce1'/><stop offset='.55' stop-color='#333b46'/><stop offset='.77' stop-color='#e5e6e4'/><stop offset='1' stop-color='#727c87'/></linearGradient></defs>
+ {Object.values(atlasPaths).map((paths,i)=><g transform={`translate(${150+i%3*300} ${120+Math.floor(i/3)*260}) rotate(-12)`} fill='none' stroke-linecap='round' stroke-linejoin='round'>
+  {paths.map(d=><><path d={d} stroke='#272e37' stroke-width='16'/><path d={d} stroke={'url(#'+uid+'-silver)'} stroke-width='13'/><path d={d} stroke='#fdf9ee99' stroke-width='1.5' transform='translate(-2 -3)'/></>)}
+ </g>)}
+</svg>

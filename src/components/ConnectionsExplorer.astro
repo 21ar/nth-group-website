@@ -1,6 +1,7 @@
 ---
 import {projects} from '../data/projects';
 import {connectionStories, connectionFields, connectionPositions, connectionPath} from '../data/connections';
+import {connectionHandoffFor} from '../data/connection-handoffs';
 import '../styles/connections-explorer.css';
 import '../styles/connections-quality.css';
 interface Props {id?: string;}
@@ -54,7 +55,7 @@ for(const story of connectionStories)for(const link of story.links){
      <h3>{story.title}</h3>
      <p class='connections-story-introduction'>{story.introduction}</p>
      <ul class='connections-related'>
-      {story.links.map(link=><li data-connection-related={link.slug}><a href={'/projects/'+link.slug}>{projectFor(link.slug).name}</a><p>{link.reason}</p></li>)}
+      {story.links.map(link=><li data-connection-related={link.slug}><a href={'/projects/'+link.slug}>{projectFor(link.slug).name}</a><p>{link.reason}</p><details class='connection-handoff' data-connection-handoff={link.slug}><summary>What would the handoff carry?</summary><div class='handoff-reading'><span>Illustrative information contract</span><dl><div><dt>The information</dt><dd>{connectionHandoffFor(story.slug,link.slug)!.record}</dd></div><div><dt>The next responsibility</dt><dd>{connectionHandoffFor(story.slug,link.slug)!.owner}</dd></div><div><dt>The check before continuing</dt><dd>{connectionHandoffFor(story.slug,link.slug)!.check}</dd></div></dl><a href={'/contact?project='+story.slug+'&topic='+encodeURIComponent('Handoff to '+projectFor(link.slug).name)} data-prepare-context='connection'>Discuss this connection</a></div></details></li>)}
      </ul>
     </article>)}
    </div>

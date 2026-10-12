@@ -99,3 +99,19 @@
 @media (prefers-reduced-motion: reduce) {
   .venture-stories *, .venture-stories *::before, .venture-stories *::after { transition: none !important; animation: none !important; }
 }
+/* Keep the constraint controls beside the model they change. */
+.venture-stories.is-enhanced .vs-scenario-layout { display:block; }
+.venture-stories.is-enhanced .vs-scenario-choices { flex-direction:row; flex-wrap:wrap; gap:0 4vw; }
+.venture-stories.is-enhanced .vs-scenario-choices button { font-size:clamp(24px,2.2vw,34px); flex:1 1 210px; }
+.venture-stories.is-enhanced .vs-panels { margin-top:45px; }
+.venture-stories.is-enhanced .vs-decision-path { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:4vw; }
+.venture-stories.is-enhanced .vs-decision-path > div { padding:0 0 0 23px; }
+.venture-stories.is-enhanced .vs-decision-path dd { font-size:18px; }
+.venture-stories.is-enhanced .vs-decision-path .vs-next-decision dd { font-size:20px; }
+@media(max-width:767px) {
+ .venture-stories.is-enhanced .vs-scenario-choices { display:block; }
+ .venture-stories.is-enhanced .vs-scenario-choices button { display:block; width:100%; font-size:24px; }
+ .venture-stories.is-enhanced .vs-decision-path { display:block; }
+ .venture-stories.is-enhanced .vs-decision-path > div { padding-bottom:26px; }
+ .venture-stories.is-enhanced .vs-panels { margin-top:32px; }
+}
