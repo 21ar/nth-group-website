@@ -1,0 +1,34 @@
+---
+import {projects} from '../data/projects';
+import '../styles/partnership-brief.css';
+---
+<section class='partnership-brief' id='prepare' data-partnership-brief>
+ <div class='section-heading' data-enter><h2>Give the idea<br/><em>a starting point.</em></h2><p>A few choices turn a possibility into a useful conversation.</p></div>
+ <form class='brief-form' data-brief-form hidden>
+  <div class='brief-inputs'>
+   <fieldset class='brief-directions'><legend>What brings you here?</legend>
+    <label><input type='radio' name='direction' value='challenge' checked/><span>A challenge to solve.</span></label>
+    <label><input type='radio' name='direction' value='experiment'/><span>An idea to test.</span></label>
+    <label><input type='radio' name='direction' value='experience'/><span>An experience to create.</span></label>
+   </fieldset>
+   <p class='brief-prompt' data-brief-prompt>Start with the work that feels harder than it should. Who encounters it, and what would a better outcome change?</p>
+   <div class='brief-fields'>
+    <label for='brief-venture'>Where might it connect?<select id='brief-venture' name='venture'><option value='Across NRTH'>Across NRTH</option>{projects.map(p=><option value={p.name}>{p.name}</option>)}</select></label>
+    <label for='brief-contribution'>What do you bring?<select id='brief-contribution' name='contribution'><option>Operational experience</option><option>Technical expertise</option><option>Research knowledge</option><option>Materials expertise</option><option>Production & creative expertise</option><option>A different perspective</option></select></label>
+    <label for='brief-timing'>When are you thinking?<select id='brief-timing' name='timing'><option>Exploring, without a fixed date</option><option>Within the next three months</option><option>Later this year</option><option>A date we should discuss</option></select></label>
+    <label class='brief-question' for='brief-question'>Describe the possibility<textarea id='brief-question' name='question' minlength='20' maxlength='1800' required placeholder='The question, the people it involves, and the change you would like to explore.'></textarea></label>
+   </div>
+  </div>
+  <aside class='brief-preview' aria-label='Your partnership outline'>
+   <span class='section-label'>Your starting point</span><h3 data-brief-title>A challenge<br/>to solve.</h3>
+   <dl><div><dt>The connection</dt><dd data-brief-venture>Across NRTH</dd></div><div><dt>Your perspective</dt><dd data-brief-contribution>Operational experience</dd></div><div><dt>The horizon</dt><dd data-brief-timing>Exploring, without a fixed date</dd></div></dl>
+   <p data-brief-question-preview>Add your idea to complete this outline.</p>
+   <button type='submit' class='brief-continue'>Continue with this brief</button>
+   <div class='brief-actions'><button type='button' data-brief-save>Save a text copy</button><button type='button' data-brief-copy>Copy the outline</button><button type='reset'>Start again</button></div>
+   <p class='brief-note'>Your outline stays in this tab until you choose to continue. You can edit it and add contact details before sharing.</p>
+   <p class='brief-status' role='status' data-brief-status></p><a class='inline-link' href='/contact?project=partnership'>Open a blank inquiry</a>
+  </aside>
+ </form>
+ <noscript><p>Bring the opportunity, your expertise, the relevant NRTH venture and any timing constraints to <a class='inline-link' href='/contact?project=partnership'>a partnership conversation</a>.</p></noscript>
+</section>
+<script>import '../scripts/partnership-brief';</script>

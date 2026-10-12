@@ -1,0 +1,35 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ArtworkImage from './ArtworkImage.astro';
+import ContactInvitation from './ContactInvitation.astro';
+import VentureStories from './VentureStories.astro';
+import VentureExperience from './VentureExperience.astro';
+import VentureFieldGuide from './VentureFieldGuide.astro';
+import '../styles/venture-navigation.css';
+import '../styles/venture-audiences.css';
+import {ventureDepthRecord} from '../data/venture-depth';
+import {stageLabel,type Project} from '../data/projects';
+import {getProjects,getProjectDetails} from '../data/content';
+import {projectArtwork} from '../data/visuals';
+interface Props {project:Project;draft?:boolean;}
+const {project,draft=false}=Astro.props;
+const projects=await getProjects(draft),related=projects.filter(item=>project.related.includes(item.slug)),visual=projectArtwork(project.slug,project);
+const name=project.name.replace('NRTH ','');
+const focus=(await getProjectDetails(project.slug,draft)).capabilities;
+const depth=ventureDepthRecord[project.slug];
+---
+<Layout noindex={draft} title={project.name} description={project.description}>
+ {draft&&<aside class='preview-banner'><a href='/preview'>Editorial workspace</a><span data-preview-status>Draft preview</span></aside>}
+ <section class='venture-heading'><div class='venture-heading-copy'><span class='section-label'>{project.category}</span><h1><span>NRTH</span>{name}</h1><h2>{project.headline}</h2><a class='inline-link' href={'/contact?project='+project.slug}>Discuss {name}</a></div><div class='venture-heading-art' data-image-reveal><ArtworkImage src={visual.src} width={1200} height={typeof visual.src==='string'?820:Math.round(1200*visual.src.height/visual.src.width)} widths={[600,900,1200]} sizes='(max-width:767px) max(100vw, 510px), (max-width:1023px) max(50vw, 1020px), max(50vw, 1170px)' alt={visual.alt} format='webp' quality={87} loading='eager'/></div></section>
+ <div class='venture-scope'><span>{stageLabel(project)}{project.reviewedAt&&<> · Reviewed <time datetime={project.reviewedAt}>{project.reviewedAt}</time></>}</span><span>A venture direction within NRTH Inc.</span>{project.productUrl&&<a class='inline-link' href={project.productUrl}>Visit the product</a>}</div>
+ <nav class='venture-navigation' aria-label={project.name+' page sections'}><a href={'#'+project.slug+'-workflow'}>The workflow</a><a href={'#'+project.slug+'-scenario'}>In practice</a><a href={'#'+project.slug+'-detail'}>A deeper look</a><a href={'#'+project.slug+'-context'}>Work contexts</a><a href={'#'+project.slug+'-field-guide'}>The field guide</a><a href={'#'+project.slug+'-questions'}>Your questions</a></nav>
+ <section class='venture-overview'><div data-enter><span class='section-label'>The question behind it</span><h2>{project.headline}</h2></div><p data-enter>{project.introduction}</p></section>
+ {depth&&<section class='venture-audiences' aria-label={'People involved in '+project.name}>{depth.audiences.map(audience=><article data-enter><h3>{audience.title}</h3><p>{audience.text}</p></article>)}</section>}
+ <section class='venture-focus' data-focus-explorer><div class='section-heading' data-enter><h2>Take a<br/><em>closer look.</em></h2><p>Three perspectives on the direction of {project.name}.</p></div><div class='focus-layout'><div class='focus-choices' hidden role='tablist' aria-label={name+' areas of focus'} aria-orientation='vertical'>{focus.map((focus,i)=><button id={'focus-tab-'+i} type='button' role='tab' aria-controls={'focus-panel-'+i} aria-selected={i===0} tabindex={i===0?0:-1} data-focus-choice>{focus.title}</button>)}</div><div class='focus-description'>{focus.map((focus,i)=><div id={'focus-panel-'+i} role='tabpanel' aria-labelledby={'focus-tab-'+i} data-focus-panel hidden={i!==0}><h3>{focus.title}</h3><p>{focus.text}</p><a class='inline-link' href={'/contact?project='+project.slug+'&topic='+encodeURIComponent(focus.title)}>Start with this question</a></div>)}</div></div><noscript><div class='text-stack'>{focus.slice(1).map(focus=><article><h3>{focus.title}</h3><p>{focus.text}</p></article>)}</div></noscript></section>
+ <VentureStories slug={project.slug}/>
+ <VentureExperience slug={project.slug} visual={visual}/>
+ <VentureFieldGuide slug={project.slug} visual={visual}/>
+ <section class='editorial-split section-dark'><div data-enter><span class='section-label'>The connections</span><h2>There is more<br/>around the idea.</h2></div><div class='related-links' data-enter>{related.map(item=><a href={'/projects/'+item.slug}><strong>{item.name}</strong><span>{item.category}</span></a>)}</div></section>
+ <section class='editorial-split'><div data-enter><span class='section-label'>Before the next step</span><h2>Bring the<br/>real context.</h2></div><div data-enter><p>Tell us about the work, the people involved and what a different approach would need to change. We can discuss how that context relates to {project.name}.</p><p>Current scope, availability, commercial terms and specific capabilities are established directly with NRTH. This introduction describes a direction.</p><a class='inline-link' href='/projects'>Explore another venture</a>{project.demoUrl&&<p><a class='inline-link' href={project.demoUrl}>View the approved demo</a></p>}</div></section>
+ <ContactInvitation project={project.slug} headline={'Let’s talk '+name+'.'}/>
+</Layout>

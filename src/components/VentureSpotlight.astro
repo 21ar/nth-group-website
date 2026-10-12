@@ -1,0 +1,68 @@
+---
+import ArtworkImage from './ArtworkImage.astro';
+import {projectArtwork} from '../data/visuals';
+import '../styles/venture-spotlight.css';
+
+const directions = [
+  {
+    id: 'health', label: 'Health', slug: 'nrth-health',
+    heading: 'Make room for the person.',
+    text: 'A referral, an appointment and a follow-up are different moments in the same experience. The health direction begins with the information people need, the work surrounding care and the next handoff that should feel clearer.',
+    ventures: [{name: 'NRTH Health', slug: 'nrth-health'}, {name: 'NRTH Systems', slug: 'nrth-systems'}],
+    industry: 'health', industryLabel: 'Explore health',
+  },
+  {
+    id: 'movement', label: 'Movement', slug: 'nrth-tms',
+    heading: 'Keep the plan connected to reality.',
+    text: 'A vehicle signal matters when it helps someone make a decision. Transportation planning and telematics meet where a changing observation becomes a workable assignment, a clear exception or a better-informed handoff.',
+    ventures: [{name: 'NRTH TMS', slug: 'nrth-tms'}, {name: 'NRTH Telematics', slug: 'nrth-telematics'}],
+    industry: 'mobility', industryLabel: 'Explore mobility',
+  },
+  {
+    id: 'materials', label: 'Materials', slug: 'nrth-chemicals',
+    heading: 'Start with what a material must do.',
+    text: 'The interesting question is an application: the conditions a material will meet, the behaviour that matters and the evidence needed to compare a possibility. Chemicals and research create two ways to approach that question.',
+    ventures: [{name: 'NRTH Chemicals', slug: 'nrth-chemicals'}, {name: 'NRTH Labs', slug: 'nrth-labs'}],
+    industry: 'materials', industryLabel: 'Explore materials',
+  },
+  {
+    id: 'events', label: 'Live experiences', slug: 'nrth-events',
+    heading: 'Give a shared moment its shape.',
+    text: 'Arrival, timing, production and the experience in the room all affect how a gathering feels. The events direction explores that rhythm; systems considers the coordination that helps the moment come together.',
+    ventures: [{name: 'NRTH Events', slug: 'nrth-events'}, {name: 'NRTH Systems', slug: 'nrth-systems'}],
+    industry: 'events', industryLabel: 'Explore events',
+  },
+];
+---
+<section class='venture-spotlight' id='closer-to-the-work' aria-labelledby='venture-spotlight-heading' data-venture-spotlight>
+  <div class='spotlight-heading' data-enter>
+    <h2 id='venture-spotlight-heading'>Closer to<br/><em>the work.</em></h2>
+    <p>Explore the situations behind the ventures.<br/>Follow a direction. Find a place to begin.</p>
+  </div>
+  <div class='spotlight-controls' data-spotlight-controls hidden>
+    <div class='spotlight-tabs' role='tablist' aria-label='Explore a venture direction'>
+      {directions.map((direction, index) => <button type='button' id={'spotlight-tab-' + direction.id} role='tab' aria-controls={'spotlight-panel-' + direction.id} aria-selected={index === 0} tabindex={index === 0 ? 0 : -1} data-spotlight-tab={direction.id}>{direction.label}</button>)}
+    </div>
+    <div class='spotlight-share'><button type='button' data-spotlight-copy>Copy this direction</button><span class='spotlight-copy-feedback' aria-live='polite' aria-atomic='true' data-spotlight-copy-feedback></span></div>
+  </div>
+  <div class='spotlight-panels'>
+    {directions.map(direction => {
+      const image = projectArtwork(direction.slug);
+      return <article class='spotlight-panel' id={'spotlight-panel-' + direction.id} data-spotlight-panel={direction.id}>
+        <figure class='spotlight-image'>
+          <div class='spotlight-image-motion' data-spotlight-image-motion><ArtworkImage src={image.src} alt={image.alt} width={1600} widths={[640,1000,1600,2000]} sizes='max(90vw, calc(105svh + 90px))' format='webp' loading='lazy'/></div>
+          <figcaption>NRTH {direction.label === 'Live experiences' ? 'Events' : direction.label === 'Movement' ? 'TMS' : direction.label === 'Materials' ? 'Chemicals' : direction.label} · Conceptual study</figcaption>
+        </figure>
+        <div class='spotlight-copy'>
+          <h3>{direction.heading}</h3>
+          <div class='spotlight-context'><p>{direction.text}</p><nav class='spotlight-venture-links' aria-label={direction.label + ' ventures'}>{direction.ventures.map(venture => <a href={'/projects/' + venture.slug}>{venture.name}</a>)}</nav><a class='spotlight-industry-link' href={'/industries/' + direction.industry}>{direction.industryLabel}</a></div>
+        </div>
+      </article>;
+    })}
+  </div>
+  <p class='sr-only' aria-live='polite' aria-atomic='true' data-spotlight-announcement></p>
+</section>
+
+<script>
+  import '../scripts/venture-spotlight';
+</script>

@@ -1,0 +1,4 @@
+.masthead[data-reading-surface]{mix-blend-mode:normal;background:var(--reading-surface,var(--paper))}
+.masthead[data-reading-surface] .masthead-bar{color:var(--reading-ink,var(--ink))}
+.masthead[data-reading-surface]:has(.site-menu[open]){background:var(--dark)}
+.masthead[data-reading-surface]:has(.site-menu[open]) .masthead-bar{color:var(--white)}

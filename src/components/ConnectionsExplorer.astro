@@ -1,0 +1,73 @@
+---
+import {projects} from '../data/projects';
+import {connectionStories, connectionFields, connectionPositions, connectionPath} from '../data/connections';
+import '../styles/connections-explorer.css';
+interface Props {id?: string;}
+const {id='connections'}=Astro.props;
+const projectFor=(slug:string)=>projects.find(project=>project.slug===slug)!;
+const edges=new Map<string,{from:string;to:string}>();
+for(const story of connectionStories)for(const link of story.links){
+ const key=[story.slug,link.slug].sort().join(':');
+ if(!edges.has(key))edges.set(key,{from:story.slug,to:link.slug});
+}
+---
+<section class='connections-section' id={id} data-connections-explorer aria-labelledby={id+'-heading'}>
+ <div class='connections-heading' data-enter>
+  <span class='section-label'>The connections</span>
+  <h2 id={id+'-heading'}>Ideas travel.<br/><em>So do we.</em></h2>
+  <p>Nine ventures. One company.<br/>Explore the questions that connect them.</p>
+ </div>
+ <div class='connections-fields' data-connection-controls hidden aria-label='Choose an industry perspective'>
+  {connectionFields.map((field,i)=><button type='button' data-connection-field={field.name} data-connection-source={field.slug} aria-pressed={i===0}>{field.name}</button>)}
+ </div>
+ <div class='connections-workspace'>
+  <div class='connections-map-wrap'>
+   <p id={id+'-keyboard'} class='sr-only'>Use arrow keys to move between ventures. Home and End choose first and last. The selected venture shows related perspectives.</p>
+   <div class='connections-map' role='group' aria-label='Choose a venture to explore its possible connections' aria-describedby={id+'-keyboard'}>
+    <svg viewBox='0 0 960 720' class='connections-lines' aria-hidden='true'>
+     <defs><radialGradient id={id+'-glow'}><stop offset='0%' stop-color='#ff743b' stop-opacity='.12'/><stop offset='100%' stop-color='#ff743b' stop-opacity='0'/></radialGradient></defs>
+     <ellipse cx='475' cy='350' rx='385' ry='335' fill={'url(#'+id+'-glow)'}/>
+     {[...edges.values()].map(edge=><path d={connectionPath(edge.from,edge.to)} class='connection-base-path'/>)}
+     {connectionStories.map(story=><g data-connection-path-group={story.slug} data-connection-path-active={String(story.slug==='nrth-tms')}>{story.links.map(link=><path d={connectionPath(story.slug,link.slug)} class='connection-active-path' data-connection-path data-connection-target={link.slug}/>)}</g>)}
+    </svg>
+    {projects.map(project=>{
+     const position=connectionPositions[project.slug];
+     return <div class='connection-node' data-connection-node={project.slug} style={'--node-x:'+position.x/960*100+'%;--node-y:'+position.y/720*100+'%;'}>
+      <a href={'/projects/'+project.slug} class='connection-static-node' data-connection-static><span class='connection-node-point'></span><span>{project.name.replace('NRTH ','')}</span><span class='sr-only'> — NRTH venture overview</span></a>
+      <button type='button' data-connection-choice={project.slug} data-connection-name={project.name} data-connection-x={position.x} data-connection-y={position.y} aria-label={'Explore connections from '+project.name} aria-pressed={project.slug==='nrth-tms'} tabindex={project.slug==='nrth-tms'?0:-1} hidden><span class='connection-node-point'></span><span>{project.name.replace('NRTH ','')}</span></button>
+     </div>;
+    })}
+   </div>
+   <p class='connections-map-caption'><span data-connection-static>Each name opens its venture overview.</span><span data-connection-caption hidden>Choose a name. Follow the highlighted connections.</span></p>
+  </div>
+  <div class='connections-story-area'>
+   <div class='connections-introduction' data-connection-static>
+    <span class='connections-source'>Different perspectives. Shared questions.</span>
+    <h3>The spaces<br/>between matter.</h3>
+    <p>A useful idea can begin in one field and find its next question in another. This map describes those possible relationships.</p>
+    <p>Open a venture above, or read all nine perspectives below.</p>
+   </div>
+   <div data-connection-stories hidden>
+    {connectionStories.map(story=><article class='connections-story' data-connection-story={story.slug} data-connection-story-field={story.field} hidden={story.slug!=='nrth-tms'}>
+     <a class='connections-source' href={'/projects/'+story.slug}>{projectFor(story.slug).name}</a>
+     <h3>{story.title}</h3>
+     <p class='connections-story-introduction'>{story.introduction}</p>
+     <ul class='connections-related'>
+      {story.links.map(link=><li data-connection-related={link.slug}><a href={'/projects/'+link.slug}>{projectFor(link.slug).name}</a><p>{link.reason}</p></li>)}
+     </ul>
+    </article>)}
+   </div>
+  </div>
+ </div>
+ <div class='connections-bottom'>
+  <p>A map of possible relationships and areas of inquiry. Product integrations and current scope are discussed separately with each venture.</p>
+  <details class='connections-reading'>
+   <summary>Read all nine perspectives</summary>
+   <div class='connections-reading-grid'>
+    {connectionStories.map(story=><article><a href={'/projects/'+story.slug}>{projectFor(story.slug).name}</a><h3>{story.title}</h3><p>{story.introduction}</p><ul>{story.links.map(link=><li><a href={'/projects/'+link.slug}>{projectFor(link.slug).name}</a><p>{link.reason}</p></li>)}</ul></article>)}
+   </div>
+  </details>
+ </div>
+ <p class='sr-only' role='status' aria-live='polite' aria-atomic='true' data-connection-status></p>
+</section>
+<script>import '../scripts/connections-explorer';</script>

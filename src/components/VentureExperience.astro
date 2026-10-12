@@ -1,0 +1,120 @@
+---
+import type { ImageMetadata } from 'astro';
+import { getImage } from 'astro:assets';
+import ArtworkImage from './ArtworkImage.astro';
+import { ventureDepth, ventureIllustrationNote } from '../data/venture-depth';
+import { workStepReadings } from '../data/work-step-readings';
+import '../styles/venture-experience.css';
+
+interface Props {
+  slug: string;
+  visual: { src: string | ImageMetadata; alt: string };
+}
+
+const { slug, visual } = Astro.props;
+const experience = ventureDepth[slug];
+const contextSection = slug + '-context';
+const imageWidth = typeof visual.src === 'string' ? 1600 : Math.min(1600, visual.src.width);
+const imageHeight = typeof visual.src === 'string' ? 1000 : Math.round(imageWidth * visual.src.height / visual.src.width);
+const imageWidths = [...new Set([640, 960, 1280, imageWidth].filter(width => width <= imageWidth))];
+const inspection = await getImage({src: visual.src, width: imageWidth, height: imageHeight, format: 'webp', quality: 87});
+function contactTopic(label: string, decision: string) {
+  const topic = label + ': ' + decision;
+  // Keep the handoff within the inquiry form's existing prefill boundary.
+  return topic.length < 180 ? topic : topic.slice(0, 176).replace(/\s+\S*$/, '') + '…';
+}
+---
+{experience && <div class='venture-experience' data-venture-experience>
+  <section class='ve-feature' id={slug + '-detail'} aria-labelledby={slug + '-detail-title'}>
+    <div class='ve-feature-heading' data-enter>
+      <h2 id={slug + '-detail-title'}>{experience.headline}</h2>
+      <p>{experience.introduction}</p>
+    </div>
+    <figure class='ve-feature-image' data-ve-image>
+      <div class='ve-feature-window'>
+        <ArtworkImage src={visual.src} width={imageWidth} height={imageHeight} widths={imageWidths} sizes='90vw' format='webp' quality={87} loading='lazy' alt={visual.alt}/>
+      </div>
+      <figcaption><span>Visual exploration for NRTH.</span><a href={inspection.src} data-ve-image-link>View the visual</a><button type='button' data-ve-image-open hidden>View the visual</button></figcaption>
+    </figure>
+    <dialog class='ve-visual-dialog' data-ve-image-dialog aria-labelledby={slug + '-visual-title'}>
+      <div class='ve-visual-heading'><h2 id={slug + '-visual-title'}>{experience.feature.title}</h2><button type='button' data-ve-image-close autofocus>Close visual</button></div>
+      <div class='ve-visual-viewport' data-ve-image-viewport style={'--ve-image-aspect: ' + imageWidth / imageHeight}><img src={inspection.src} width={imageWidth} height={imageHeight} alt={visual.alt} loading='lazy' decoding='async'/></div>
+      <div class='ve-visual-toolbar'><label for={slug + '-visual-zoom'}>Magnification</label><input id={slug + '-visual-zoom'} type='range' min='100' max='200' step='25' value='100' data-ve-image-zoom/><output for={slug + '-visual-zoom'} data-ve-image-zoom-value>100%</output></div>
+    </dialog>
+    <div class='ve-feature-story'>
+      <div data-enter>
+        <span class='section-label'>{experience.feature.eyebrow}</span>
+        <h3>{experience.feature.title}</h3>
+      </div>
+      <div class='ve-feature-prose' data-enter>{experience.feature.paragraphs.map(paragraph => <p>{paragraph}</p>)}</div>
+    </div>
+  </section>
+
+  <section class='ve-context section-dark' id={contextSection} aria-labelledby={contextSection + '-title'} data-ve-context>
+    <div class='ve-context-heading' data-enter>
+      <h2 id={contextSection + '-title'}>Closer to<br/><em>the work.</em></h2>
+      <p>Different contexts ask different questions. Choose a place to begin.</p>
+    </div>
+    <div class='ve-context-choices' data-ve-choices hidden role='tablist' aria-label='Choose a work context'>
+      {experience.contexts.map((context, index) => <button type='button' id={contextSection + '-choice-' + context.id} role='tab' aria-controls={contextSection + '-panel-' + context.id} aria-selected={index === 0} tabindex={index === 0 ? 0 : -1} data-ve-choice={context.id}>{context.label}</button>)}
+    </div>
+    <div class='ve-context-panels'>
+      {experience.contexts.map(context => <article id={contextSection + '-panel-' + context.id} data-ve-panel={context.id} aria-labelledby={contextSection + '-heading-' + context.id}>
+        <div class='ve-context-introduction'>
+          <h3 id={contextSection + '-heading-' + context.id}>{context.title}</h3>
+          <p>{context.summary}</p>
+        </div>
+        <div class='ve-work-layout'>
+          <aside class='ve-work-inputs'>
+            <h4>Start with</h4>
+            <ul>{context.inputs.map(input => <li>{input}</li>)}</ul>
+          </aside>
+          <ol class='ve-work-flow' data-ve-step-choices>
+            {context.flow.map((step, index) => <li data-ve-flow-step={index + 1}>
+              <h4><span data-ve-step-title>{step.title}</span><button type='button' id={contextSection + '-' + context.id + '-step-' + (index + 1)} aria-controls={contextSection + '-' + context.id + '-reading-' + (index + 1)} aria-describedby={contextSection + '-' + context.id + '-explanation-' + (index + 1)} data-ve-step={index + 1} hidden>{step.title}</button></h4>
+              <p id={contextSection + '-' + context.id + '-explanation-' + (index + 1)}>{step.text}</p>
+            </li>)}
+          </ol>
+        </div>
+        <div class='ve-step-readings'>
+          {context.flow.map((step, index) => <section class='ve-step-reading' id={contextSection + '-' + context.id + '-reading-' + (index + 1)} aria-labelledby={contextSection + '-' + context.id + '-reading-title-' + (index + 1)} data-ve-step-panel={index + 1}>
+            <div class='ve-step-record'>
+              <span class='ve-step-label'>A working record</span>
+              <h4 id={contextSection + '-' + context.id + '-reading-title-' + (index + 1)}>{step.title}</h4>
+              <p>{workStepReadings[slug]?.[context.id]?.[index]?.record}</p>
+            </div>
+            <div class='ve-step-checkpoint'>
+              <span class='ve-step-label'>The question to check</span>
+              <p>{workStepReadings[slug]?.[context.id]?.[index]?.checkpoint}</p>
+              <div class='ve-step-next'><span>{index + 1 < context.flow.length ? 'Then continue with' : 'Bring it to the next decision'}</span><p>{context.flow[index + 1]?.title || context.decision}</p></div>
+            </div>
+          </section>)}
+        </div>
+        <div class='ve-work-decision'>
+          <div><span>The next decision</span><p>{context.decision}</p></div>
+          <a class='inline-link' data-ve-inquiry data-ve-context-label={context.label} data-ve-decision={context.decision} href={'/contact?project=' + encodeURIComponent(slug) + '&topic=' + encodeURIComponent(contactTopic(context.label, context.decision))}>Discuss this context</a>
+        </div>
+        <div class='ve-context-connection'>
+          <p>{context.connection.text}</p>
+          <a class='inline-link' href={'/projects/' + context.connection.slug}>{context.connection.label}</a>
+        </div>
+      </article>)}
+    </div>
+    <div class='ve-context-footer'>
+      <p>{ventureIllustrationNote}</p>
+      <button type='button' class='ve-share-context' data-ve-share hidden>Copy this context</button>
+    </div>
+    <div class='ve-share-fallback' data-ve-share-fallback hidden><label for={slug + '-context-link'}>Context link</label><input id={slug + '-context-link'} type='text' readonly data-ve-share-input/></div>
+    <p class='sr-only' aria-live='polite' aria-atomic='true' data-ve-status></p>
+  </section>
+
+  <section class='ve-considerations' id={slug + '-considerations'} aria-labelledby={slug + '-considerations-title'}>
+    <div class='ve-considerations-heading' data-enter><h2 id={slug + '-considerations-title'}>The details<br/><em>that matter.</em></h2><p>A useful direction begins with clear responsibilities and room for the real constraints.</p></div>
+    <div class='ve-boundaries'>{experience.boundaries.map(boundary => <article data-enter><h3>{boundary.title}</h3><p>{boundary.text}</p></article>)}</div>
+    {experience.questions.length > 0 && <div class='ve-deeper-questions'><h3>Before we begin.</h3><div class='ve-question-list'>{experience.questions.map(item => <details><summary>{item.question}<span aria-hidden='true'></span></summary><div><p>{item.answer}</p></div></details>)}</div></div>}
+  </section>
+</div>}
+
+<script>
+  import '../scripts/venture-experience';
+</script>

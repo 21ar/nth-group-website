@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+import {Image} from 'astro:assets';
+import Icon from './Icon.astro';
+import ContactInvitation from './ContactInvitation.astro';
+import InvestorCompare from './InvestorCompare.astro';
+import architecture from '../assets/matterfield/matter-architecture.png';
+import {getIndustries,getMilestones,getSiteContent} from '../data/content';
+interface Props {draft?:boolean;}
+const {draft=false}=Astro.props;
+const fields=await getIndustries(draft),milestones=await getMilestones(draft),content=await getSiteContent(draft);
+---
+<Layout noindex={draft} title='Investors' description='Start an investor conversation with NRTH Inc. Understand its venture directions, the questions behind them and the information needed to assess the next step.'>
+ {draft&&<aside class='preview-banner'><a href='/preview'>Editorial workspace</a><span data-preview-status>Draft preview</span></aside>}
+ <section class='page-heading'><span class='section-label'>{content.investors.label}</span><h1>Look beyond<br/><em>a single field.</em></h1><p>{content.investors.copy}</p><a class='inline-link' href='/contact?project=investor'>Start an investor conversation</a></section>
+ <figure class='wide-art' data-image-reveal><Image src={architecture} alt='Conceptual architecture with a bright passage through graphite walls' widths={[640,1100,1600]} sizes='90vw' format='webp' loading='eager'/></figure>
+ <section class='editorial-split'><div data-enter><span class='section-label'>The perspective</span><h2>A portfolio is<br/>a set of questions.</h2></div><div data-enter><p>What problem is worth solving? Who needs a different approach? What evidence would make the next decision more informed?</p><p>NRTH's nine venture identities frame different areas of interest. Investor conversations should examine each relevant direction on its own terms, including its current stage, assumptions and resource needs.</p><p>This public introduction is a starting point. Confirm development status, commercial information and any investment terms directly with NRTH.</p></div></section>
+ <section class='editorial-split section-dark'><div data-enter><span class='section-label'>Explore the portfolio</span><h2>A wider lens.<br/>A longer view.</h2></div><div class='disclosure-list' data-enter>{fields.map((field,i)=><details open={i===0}><summary>{field.name}<Icon name='plus'/></summary><div><p>{field.copy}</p>{field.ventures.map(name=><a href={'/projects/nrth-'+name.toLowerCase()}>NRTH {name}</a>)}</div></details>)}</div></section>
+ <InvestorCompare draft={draft}/>
+ <section class='editorial-split'><div data-enter><span class='section-label'>The first conversation</span><h2>Begin with<br/>the substance.</h2></div><div class='text-stack' data-enter><article><h3>The direction.</h3><p>Identify the venture or field that interests you and the perspective you bring. A focused conversation gives the portfolio useful context.</p></article><article><h3>The evidence.</h3><p>Request the current stage, supporting work and open questions. Discuss what has been established and what still needs to be examined.</p></article><article><h3>The next decision.</h3><p>Explore the scope, responsibilities, resources and milestones relevant to an opportunity. Specific commitments require a direct discussion.</p></article></div></section>
+ {milestones.length>0&&<section class='page-body'><div class='section-heading'><h2>Recorded<br/>progress.</h2></div><div class='journal-grid'>{milestones.map(item=><article><span class='section-label'>{item.date}</span><h3>{item.title}</h3><p>{item.text}</p></article>)}</div></section>}
+ <section class='resource-strip' data-enter><div><h3>A concise introduction.</h3><p>Download the public company overview to review NRTH's identity and venture directions.</p></div><a class='inline-link' href='/resources/nrth-company-overview.pdf' download>Company overview</a></section>
+ <ContactInvitation project='investor' headline='Consider the possibilities.'/>
+</Layout>

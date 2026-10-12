@@ -1,75 +1,95 @@
-# NRTH continuous brand story — final design QA
+# Matterfield design review
 
-Final result: passed
+Direction: **NRTH — Build beyond.** Target: [new visual reference](design/matterfield/visual-target.png). Research, sources and measurable goals: [design brief](design/matterfield/brief.md). This is a new public frontend, visual system, artwork and editorial content. The supplied brand contours, canonical routes and neutral operational integrations are retained.
 
-Review date: September 30, 2026, America/Vancouver. This is an internal design and interaction assessment against the user's brief, not an external award judgment.
+## Reference and implementation
 
-The original selected visual source (`/workspace/generated_images/exec-c84789f1-536f-45ee-8f89-b2e78688cd56.png`) and current production captures were inspected together in the same review input. Warm paper, large restrained typography, generous spacing and a minimal navigation remain. The user's newer instruction explicitly replaces the opening photographic infinity with N–R–T–H and a continuous industry story. The supplied NRTH identity remains in the header; the existing transparent logo derivative is documented in README rather than represented as an original vector export.
+The target's graphite surface, oversized lower-left typography, chrome mineral, warm reflections and quiet navigation are present in the implementation. The approximate generated wordmark is replaced by NRTH's actual four contours. The live mineral is original instanced geometry, with an irregular interlocking structure. Generated conceptual artwork supplies a detailed static alternative and the architectural/material editorial spreads.
 
-## Journey assessment
+DIA's official Squarespace motion studies informed a reusable visual unit with coherent behavior. Lusion and monopo informed the material, scale and local pointer response. These are translations of interaction principles; no third-party imagery or source code is shipped. Research limitations and award dates are recorded in the brief.
 
-1. **Identity — strong.** `pose-0.png` shows large live N–R–T–H outlines below the opening copy with clear space between them. Static/reduced-motion identity uses the same canonical glyph paths. No photograph takes over or disappears on scroll.
-2. **Transformation — strong.** Four strands persist through letters, rings, infinity, care, mobility, systems, materials, events, discovery and infinity. `half-morph.png` was visually checked alongside the original source and final poses. Correct winding and phase matching remove folded/pinched intermediate letters; 44 topology samples have no unintended self-intersections during letter-to-ring travel. Deliberate depth crossings in infinity and orbital symbols are part of their meaning.
-3. **Industries — clear.** Six fields organize all nine ventures. Large concise headings, useful venture links, travelling connection points and ring-to-underline controls tie the sculpture to content. `pose-3.png`, other `pose-*.png` files and `final-mobile-mobility.png` show actual current-run states. Both native reverse scrolling and keyboard/touch navigation pass.
-4. **Continuity below the opening — strong.** Gallery selection keeps its direction, moving marker, artwork and staggered copy; rapid switching leaves one active panel. Artwork carries into its detail view where native View Transitions are supported. Original platinum media (`editorial-art.png` and `editorial-art-mobile.png`) connects the editorial content to the ring language. Green-tinted section surfaces were replaced with neutral stone/paper.
-5. **Responsive and motion control — passed.** All ten keyframes were measured at 390×844, 390×667, 768×844, 1024×844 and 1505×1045: 50 layouts, zero overflow or copy/shape/control collisions. Optional shape captions are omitted on short phones. Pausing late in the story returns to the compact readable identity. Reduced motion creates no animated canvas; no-JavaScript navigation reaches all nine ventures.
-6. **Performance and accessibility — passed.** Expensive geometry construction is baked into a 46,080-byte quantized asset; visitors decode it rather than calculating SVG metrics or phase alignment. Rendering is bounded, stops offscreen/hidden, rests when the opening has no input, and adapts raster resolution/drawing rate under sustained slow frames without changing geometry. The final isolated four-second forward/reverse/pointer run measured median 16.7 ms, p95 33.4 ms, zero frames over 100 ms, and no browser errors. Earlier unbudgeted/cold runs were slower and drove the adaptive rendering changes; these lab numbers are not a guarantee for every device.
-7. **Product completeness — passed for showcase scope.** All 21 static pages remain, including nine venture pages, directory/search, perspectives and contact preparation. Contact prepares a local email/copy/download; inbox provisioning and a hosted submission backend are not represented as complete.
+The same rounded fragments disperse and reorganize under native, reversible scrolling. Six industry choices produce routes, a care signal, a connected framework, tetrahedral cells, an event spectrum and a branching research structure. Rapid selection starts from the displayed pose. Text, camera and the dark-to-paper background follow the same progress. Plain links and on-entry editorial reveals carry the identity into supporting pages.
 
-## Resolved findings
+## Reviewed captures
 
-- P1: opening image-to-live-geometry cut — removed; one renderer from the first interactive frame.
-- P1: letter-to-ring folds — aligned contour winding before phase matching; verified intermediate contours and screenshots.
-- P1: poor transition contrast/overlapping copy — foreground palette handling and coordinated fade intervals corrected; introductory aside leaves before the next chapter arrives.
-- P2: opening typography collision and offscreen infinity — shorter deliberate line breaks and shape extent fitting.
-- P2: pinched mobility/heart contours and depth-chunk seams — rounded contours, cubic spline drawing and continuous shadow/outline paths.
-- P2: short-phone symbol/caption crowding — smaller adaptive composition and omitted optional caption.
-- P2: excessive startup work and idle redraw — baked geometry, idle rest and bounded adaptive rendering.
+| State | Capture |
+| --- | --- |
+| Desktop opening | [opening](design/matterfield/qa/opening.png) |
+| Dispersed connection / intermediate morph | [connection](design/matterfield/qa/connection.png), [intermediate](design/matterfield/qa/intermediate.png) |
+| Mobility / Health | [routes](design/matterfield/qa/field-mobility.png), [signal](design/matterfield/qa/field-health.png) |
+| Systems / Materials | [framework](design/matterfield/qa/field-systems.png), [cells](design/matterfield/qa/field-materials.png) |
+| Events / Research | [spectrum](design/matterfield/qa/field-events.png), [branches](design/matterfield/qa/field-research.png) |
+| Transition toward the portfolio | [light surface](design/matterfield/qa/light-exit.png) |
+| Phone opening / field selection | [opening](design/matterfield/qa/opening-390.png), [fields](design/matterfield/qa/fields-390.png) |
+| 320px phone | [compact composition](design/matterfield/qa/fields-320.png) |
+| Company / Investors / Directory | [company](design/matterfield/qa/about.png), [investors](design/matterfield/qa/investors.png), [directory](design/matterfield/qa/directory.png) |
+| Venture page on a phone | [Telematics](design/matterfield/qa/projects-nrth-telematics-mobile.png) |
+| Interactive research controls | [study](design/matterfield/qa/research-study.png) |
+| Reduced motion / original static artwork | [static opening](design/matterfield/qa/reduced-motion.png) |
 
-No unresolved P0–P2 implementation findings remain within this brief. Exact original logo-vector fidelity, actual venture availability and legal/contact operational readiness remain launch-content considerations described in README.
+## Findings and corrections
 
-## Verification evidence
+| Priority | Finding | Resolution |
+| --- | --- | --- |
+| P1 | Chrome artwork crossed mobile copy and navigation. | Created a separate mobile artwork area, with responsive scale, position and field-copy spacing. |
+| P1 | The smallest phone forced a third headline line into the controls. | Applied compact typography below 359px and checked all six selections at 320×568. |
+| P1 | The contact heading overflowed narrower phones. | Made its scale follow available width; verified 320px, 360px and 390px pages. |
+| P1 | Light-page navigation had insufficient contrast. | Applied blending to the complete fixed masthead; the open menu uses its own explicit dark surface. |
+| P1 | Resource colours made the favicon too dark and the downloadable logo difficult to see on white. | Used the actual white contours on graphite for the icon, and ink contours for the transparent wordmark. Raster verification follows resource generation. |
+| P2 | The mineral initially read as a regular radial star. | Varied interlocking directions, fragment sizes and outliers. |
+| P2 | Uniform horizontal sampling left gaps on the care signal's steep sections. | Sampled the signal by arc length so its complete path remains continuous. |
+| P2 | Framework edges had incomplete or separated segments at different instance counts. | Distributed fragments across complete connected edges, preserving the common population. |
+| P2 | Dispersed fragments crowded the connection statement. | Directed that formation into the desktop artwork area and coordinated the mobile scale, position and headline. |
+| P2 | Long contact invitations could clip their largest words. | Added a responsive long-word treatment and checked actual text bounds. |
+| P2 | Static artwork showed a rectangular background on phones. | Composited it against the inherited scene background and preserved its own reading area. |
+| P2 | Inactive controls remained visible without JavaScript. | Progressive enhancement reveals filtering, motion controls and focus choices only when their handlers are available. |
+| P2 | A faded opening could still receive keyboard focus. | Made inactive narrative layers inert while retaining the static reading alternative. |
+| P2 | Bright orange lost contrast on paper. | Used a deeper text accent on light pages, with continuous colour interpolation during the scene's background transition. |
 
-- `npm run check`: 39 files, zero errors/warnings/hints.
-- `npm run build`: 21 static pages; two client chunks, roughly 34 kB gzip combined.
-- `npm run test:smoke`: 45 browser checks passed.
-- `npm run test:motion`: 65 browser checks passed; zero console/runtime errors.
-- `npm run test:geometry`: 44 intermediate contour checks passed.
-- `artifacts/brand-story/layout-bounds.json`: 50 active layouts with zero reported collisions/overflow.
-- `artifacts/brand-story/frame-timing.json`: final active-motion benchmark.
-- `artifacts/brand-story/lighthouse-mobile.json`: 100 performance/accessibility/best practices/SEO; LCP 1.7 s, TBT 10 ms, CLS 0. These are local lab observations, not search-ranking guarantees.
-- `motion-reference-notes.md` and `artifacts/brand-story/references`: fresh Lusion source inspection and DIA Coinbase/Base Onchain Summer case-study/animation inspection. DIA's own root was inaccessible; that limit is explicitly recorded.
+No unresolved P0, P1 or P2 findings remain in these reviewed states. This conclusion concerns the implemented brief and captured browser states; it does not establish an award outcome.
 
-Public readiness is checked after deployment with normal HTTPS certificate verification. Cloud Chromium public navigation is limited by proxy certificate trust; functional browser evidence is from the identical local production build.
+## Verification
 
-## Published preview
+- Astro check: 98 files, zero errors, warnings or hints. Website build: 32 public static pages and the Vercel handlers.
+- Sanity Studio type check and bundle build passed with documented placeholder project settings.
+- Geometry: 92 checks, including all directed form pairs, finite intermediate states, unique material-cell positions, easing endpoints and exact interruption starts.
+- Services/content: 28 checks with mocked delivery; no email sent.
+- Browser: **325 checks passed** against the actual production output. Includes shared geometry, reverse travel, interrupted choices, all six fields, pointer response, idle/offscreen suspension, focus trapping, directory search/filtering, all nine venture focus explorers, supporting-page metadata, investor routing, inquiry review/copy/download and failed-delivery preservation, and a nonblank exported research PNG.
+- Responsive checks covered 1440×1000, 1440×700, 390×844, 360×640 and 320×568. Each of the six industry states was checked at the four smaller compositions. Touch used a separate mobile context; short landscape used 844×390.
+- Pause, reduced motion, lost graphics context, unavailable WebGL and no JavaScript retained useful content and navigation.
 
-https://temporary-brisk-emerald-98cbtu7.vercel.app — fresh temporary Vercel deployment, expiring September 30, 2026 at 10:19 PM PDT unless claimed. Normal HTTPS checks passed for all 20 regular pages and 125 referenced assets; a missing route returns HTTP 404. Evidence: `artifacts/brand-story/vercel-readiness.json`. The preview was queued for the current Codex browser panel; that UI action is not represented as hosted browser inspection.
+The [browser result record](design/matterfield/qa/browser-results.json) accompanies the captures. Software WebGL was identified without driver masking. Physical-GPU frame rate and field performance on actual phones were not benchmarked. The renderer uses instancing, an adaptive resolution and a sleeping loop; its Three.js chunk is lazy-loaded (approximately 132KB gzip), and Vite reports its raw size above the default 500KB advisory threshold. Core copy is server-rendered and immediately available with artwork.
 
-## October 1 identity correction
+Live email delivery and editorial accounts require the owner's service configuration. Tests use controlled mocks and do not send an inquiry or publish CMS content. Code changes remain reviewable through the GitHub/Vercel preview workflow.
 
-Added the missing N to the canonical opening geometry and static fallback. All four strands remain continuous through the ten poses. Checked the desktop opening screenshot, 44 intermediate contour checks, and 65 motion checks on the rebuilt production site. The existing performance and full-layout benchmark figures above describe the previous three-strand review. The updated temporary preview is https://temporary-zippy-viola-spzwhih.vercel.app (expires October 1 at 2:29 AM PDT); all 20 pages and 125 assets passed normal HTTPS verification.
+## Venture detail and useful interaction
 
-## October 1 outline and composition redesign
+The expanded portfolio retains the visual direction and adds four purposeful experiences. The [additional captures and browser record](design/matterfield/qa/enrichment/) show the constellation, scenario decisions, research controls and partnership outline on desktop and phones.
 
-Rebuilt the opening glyph contours from the supplied logo proportions and signature R shape; these are hand-traced paths, not an original vector export. Removed shadow/understroke and duplicate highlight passes. Rebalanced the four-strand ring, infinity, route, frame, gathering and lens poses. Replaced the duplicated fourth Materials orbit with a small nucleus ring. Composition now fits projected geometry inside measured copy/control regions, including pointer rotation, rather than relying on viewport scale alone. Shape captions wait until the opening morph has moved into its reserved region. Current verification: 44 fold checks, six Materials silhouette-pair checks, 65 motion checks, and 114 composition checks with no copy/control collisions or clipping. Desktop and short/tall mobile opening and Materials captures were visually inspected.
+- The constellation has nine source perspectives, six industry shortcuts and 24 directional relationships. Selecting a venture traces its paths and explains the possible handoffs; hovering or focusing a relationship emphasizes its specific path. Spatial keyboard instructions accompany the controls, and native venture links plus all nine perspectives remain available without JavaScript.
+- All nine venture pages now have specific audiences, three connected workflow stages, three context scenarios and three practical questions. The selected scenario changes the situation, task and next decision; its inquiry retains the venture and topic. Direct section navigation helps visitors reach the detail.
+- The research playground has six arrangements, keyboard tabs, drag rotation, reset, stateful study URLs and actual PNG exports. Every arrangement exported a distinct, nonblank rendering. Shape changes use a 1.45-second quintic timeline from the displayed mixture, including interrupted choices; structure changes use 800ms. Settled rendering stops.
+- The partnership builder changes its question around a challenge, experiment or experience. Its actual selected expertise and written context appear in a saved outline and an editable inquiry. The tab-local transfer clears after use; an expired transfer is rejected. Review selects the partnerships inbox without sending a test message.
 
-The rebuilt client scripts total about 46 kB gzip. This replaces the earlier 34 kB three-strand bundle figure. Published revised contours and all 20 pages/125 assets passed HTTPS verification.
+**165 additional production-browser checks passed**, alongside the 325 regression checks, for **490 browser checks** in total. Independent screenshot review covered 1440×1000, 390×844 and 320×568 for the new experiences. No blocking layout or interaction findings remained. Native scenarios and questions remain readable without JavaScript; reduced motion retains direct control without animated transitions.
 
-## Opening hierarchy adjustment
+The review corrected unsupported SVG visibility attributes, clarified the constellation’s keyboard operation and slowed research morphs that advanced too far in a slow-rendering frame. These are functional interactions and illustrative venture contexts; the website does not assert production integrations or product availability.
 
-Removed the Explore NRTH opening CTA as requested and enlarged the opening wordmark to use almost the full viewport width. The scroll cue is the opening navigation cue and is visible on mobile, fading before industry controls appear. The larger opening and intermediate poses pass all 114 composition checks across six viewport sizes; all 45 smoke checks pass. The fallback venture link remains usable without JavaScript.
+## A deeper continuous journey
 
-## Investor page
+The opening now spans 8.4 viewport heights on desktop and 7.4 on phones. The same fragment population passes through six resting formations at .43, .508, .586, .664, .742 and .82. Native scrolling reverses those transitions; manual choices hold until the visitor advances and then return smoothly to the shared journey. Three orbital guides resolve into surface traces. The discovery cue begins with the first industry.
 
-Added the Investors page and navigation/homepage entry points, an expandable portfolio overview with all nine ventures, investor questions, and a preselected contact flow. Checked five viewport widths, header collision bounds, mobile navigation, portfolio reveal visibility, and email preparation/routing: 39 checks passed. Astro check reports zero diagnostics; build produces 22 static pages. Desktop and mobile opening/portfolio captures were visually inspected.
+Eighteen inspection perspectives connect selected fragments to concrete questions, preparation details and relevant ventures. The native reading dialog supports keyboard tabs, close/Escape, focus return, scroll locking and phone layouts. Its selected surface traces are brighter, and its close control remains accessible while reading.
 
-## Permanent Vercel deployment
+An industry directory and six detailed guides add eighteen decision contexts, fifty-four preparation questions, distinct diagrams, venture relationships, scope questions and adjacent fields. Investors can compare three ventures, share a selection and export a reading pack with actual published scope. Research adds twenty-four field/method outlines, editable questions, saved text, shared setups that omit custom text and a consumed-once Labs inquiry transfer.
 
-The latest site is deployed to the existing `nrth1/nrth` production project. Corrected an upload exclusion that previously omitted `src/scripts`; the remote build now passes. Normal HTTPS verification passed on the permanent deployment URL for 21 pages, 128 assets, and missing-route 404. The apex custom domain is assigned, and www redirects to the apex in Vercel. Cloudflare DNS changes remain pending; custom-domain HTTPS and the public www redirect have not yet been verified. See `hosting.md` for exact project-specific DNS requirements.
+The [new captures and result records](design/matterfield/qa/depth/) document desktop, 390px and 320px states. **155 depth checks**, **165 enrichment checks** and **325 regression checks** passed against the production preview: **645 site browser checks**. A separate focused industry pass completed **169 additional checks** on the production output, including diagram label collisions, exact selected paths, keyboard operation, no-JavaScript reading and stable summary position when switching context.
 
-## Favicon and update workflow
+The review corrected early Mobility artwork overlap by reserving its art area before .42, strengthened inspection feedback, preserved the reader’s position when disclosure heights change, and aligned the discovery cue with the new journey. Eighteen pointer-position captures checked Mobility and its transition on desktop and phones. No blocking findings remained in reviewed states. Graphics failure and no JavaScript retain all nine venture links and all six industry guides.
 
-Replaced the tiny padded raster tab icon with a tightly framed NRTH SVG wordmark on a dark tile, using the same canonical glyph contours as the opening. The versioned favicon link appears in shared page metadata. Centralized the homepage opening and investor copy, added an editing/publishing guide and GitHub build checks. Verified that saving a temporary copy change updates the development browser automatically, then restored the original copy. Astro check/build pass. GitHub/Vercel integration awaits the account Login Connection explicitly required by Vercel.
+Astro validation covers 98 files with zero errors, warnings or hints. The build produces 32 public static pages, social images and Vercel handlers. Geometry and mocked-service suites remain 92 and 28 checks. The existing software-graphics, physical-device and optional live-service limits still apply.
 
-The favicon update is published at https://nrth-rgr8ebkbv-nrth1.vercel.app. Verified the SVG has all four logo contours and the shared layout references its versioned URL. Production checks pass for 21 pages/127 hashed assets. GitHub check/build CI passed for the initial source commit, and instant local editing was verified and restored without changing production copy. Two Vercel Git-link attempts returned the same missing Login Connection requirement, so automatic publishing is not claimed as enabled.
+final result: passed
+
+
+The complete original visual baseline has been restored from the owner-selected revision `a4529e3`. Current acceptance evidence is in [the restoration record](design/matterfield/restoration.md): 918 browser assertions, 180 geometry/service checks, 2,207 public-document checks, both builds and source checks pass. Fresh deployed-reference comparisons confirm the original page structures and rendered imagery, including supporting pages.
