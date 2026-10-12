@@ -9,6 +9,10 @@ Run `npm run dev` and save a source file. Changes appear through hot reload. Pub
 | Opening and investor introduction | `src/data/site-content.ts` |
 | Venture summaries, stages, approved URLs | `src/data/projects.ts` |
 | Six industry introductions | `src/data/industries.ts` |
+| Detailed industry guides, contexts and diagrams | `src/data/industry-stories.ts`, `src/components/IndustryPage.astro`, `src/scripts/industry-stories.ts` |
+| Eighteen opening-scene perspectives | `src/data/scene-perspectives.ts`, `src/components/StoryInspector.astro`, `src/scripts/story-inspector.ts` |
+| Investor comparison and reading packs | `src/data/investor-perspectives.ts`, `src/components/InvestorCompare.astro`, `src/scripts/investor-compare.ts` |
+| Experiment starter questions and methods | `src/data/experiment-directions.ts`, `src/components/ExperimentPlanner.astro`, `src/scripts/experiment-planner.ts` |
 | Venture focus explorers | `src/data/project-details.ts` |
 | Venture audiences, workflows, scenarios and questions | `src/data/venture-stories.ts`, `src/components/VentureStories.astro` |
 | Portfolio relationship stories and constellation | `src/data/connections.ts`, `src/components/ConnectionsExplorer.astro`, `src/scripts/connections-explorer.ts` |
@@ -30,6 +34,12 @@ The geometry is generated directly from deterministic formulas. No baking step i
 Review motion on a phone, a short desktop screen and a reduced-motion browser after changing form scale, camera position or copy. The mobile artwork occupies its own area above the text. Keep field descriptions and navigation clear of each other. Use `npm run test:browser` against a fresh production preview to check the complete experience.
 
 The additional venture scenarios describe illustrative contexts, rather than shipping product features. Keep their distinction and practical decision clear when changing the writing. Relationship stories describe potential information handoffs; update the explanation together with the selected ventures. The partnership tool transfers a prepared outline through tab-local session storage to the contact form, then clears that transfer. It does not send a message or require a service account.
+
+The opening journey reaches six resting formations at normalized scroll positions .43, .508, .586, .664, .742 and .82. It blends the same fragment population between them. Manual industry choices hold until the visitor advances the scroll, then rejoin the journey from the displayed pose. Opening height and inspection presentation live in `matter-story-depth.css` and `story-inspector.css`; keep the renderer’s field layout fully reserved before .42 so the first mobility view clears its text. Inspection changes the existing fragments' colour and surface traces, rather than adding a second shape.
+
+The research planner supports 24 field/method combinations and 18 starter questions. Its share URL contains field, method and starter identifiers; custom question text stays out of the URL. Choosing Continue transfers the outline into the Labs inquiry through tab-local storage, clears the transfer after use and keeps the message editable. The investor comparison shares only selected venture slugs and exports current published scope with qualified reading questions.
+
+Run `npm run test:depth` against a fresh production preview after editing these experiences. The existing browser and enrichment suites cover their surrounding flows. The industry directory and all six guides are linked from the homepage, opening inspector and footer.
 
 ## Visual content editing
 

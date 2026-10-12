@@ -1,12 +1,4 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import ContactInvitation from '../../components/ContactInvitation.astro';
-import {getProjects} from '../../data/content';
-const projects=(await getProjects()).filter(project=>project.category==='Mobility');
+import IndustryPage from '../../components/IndustryPage.astro';
 ---
-<Layout title='Mobility' description='Four NRTH perspectives on movement: transportation management, vehicle signals, fleet resources and logistics handoffs.'>
- <section class='page-heading is-dark'><span class='section-label'>Mobility</span><h1>A world that moves<br/><em>takes coordination.</em></h1><p>Planning a job, reading a signal, assigning a resource and connecting a handoff ask different questions. Our four mobility directions give each one a focus.</p></section>
- <section class='mobility-map'>{projects.map(project=><article data-enter><div><span class='section-label'>{project.name}</span><h2>{project.headline}</h2></div><div><p>{project.introduction}</p><a class='inline-link' href={'/projects/'+project.slug}>Explore {project.name}</a></div></article>)}</section>
- <section class='editorial-split section-dark'><div><span class='section-label'>Find the right starting point</span><h2>Which decision<br/>needs attention?</h2></div><div><p>A shipment assignment points toward TMS. Vehicle information points toward Telematics. Resource readiness points toward Fleet. A chain of partner handoffs points toward Logistics.</p><p>Describe the whole situation if it spans several of those perspectives. Specific integrations and service arrangements need to be confirmed with NRTH.</p><a class='inline-link' href='/contact?project=nrth-tms'>Describe your mobility context</a></div></section>
- <ContactInvitation project='nrth-tms' headline='Keep the idea moving.'/>
-</Layout>
+<IndustryPage slug='mobility'/>

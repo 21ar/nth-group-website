@@ -1,0 +1,49 @@
+---
+import {getProjects} from '../data/content';
+import {stageLabel} from '../data/projects';
+import {investorPerspectives,investorReadingQuestions} from '../data/investor-perspectives';
+import '../styles/investor-compare.css';
+interface Props {draft?:boolean;id?:string;}
+const {draft=false,id='investor-comparison'}=Astro.props;
+const projects=await getProjects(draft);
+const defaultSlugs=['nrth-health','nrth-tms','nrth-systems'];
+const defaults=defaultSlugs.map(slug=>projects.find(project=>project.slug===slug)).filter(Boolean);
+const defaultNames=defaults.map(project=>project!.name).join(', ');
+const inquiryHref='/contact?project=investor&topic='+encodeURIComponent(('Portfolio discussion: '+defaultNames).slice(0,180));
+const rows=[{key:'audience',label:'Who it considers'},{key:'question',label:'The working question'},{key:'dependency',label:'What it depends on'},{key:'examine',label:'Examine next'}] as const;
+---
+<section class='investor-compare' id={id} data-investor-compare aria-labelledby={id+'-heading'}>
+ <div class='investor-compare-heading' data-enter>
+  <span class='section-label'>A closer perspective</span>
+  <h2 id={id+'-heading'}>Different fields.<br/><em>Better questions.</em></h2>
+  <p>Put venture directions beside each other. Compare the people, questions and dependencies behind them, then take a focused reading list into a conversation.</p>
+ </div>
+ <div class='investor-compare-controls' data-investor-controls hidden>
+  <fieldset aria-describedby={id+'-limit'}>
+   <legend>Build your perspective.</legend>
+   <p id={id+'-limit'}>Choose up to three ventures. To add another when three are selected, clear one first.</p>
+   <div class='investor-compare-choices'>
+    {projects.map(project=><label class='investor-compare-choice'><input type='checkbox' value={project.slug} data-investor-choice data-investor-name={project.name} checked={defaultSlugs.includes(project.slug)}/><span>{project.name.replace('NRTH ','')}</span><small>{project.category}</small></label>)}
+   </div>
+  </fieldset>
+  <div class='investor-compare-toolbar'>
+   <p data-investor-count>Three perspectives selected.</p>
+   <div><button type='button' data-investor-reset>Reset comparison</button><button type='button' data-investor-share>Copy comparison link</button><button type='button' data-investor-save>Save reading pack</button></div>
+  </div>
+  <label class='investor-compare-share' data-investor-share-panel hidden>Comparison link<input type='text' readonly data-investor-share-url spellcheck='false'/><span>Select and copy this link to share the same selection.</span></label>
+ </div>
+ <div class='investor-compare-grid' data-investor-columns aria-label='Venture perspectives compared'>
+  {defaults.map(project=>project&&<div class='investor-compare-slot' data-investor-slot><article class='investor-compare-card' data-investor-card={project.slug}><div class='investor-compare-card-heading'><span>{project.category}</span><h3><a href={'/projects/'+project.slug}>{project.name}</a></h3><p data-investor-stage>{stageLabel(project)}</p></div><dl>{rows.map(row=><div><dt>{row.label}</dt><dd data-investor-read={row.key}>{investorPerspectives[project.slug][row.key]}</dd></div>)}</dl><a class='investor-compare-venture-link' href={'/projects/'+project.slug}>Read the venture overview</a></article></div>)}
+ </div>
+ <div class='investor-compare-followthrough'>
+  <p>These are public areas of inquiry. Confirm each venture's current scope, availability and supporting evidence directly with NRTH.</p>
+  <a href={inquiryHref} data-investor-inquiry>Discuss these perspectives</a>
+ </div>
+ <div class='investor-reading'>
+  <div class='investor-reading-intro'><span class='section-label'>Carry the question further</span><h3>Read with<br/>a purpose.</h3><p>A useful first discussion makes the next decision more informed. These questions provide a starting point for reviewing any direction in the portfolio.</p><nav aria-label='Public investor reading'><a href='/resources/nrth-company-overview.pdf' download>Download the public company overview</a><a href='/about'>Understand NRTH</a><a href='/approach'>Explore the working approach</a></nav></div>
+  <div class='investor-reading-questions'>{investorReadingQuestions.map((question,index)=><details open={index===0}><summary>{question.title}<span aria-hidden='true'>+</span></summary><div><p>{question.text}</p><p class='investor-reading-request'><strong>Ask to review</strong>{question.request}</p></div></details>)}</div>
+ </div>
+ <p class='sr-only' role='status' aria-live='polite' aria-atomic='true' data-investor-status></p>
+ {projects.map(project=><template data-investor-template={project.slug}><article class='investor-compare-card' data-investor-card={project.slug}><div class='investor-compare-card-heading'><span>{project.category}</span><h3><a href={'/projects/'+project.slug}>{project.name}</a></h3><p data-investor-stage>{stageLabel(project)}</p></div><dl>{rows.map(row=><div><dt>{row.label}</dt><dd data-investor-read={row.key}>{investorPerspectives[project.slug][row.key]}</dd></div>)}</dl><a class='investor-compare-venture-link' href={'/projects/'+project.slug}>Read the venture overview</a></article></template>)}
+</section>
+<script>import '../scripts/investor-compare';</script>

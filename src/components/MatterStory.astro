@@ -2,6 +2,8 @@
 import {Image} from 'astro:assets';
 import hero from '../assets/matterfield/matter-hero.png';
 import {getIndustries,getSiteContent} from '../data/content';
+import StoryInspector from './StoryInspector.astro';
+import '../styles/matter-story-depth.css';
 interface Props {draft?:boolean;}
 const {draft=false}=Astro.props;
 const fields=await getIndustries(draft),copy=await getSiteContent(draft);
@@ -16,12 +18,13 @@ const fields=await getIndustries(draft),copy=await getSiteContent(draft);
     </div>
     <div class='matter-connection' data-matter-connection aria-hidden='true'><h2>Nothing great<br/>happens in<br/><em>isolation.</em></h2><p>New possibilities live<br/>where different worlds meet.</p></div>
     <div class='matter-explorer' data-matter-explorer hidden>
-      <div class='matter-field-panels'>{fields.map((field,i)=><section role='tabpanel' id={'field-panel-'+i} aria-labelledby={'field-tab-'+i} data-field-panel={field.name} hidden={i!==0}><span class='field-label'>{field.name}</span><h2>{field.title[0]}<br/>{field.title[1]}</h2><p>{field.copy}</p><div class='field-venture-links'>{field.ventures.map(venture=><a href={'/projects/nrth-'+venture.toLowerCase()}>NRTH {venture}</a>)}</div></section>)}</div>
+      <div class='matter-field-panels'>{fields.map((field,i)=><section role='tabpanel' id={'field-panel-'+i} aria-labelledby={'field-tab-'+i} data-field-panel={field.name} hidden={i!==0}><a class='field-label story-inspect-trigger' href={'/industries/'+field.name.toLowerCase()} aria-haspopup='dialog' aria-controls='story-inspector' data-story-inspect={field.name}>Inside {field.name}</a><h2>{field.title[0]}<br/>{field.title[1]}</h2><p>{field.copy}</p><div class='field-venture-links'>{field.ventures.map(venture=><a href={'/projects/nrth-'+venture.toLowerCase()}>NRTH {venture}</a>)}</div></section>)}</div>
       <div class='matter-select' role='tablist' aria-label='Choose an industry'>{fields.map((field,i)=><button type='button' id={'field-tab-'+i} role='tab' aria-controls={'field-panel-'+i} aria-selected={i===0} tabindex={i===0?0:-1} data-matter-field={field.name}>{field.name}</button>)}</div>
     </div>
-    <div class='matter-ending' data-matter-ending aria-hidden='true'><h2>A portfolio<br/>of <em>possibilities.</em></h2><p>Distinct ventures.<br/>An ambition that connects them.</p></div>
+    <div class='matter-ending' data-matter-ending aria-hidden='true'><h2>A portfolio<br/>of <em>possibilities.</em></h2><p>Nine venture directions.<br/>Six fields. One wider perspective.</p></div>
   </div>
   <div id='fields' class='matter-anchor' aria-hidden='true'></div>
-  <div class='matter-static-fields'><div class='section-heading'><h2>The worlds<br/>we work in.</h2><p>Six fields. Each with a different perspective on what comes next.</p></div><div class='static-field-grid'>{fields.map(field=><article><span class='field-label'>{field.name}</span><h3>{field.title.join(' ')}</h3><p>{field.copy}</p><div>{field.ventures.map(name=><a href={'/projects/nrth-'+name.toLowerCase()}>NRTH {name}</a>)}</div></article>)}</div></div>
+  <div class='matter-static-fields'><div class='section-heading'><h2>The worlds<br/>we work in.</h2><p>Six fields. Each with a different perspective on what comes next.</p></div><div class='static-field-grid'>{fields.map(field=><article><span class='field-label'>{field.name}</span><h3>{field.title.join(' ')}</h3><p>{field.copy}</p><div><a href={'/industries/'+field.name.toLowerCase()}>The industry perspective</a>{field.ventures.map(name=><a href={'/projects/nrth-'+name.toLowerCase()}>NRTH {name}</a>)}</div></article>)}</div></div>
 </section>
+<StoryInspector/>
 <script>import '../scripts/matter';</script>

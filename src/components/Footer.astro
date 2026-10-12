@@ -1,8 +1,11 @@
 ---
 import Logo from './Logo.astro';
+import {industries} from '../data/industries';
+import '../styles/industry-directory.css';
 ---
 <footer class='site-footer'>
  <div class='footer-top'><p>Independent by intent.<br/>Open to what comes next.</p><nav aria-label='Footer'><a href='/projects'>Ventures</a><a href='/about'>Company</a><a href='/investors'>Investors</a><a href='/contact'>Contact</a></nav><a class='footer-email' href='mailto:hello@nrth.group'>hello@nrth.group</a></div>
+ <nav class='footer-industries' aria-label='Industry guides'><span>The fields of NRTH</span>{industries.map(field=><a href={'/industries/'+field.name.toLowerCase()}>{field.name}</a>)}</nav>
  <Logo footer/>
  <div class='footer-bottom'><span>© {new Date().getFullYear()} NRTH Inc.</span><span>nrth.group</span><div><a href='/privacy'>Privacy</a><a href='/terms'>Terms</a><button type='button' data-motion-toggle hidden aria-pressed='false'>Pause motion</button></div></div>
 </footer>

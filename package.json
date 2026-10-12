@@ -12,7 +12,8 @@
     "test:geometry": "node verify-matter.cjs",
     "test:services": "node verify-services.mjs",
     "test:browser": "node verify-browser.cjs",
-    "test:enrichment": "node verify-enrichment.cjs"
+    "test:enrichment": "node verify-enrichment.cjs",
+    "test:depth": "node verify-depth.cjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",

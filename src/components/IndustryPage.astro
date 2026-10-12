@@ -1,0 +1,86 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ContactInvitation from './ContactInvitation.astro';
+import {getProjects} from '../data/content';
+import {getIndustryStory,industryStories} from '../data/industry-stories';
+import '../styles/industry-stories.css';
+interface Props {slug: string;}
+const story=getIndustryStory(Astro.props.slug);
+const projects=await getProjects();
+const projectFor=(slug:string)=>projects.find(project=>project.slug===slug)!;
+const first=story.contexts[0];
+const selectedPath=story.diagram.paths.find(path=>path.id===first.id)!;
+const sectionId='industry-'+story.slug;
+---
+<Layout title={story.name} description={story.description} socialImagePath={'/resources/social/industries-'+story.slug+'.png'}>
+ <section class='industry-heading section-dark'>
+  <span class='section-label'>An NRTH industry perspective</span>
+  <h1 data-enter>{story.name}</h1>
+  <div class='industry-heading-introduction'>
+   <h2 data-enter>{story.headline[0]}<br/><em>{story.headline[1]}</em></h2>
+   <p data-enter>{story.introduction}</p>
+  </div>
+  <nav class='industry-section-links' aria-label={story.name+' page sections'}><a href={'#'+sectionId+'-contexts'}>Explore a context</a><a href={'#'+sectionId+'-ventures'}>Meet the perspectives</a><a href={'#'+sectionId+'-questions'}>Your questions</a></nav>
+ </section>
+ <section class='industry-perspective'>
+  <h2 data-enter>{story.perspective}</h2>
+  <p data-enter>{story.perspectiveCopy}</p>
+ </section>
+ <section class='industry-contexts section-dark' id={sectionId+'-contexts'} data-industry-explorer>
+  <div class='industry-context-heading' data-enter><span class='section-label'>Explore the work</span><h2>Start with<br/><em>the decision.</em></h2><p>Open a context to see the connections it brings into focus.</p></div>
+  <div class='industry-context-layout'>
+   <div class='industry-diagram-column'>
+    <div class={'industry-diagram industry-diagram-'+story.slug} data-industry-diagram data-industry-context={first.id}>
+     <svg viewBox='0 0 760 460' role='img' aria-labelledby={sectionId+'-diagram-title '+sectionId+'-diagram-description'}>
+      <title id={sectionId+'-diagram-title'}>{story.name}: the connections around a decision</title>
+      <desc id={sectionId+'-diagram-description'}>{story.diagram.label}</desc>
+      <defs><radialGradient id={sectionId+'-diagram-glow'}><stop offset='0%' stop-color='#ff743b' stop-opacity='.12'/><stop offset='100%' stop-color='#ff743b' stop-opacity='0'/></radialGradient></defs>
+      <ellipse cx='380' cy='230' rx='350' ry='220' fill={'url(#'+sectionId+'-diagram-glow)'}/>
+      {story.slug==='health'&&<g class='industry-diagram-texture'><ellipse cx='390' cy='230' rx='245' ry='185'/><ellipse cx='390' cy='230' rx='180' ry='135'/></g>}
+      {story.slug==='systems'&&<g class='industry-diagram-texture'><path d='M190 50 V410 M390 50 V410 M590 50 V410 M50 160 H710 M50 300 H710'/></g>}
+      {story.slug==='materials'&&<g class='industry-diagram-texture'><path d='M380 50 L575 165 L575 350 L380 450 L185 350 L185 165 Z M380 50 V450 M185 165 L575 350 M575 165 L185 350'/></g>}
+      {story.slug==='events'&&<g class='industry-diagram-texture'><path d='M170 210 V250 M200 175 V285 M230 145 V315 M530 145 V315 M560 175 V285 M590 210 V250'/></g>}
+      {story.slug==='research'&&<g class='industry-diagram-texture'><path d='M380 230 L350 145 L395 80 M350 145 L310 100 M380 230 L365 305 L405 400 M365 305 L320 360 M380 230 L440 215 L535 170 M440 215 L490 270'/></g>}
+      {story.slug==='mobility'&&<g class='industry-diagram-texture'><path d='M90 245 C145 245 185 110 280 110 C390 110 375 390 470 390 C580 390 605 245 680 245'/></g>}
+      {story.diagram.paths.map(path=><path class='industry-diagram-base' d={path.d}/>)}
+      {story.diagram.paths.map(path=><path class='industry-diagram-active' d={path.d} data-industry-path={path.id} data-active={String(path.id===first.id)}/>)}
+      {story.diagram.nodes.map(node=><g data-industry-node={node.id} data-active={String(selectedPath.nodes.includes(node.id))}><circle class='industry-diagram-point-halo' cx={node.x} cy={node.y} r='17'/><circle class='industry-diagram-point' cx={node.x} cy={node.y} r='5'/></g>)}
+     </svg>
+     {story.diagram.nodes.map(node=><span class='industry-diagram-label' data-industry-node-label={node.id} data-active={String(selectedPath.nodes.includes(node.id))} style={'--diagram-x:'+node.x/760*100+'%;--diagram-y:'+node.y/460*100+'%;'}>{node.label}</span>)}
+    </div>
+    <p class='industry-diagram-caption'>{story.diagram.label}</p>
+    <p class='industry-diagram-selection' data-industry-selection role='status' aria-live='polite' aria-atomic='true'><span>Context in view</span><strong>{first.title}</strong></p>
+    <p class='industry-diagram-scope'>A map of the questions around the work. It illustrates relationships rather than a live service or an existing product integration.</p>
+   </div>
+   <div class='industry-context-choices'>
+    {story.contexts.map((context,i)=><details class='industry-context-choice' data-industry-choice={context.id} data-industry-title={context.title} data-industry-nodes={story.diagram.paths.find(path=>path.id===context.id)!.nodes.join(',')} open={i===0}>
+     <summary><span>{context.title}</span><span class='industry-context-sign' aria-hidden='true'></span></summary>
+     <div class='industry-context-body'>
+      <p>{context.situation}</p>
+      <p class='industry-context-decision'>{context.decision}</p>
+      <h3>Questions worth bringing</h3>
+      <ul>{context.questions.map(question=><li>{question}</li>)}</ul>
+      <div class='industry-context-takeaway'><h3>A useful starting point</h3><p>{context.takeaway}</p></div>
+      <div class='industry-context-ventures'><span>Relevant perspectives</span>{context.ventures.map(slug=><a href={'/projects/'+slug}>{projectFor(slug).name}</a>)}</div>
+      <a class='inline-link' href={'/contact?project='+context.ventures[0]+'&topic='+encodeURIComponent(story.name+': '+context.title)}>Discuss this context</a>
+     </div>
+    </details>)}
+   </div>
+  </div>
+ </section>
+ <section class='industry-details'>
+  <div class='industry-details-heading' data-enter><span class='section-label'>The detail behind a decision</span><h2>Good questions<br/>need real context.</h2></div>
+  <div class='industry-details-grid'>{story.details.map(detail=><article data-enter><h3>{detail.title}</h3><p>{detail.text}</p></article>)}</div>
+ </section>
+ <section class='industry-ventures' id={sectionId+'-ventures'}>
+  <div class='industry-ventures-heading' data-enter><span class='section-label'>Within NRTH</span><h2>Different starting points.<br/><em>A wider view.</em></h2><p>These venture directions bring distinct perspectives to {story.name.toLowerCase()} questions. Their relationship is a way to frame the conversation; current scope is confirmed separately.</p></div>
+  <div class='industry-ventures-list'>{story.ventures.map(venture=><article data-enter><div><span class='section-label'>{venture.role}</span><h3><a href={'/projects/'+venture.slug}>{projectFor(venture.slug).name}</a></h3></div><div><p>{venture.connection}</p><a class='inline-link' href={'/projects/'+venture.slug}>Explore the venture</a></div></article>)}</div>
+ </section>
+ <section class='industry-questions section-dark' id={sectionId+'-questions'}>
+  <div data-enter><span class='section-label'>Before a conversation</span><h2>Your questions.</h2></div>
+  <div class='industry-question-list'>{story.questions.map(question=><details><summary>{question.question}<span class='industry-context-sign' aria-hidden='true'></span></summary><p>{question.answer}</p></details>)}{story.slug==='research'&&<a class='inline-link' href='/research'>Try the visual study</a>}</div>
+ </section>
+ <section class='industry-adjacent'><span class='section-label'>Keep exploring</span><div>{industryStories.filter(item=>item.slug!==story.slug).map(item=><a href={'/industries/'+item.slug}>{item.name}</a>)}</div><a class='inline-link' href='/projects'>See all nine NRTH ventures</a></section>
+ <ContactInvitation project={story.contact} headline={'Let’s talk '+story.name+'.'}/>
+</Layout>
+<script>import '../scripts/industry-stories';</script>

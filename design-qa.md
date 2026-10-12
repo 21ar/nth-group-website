@@ -50,7 +50,7 @@ No unresolved P0, P1 or P2 findings remain in these reviewed states. This conclu
 
 ## Verification
 
-- Astro check: 78 files, zero errors, warnings or hints. Website build: 26 public static pages and the Vercel handlers.
+- Astro check: 98 files, zero errors, warnings or hints. Website build: 32 public static pages and the Vercel handlers.
 - Sanity Studio type check and bundle build passed with documented placeholder project settings.
 - Geometry: 92 checks, including all directed form pairs, finite intermediate states, unique material-cell positions, easing endpoints and exact interruption starts.
 - Services/content: 28 checks with mocked delivery; no email sent.
@@ -74,5 +74,19 @@ The expanded portfolio retains the visual direction and adds four purposeful exp
 **165 additional production-browser checks passed**, alongside the 325 regression checks, for **490 browser checks** in total. Independent screenshot review covered 1440×1000, 390×844 and 320×568 for the new experiences. No blocking layout or interaction findings remained. Native scenarios and questions remain readable without JavaScript; reduced motion retains direct control without animated transitions.
 
 The review corrected unsupported SVG visibility attributes, clarified the constellation’s keyboard operation and slowed research morphs that advanced too far in a slow-rendering frame. These are functional interactions and illustrative venture contexts; the website does not assert production integrations or product availability.
+
+## A deeper continuous journey
+
+The opening now spans 8.4 viewport heights on desktop and 7.4 on phones. The same fragment population passes through six resting formations at .43, .508, .586, .664, .742 and .82. Native scrolling reverses those transitions; manual choices hold until the visitor advances and then return smoothly to the shared journey. Three orbital guides resolve into surface traces. The discovery cue begins with the first industry.
+
+Eighteen inspection perspectives connect selected fragments to concrete questions, preparation details and relevant ventures. The native reading dialog supports keyboard tabs, close/Escape, focus return, scroll locking and phone layouts. Its selected surface traces are brighter, and its close control remains accessible while reading.
+
+An industry directory and six detailed guides add eighteen decision contexts, fifty-four preparation questions, distinct diagrams, venture relationships, scope questions and adjacent fields. Investors can compare three ventures, share a selection and export a reading pack with actual published scope. Research adds twenty-four field/method outlines, editable questions, saved text, shared setups that omit custom text and a consumed-once Labs inquiry transfer.
+
+The [new captures and result records](design/matterfield/qa/depth/) document desktop, 390px and 320px states. **155 depth checks**, **165 enrichment checks** and **325 regression checks** passed against the production preview: **645 site browser checks**. A separate focused industry pass completed **169 additional checks** on the production output, including diagram label collisions, exact selected paths, keyboard operation, no-JavaScript reading and stable summary position when switching context.
+
+The review corrected early Mobility artwork overlap by reserving its art area before .42, strengthened inspection feedback, preserved the reader’s position when disclosure heights change, and aligned the discovery cue with the new journey. Eighteen pointer-position captures checked Mobility and its transition on desktop and phones. No blocking findings remained in reviewed states. Graphics failure and no JavaScript retain all nine venture links and all six industry guides.
+
+Astro validation covers 98 files with zero errors, warnings or hints. The build produces 32 public static pages, social images and Vercel handlers. Geometry and mocked-service suites remain 92 and 28 checks. The existing software-graphics, physical-device and optional live-service limits still apply.
 
 final result: passed

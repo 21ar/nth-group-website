@@ -17,6 +17,13 @@ if (form) {
     } catch { /* A blank inquiry remains available when tab storage is unavailable. */ }
   }
   const result = form.querySelector<HTMLElement>('[data-inquiry-result]');
+  if (project === 'nrth-labs' && new URLSearchParams(location.search).get('outline') === 'prepared' && messageField) {
+    try {
+      const stored = sessionStorage.getItem('nrth-research-outline');sessionStorage.removeItem('nrth-research-outline');
+      const outline = stored ? JSON.parse(stored) : null;
+      if (outline?.version === 1 && typeof outline.message === 'string' && outline.message.length <= 4500 && typeof outline.createdAt === 'number' && outline.createdAt <= Date.now() && Date.now() - outline.createdAt < 3600000) messageField.value = outline.message;
+    } catch { /* The ordinary editable inquiry remains available. */ }
+  }
   const preview = form.querySelector<HTMLElement>('[data-inquiry-preview]');
   const status = form.querySelector<HTMLElement>('[data-inquiry-status]');
   let message = '';

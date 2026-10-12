@@ -1,0 +1,72 @@
+.experiment-planner{padding:110px var(--gutter) 130px;background:#e3e3dd;scroll-margin-top:105px}
+.experiment-planner .section-heading{align-items:flex-start}
+.experiment-planner .section-heading>p{padding-top:9px;max-width:355px}
+.experiment-controls{margin:0 0 65px}
+.experiment-starting-point{display:grid;grid-template-columns:minmax(0,.65fr) minmax(0,1.35fr);gap:45px}
+.experiment-controls label{font-size:17px;line-height:1.5;min-width:0}
+.experiment-starting-point select{width:100%;display:block;margin-top:14px;padding:16px 25px 16px 0;border:0;border-bottom:1px solid #8a8c85;background:transparent;border-radius:0;font-size:18px;line-height:1.4;min-width:0;text-overflow:ellipsis}
+.experiment-question-control{display:block;margin-top:40px}
+.experiment-question-control textarea{display:block;width:100%;margin-top:14px;background:transparent;border:0;border-bottom:1px solid #8a8c85;border-radius:0;padding:12px 0 18px;font-size:20px;line-height:1.6;resize:vertical;min-height:115px;max-height:360px}
+.experiment-question-control>span{display:block;margin-top:12px;color:#5a5d58;font-size:14px;max-width:720px;line-height:1.6}
+.experiment-methods{border:0;padding:0;margin:45px 0 0;min-width:0}
+.experiment-methods legend{font-size:17px;margin-bottom:20px}
+.experiment-methods>div{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:26px}
+.experiment-methods label{display:flex;gap:12px;align-items:flex-start;border-top:1px solid #a9aca3;padding:24px 0 0;cursor:pointer;transition:border-color .25s}
+.experiment-methods input{width:18px;height:18px;margin:5px 0 0;flex-shrink:0;accent-color:var(--accent-text)}
+.experiment-methods label>span{min-width:0}
+.experiment-methods strong{display:block;font-family:var(--display);font-size:27px;font-weight:600;letter-spacing:-.04em;line-height:1.15;transition:color .25s}
+.experiment-methods label>span>span{display:block;margin-top:15px;font-size:15px;line-height:1.65;color:#555952}
+.experiment-methods label:has(input:checked){border-color:var(--accent-text)}
+.experiment-methods input:checked+span>strong{color:var(--accent-text)}
+.experiment-connection{position:relative;display:grid;grid-template-columns:repeat(3,1fr);padding:0 0 48px;margin-bottom:6px}
+.experiment-connection svg{width:100%;height:72px;grid-column:1/-1;overflow:visible}
+.experiment-connection-line{stroke:#94978c;stroke-width:1;fill:none;vector-effect:non-scaling-stroke}
+.experiment-node{fill:#73786b;stroke:#e3e3dd;stroke-width:5;transition:fill .35s ease,stroke .35s ease}
+.experiment-node-observation{fill:var(--accent-text)}
+.experiment-connection>span{font-size:15px;color:#54594e}
+.experiment-connection>span:nth-of-type(2){text-align:center}
+.experiment-connection>span:nth-of-type(3){text-align:right}
+[data-experiment-focus=question] .experiment-node-question,[data-experiment-focus=method] .experiment-node-method{fill:var(--accent-text)}
+[data-experiment-focus=question] .experiment-node-observation,[data-experiment-focus=method] .experiment-node-observation{fill:#73786b}
+.experiment-outline{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4vw;align-items:start}
+.experiment-outline>article{min-width:0;border-top:1px solid #a9aca3;padding-top:26px}
+.experiment-panel-label{display:block;font-size:16px;margin-bottom:27px;color:#53584f}
+.experiment-outline h3{font-size:clamp(31px,3vw,48px);line-height:1.12;margin-bottom:26px;overflow-wrap:anywhere}
+.experiment-question-panel h3{font-size:clamp(34px,3.3vw,53px);line-height:1.13;white-space:pre-wrap}
+.experiment-outline p,.experiment-outline li{font-size:16px;line-height:1.75;overflow-wrap:anywhere}
+.experiment-outline h4{font-family:var(--reading);font-size:16px;font-weight:650;line-height:1.5;margin:0 0 15px}
+.experiment-outline article>div{margin-top:35px}
+.experiment-outline ul{margin:0;padding-left:20px}
+.experiment-outline li+li{margin-top:15px}
+.experiment-context{color:#53584f}
+.experiment-scope{margin-top:30px;font-size:13px!important;line-height:1.7;color:#5a5d58}
+.experiment-limit{padding-top:25px;border-top:1px solid #b4b6ac}
+.experiment-decision{padding-top:25px;border-top:2px solid var(--accent-text)}
+.experiment-actions{display:flex;justify-content:space-between;align-items:flex-start;gap:35px;padding-top:45px;margin-top:60px;border-top:1px solid #a9aca3}
+.experiment-continue{font-family:var(--display);font-size:clamp(27px,2.7vw,40px);letter-spacing:-.04em;line-height:1.2;font-weight:600;border-bottom:1px solid currentColor;padding-bottom:8px;text-align:left;max-width:500px}
+.experiment-actions>div{display:flex;gap:18px 28px;flex-wrap:wrap;justify-content:flex-end;padding-top:9px;max-width:510px}
+.experiment-actions>div button{font-size:15px;border-bottom:1px solid #898d82;padding-bottom:5px;white-space:nowrap}
+.experiment-actions button{transition:color .25s,border-color .25s}
+.experiment-actions button:hover{color:var(--accent-text);border-color:var(--accent-text)}
+.experiment-status{font-size:15px;min-height:26px;margin-top:22px;color:#53584f;max-width:780px}
+.experiment-copy-fallback{margin:25px 0;max-width:900px}
+.experiment-copy-fallback label{font-size:17px;display:block;margin-bottom:12px}
+.experiment-copy-fallback textarea{display:block;width:100%;padding:18px;border:1px solid #878c7e;background:var(--paper);font-size:16px;line-height:1.7;resize:vertical}
+.experiment-copy-fallback p{margin-top:12px;font-size:14px;color:#53584f}
+.experiment-notes{display:flex;align-items:flex-start;justify-content:space-between;gap:40px;margin-top:24px}
+.experiment-notes>p{font-size:14px;line-height:1.75;max-width:630px;color:#53584f}
+.experiment-notes .inline-link{font-size:16px;line-height:1.5;max-width:320px}
+.experiment-method-library{margin-top:95px;padding-top:65px;border-top:1px solid #a9aca3}
+.experiment-method-library>h3{font-size:clamp(40px,4.5vw,70px);max-width:680px}
+.experiment-library-intro{font-size:18px;max-width:660px;margin:30px 0 45px}
+.experiment-method-library details{border-top:1px solid #a9aca3}
+.experiment-method-library details:last-child{border-bottom:1px solid #a9aca3}
+.experiment-method-library summary{font-family:var(--display);font-size:clamp(26px,2.7vw,42px);font-weight:600;letter-spacing:-.035em;cursor:pointer;padding:24px 0;list-style-position:inside}
+.experiment-method-library details>div{max-width:740px;padding:0 0 35px}
+.experiment-method-library details p{font-size:17px}
+.experiment-method-library h4{font-size:16px;margin:25px 0 12px}
+@media(max-width:1100px){.experiment-methods>div{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 40px}.experiment-outline{gap:3vw}.experiment-actions{display:block}.experiment-actions>div{justify-content:flex-start;max-width:none;margin-top:25px}.experiment-notes{gap:30px}.experiment-methods strong{font-size:30px}}
+@media(max-width:767px){.experiment-planner{padding-top:75px;padding-bottom:85px}.experiment-planner .section-heading{display:block;margin-bottom:45px}.experiment-planner .section-heading h2{font-size:clamp(43px,9.8vw,70px)}.experiment-planner .section-heading>p{font-size:18px;margin-top:28px;max-width:450px;padding-top:0}.experiment-starting-point{grid-template-columns:1fr;gap:28px}.experiment-starting-point select{font-size:17px;padding-top:12px;padding-bottom:14px}.experiment-controls label{font-size:16px}.experiment-question-control{margin-top:30px}.experiment-question-control textarea{font-size:18px;min-height:125px}.experiment-question-control>span{font-size:13px}.experiment-methods{margin-top:35px}.experiment-methods>div{gap:25px}.experiment-methods label{gap:9px;padding-top:20px}.experiment-methods strong{font-size:23px}.experiment-methods input{width:17px;height:17px;margin-top:2px}.experiment-methods label>span>span{font-size:14px;margin-top:12px}.experiment-controls{margin-bottom:40px}.experiment-connection{display:none}.experiment-connection svg{height:54px}.experiment-connection>span{font-size:12px}.experiment-outline{grid-template-columns:1fr;gap:40px}.experiment-outline>article{padding-top:25px}.experiment-panel-label{font-size:16px;margin-bottom:20px}.experiment-question-panel h3{font-size:clamp(35px,9vw,47px)}.experiment-outline h3{font-size:38px}.experiment-outline p,.experiment-outline li{font-size:17px;line-height:1.7}.experiment-outline article>div{margin-top:28px}.experiment-outline h4{font-size:17px;margin-bottom:14px}.experiment-scope{font-size:14px!important}.experiment-actions{padding-top:35px;margin-top:40px}.experiment-continue{font-size:30px}.experiment-actions>div{gap:18px 23px;margin-top:28px}.experiment-actions>div button{font-size:15px}.experiment-status{font-size:14px}.experiment-notes{display:block;margin-top:20px}.experiment-notes .inline-link{margin-top:25px;font-size:16px;max-width:none}.experiment-notes>p{font-size:13px}.experiment-method-library{margin-top:65px;padding-top:45px}.experiment-method-library>h3{font-size:43px}.experiment-library-intro{font-size:17px;margin:25px 0 35px}.experiment-method-library summary{font-size:29px;padding:23px 0}.experiment-method-library details p{font-size:16px}.experiment-method-library details>div{padding-bottom:28px}}
+@media(max-width:359px){.experiment-methods>div{grid-template-columns:1fr;gap:25px}.experiment-methods strong{font-size:27px}.experiment-connection>span{font-size:11px}.experiment-question-panel h3{font-size:34px}.experiment-outline h3{font-size:34px}.experiment-continue{font-size:28px}.experiment-method-library>h3{font-size:37px}}
+@media(prefers-reduced-motion:reduce){.experiment-node,.experiment-methods label,.experiment-methods strong,.experiment-actions button{transition:none}}
+.motion-paused .experiment-node,.motion-paused .experiment-methods label,.motion-paused .experiment-methods strong,.motion-paused .experiment-actions button{transition:none}

@@ -1,0 +1,16 @@
+---
+import {scenePerspectives} from '../data/scene-perspectives';
+import '../styles/story-inspector.css';
+---
+<dialog class='story-inspector' id='story-inspector' data-story-inspector aria-labelledby='inspector-heading'>
+ <div class='inspector-sheet'>
+  <header class='inspector-header'><span data-inspector-field>Mobility</span><button type='button' data-inspector-close aria-label='Close the industry perspective'>Close</button></header>
+  <h2 id='inspector-heading'>Inside the idea.</h2>
+  {Object.entries(scenePerspectives).map(([field,perspectives])=><div data-inspector-group={field} hidden={field!=='Mobility'}>
+   <div class='inspector-tabs' role='tablist' aria-label={field+' perspectives'}>{perspectives.map((item,i)=><button type='button' role='tab' id={'inspect-tab-'+field+'-'+i} aria-controls={'inspect-panel-'+field+'-'+i} aria-selected={i===0} tabindex={i===0?0:-1} data-inspector-tab={i}>{item.label}</button>)}</div>
+   {perspectives.map((item,i)=><section role='tabpanel' id={'inspect-panel-'+field+'-'+i} aria-labelledby={'inspect-tab-'+field+'-'+i} data-inspector-panel={i} hidden={i!==0}><h3>{item.title}</h3><p>{item.context}</p><blockquote>{item.question}</blockquote><h4>Bring to the conversation</h4><ul>{item.bring.map(input=><li>{input}</li>)}</ul><div class='inspector-links'><a class='inline-link' href={'/projects/'+item.venture}>Explore the related venture</a><a class='inline-link' href={'/industries/'+field.toLowerCase()}>The {field.toLowerCase()} perspective</a></div></section>)}
+  </div>)}
+  <p class='inspector-note'>The highlighted fragments represent a perspective within the idea. This is a visual metaphor for NRTH’s venture directions.</p>
+ </div>
+</dialog>
+<script>import '../scripts/story-inspector';</script>
