@@ -8,7 +8,7 @@ let checks = 0;
 const check = (value,message) => {assert.ok(value,message);checks++;};
 const input = {name:'Service test',email:'reviewer@example.com',organization:'Test organization',project:'general',message:'A local delivery test with a mocked provider.',website:'',requestId:'9ba0fa04-e876-49c1-a57b-acb112c349f0'};
 const config = {apiKey:'mock-provider-key',from:'NRTH <website@nrth.group>',general:'hello@nrth.group',partnerships:'partnerships@nrth.group',investors:'investors@nrth.group'};
-const request = (data=input,origin='https://nrth.group') => new Request('https://nrth.group/api/inquiries',{method:'POST',headers:{Origin:origin,'Content-Type':'application/json','x-vercel-forwarded-for':'test-' + checks},body:JSON.stringify(data)});
+const request = (data=input,origin='https://nrth.group',targetOrigin='https://nrth.group') => new Request(targetOrigin+'/api/inquiries',{method:'POST',headers:{Origin:origin,'Content-Type':'application/json','x-vercel-forwarded-for':'test-' + checks},body:JSON.stringify(data)});
 let payload,headers;
 const provider = async (_url,options) => {payload=JSON.parse(options.body);headers=options.headers;return new Response(JSON.stringify({id:'mock-receipt-id'}),{status:200});};
 for (const [project,destination] of [['general','hello@nrth.group'],['nrth-health','hello@nrth.group'],['partnership','partnerships@nrth.group'],['investor','investors@nrth.group']]) {
@@ -25,6 +25,22 @@ check((await handleInquiry(request(),{},provider)).status===503,'Unconfigured de
 check((await handleInquiry(request(),config,async()=>new Response('provider failed',{status:500}))).status===502,'Provider failure is not accepted.');
 check((await handleInquiry(request(),config,async()=>{throw new Error('timeout');})).status===502,'Uncertain delivery is not accepted.');
 check((await handleInquiry(request(),config,async()=>new Response('{}'))).status===502,'Missing provider receipt is not accepted.');
+// A reverse proxy can preserve the browser Origin while changing the upstream URL.
+const proxyOrigin='https://nrth-nrth1.vercel.app';
+const proxyConfig={...config,siteOrigin:'https://nrth.group'};
+let proxyDeliveries=0;
+const proxyProvider=async(...args)=>{proxyDeliveries++;return provider(...args);};
+check((await handleInquiry(request(input,'https://nrth.group',proxyOrigin),proxyConfig,proxyProvider)).status===200 && proxyDeliveries===1,'Configured canonical origin works behind the production proxy using mocked delivery.');
+check((await handleInquiry(request({},'https://nrth.group',proxyOrigin),proxyConfig,proxyProvider)).status===422 && proxyDeliveries===1,'Proxied invalid input reaches validation without delivery.');
+check((await handleInquiry(request(input,'https://nrth.group',proxyOrigin),{siteOrigin:'https://nrth.group'},proxyProvider)).status===503 && proxyDeliveries===1,'Proxied unconfigured delivery remains unavailable without delivery.');
+for(const origin of ['https://unrelated.example','https://nrth.group.evil.invalid','http://nrth.group','null']) {
+ const foreign=request(input,origin,proxyOrigin);foreign.headers.set('x-forwarded-host','nrth.group');
+ check((await handleInquiry(foreign,proxyConfig,proxyProvider)).status===403 && proxyDeliveries===1,'Foreign, lookalike, insecure and null origins stay blocked despite forwarded headers.');
+}
+const missingOrigin=request(input,'https://nrth.group',proxyOrigin);missingOrigin.headers.delete('Origin');
+check((await handleInquiry(missingOrigin,proxyConfig,proxyProvider)).status===403 && proxyDeliveries===1,'A proxied request still requires an Origin header.');
+check((await handleInquiry(request(input,'https://nrth.group',proxyOrigin),config,proxyProvider)).status===403 && proxyDeliveries===1,'An unconfigured alternate origin remains blocked.');
+check((await handleInquiry(request(input,proxyOrigin,proxyOrigin),proxyConfig,proxyProvider)).status===200 && proxyDeliveries===2,'Direct Vercel same-origin behavior is preserved.');
 process.env.CMS_PREVIEW_SECRET='local-test-secret-which-is-not-used-in-production';
 const session = createPreviewSession();
 check(validPreviewSession(session),'Signed editorial preview session is valid.');
