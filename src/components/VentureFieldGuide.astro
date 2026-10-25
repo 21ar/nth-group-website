@@ -1,0 +1,87 @@
+---
+import type { ImageMetadata } from 'astro';
+import ArtworkImage from './ArtworkImage.astro';
+import { ventureFieldGuides } from '../data/venture-field-guides';
+import '../styles/venture-field-guide.css';
+
+interface Props {
+  slug: string;
+  visual: { src: ImageMetadata | string; alt: string };
+}
+
+const { slug, visual } = Astro.props;
+const guide = ventureFieldGuides[slug];
+const sectionId = slug + '-field-guide';
+// Focus positions were chosen from the nine original venture photographs.
+// The values describe real details in the source, rather than synthetic markers.
+const artworkFocus: Record<string, { x: number; y: number; scale: number }[]> = {
+  'nrth-health': [{ x: 66, y: 43, scale: 1.58 }, { x: 80, y: 40, scale: 1.75 }, { x: 51, y: 66, scale: 1.6 }],
+  'nrth-tms': [{ x: 55, y: 66, scale: 1.6 }, { x: 62, y: 44, scale: 1.65 }, { x: 91, y: 28, scale: 1.85 }],
+  'nrth-telematics': [{ x: 64, y: 43, scale: 1.65 }, { x: 77, y: 43, scale: 1.4 }, { x: 65, y: 13, scale: 1.8 }],
+  'nrth-logistics': [{ x: 74, y: 54, scale: 1.5 }, { x: 57, y: 40, scale: 1.6 }, { x: 76, y: 26, scale: 1.75 }],
+  'nrth-systems': [{ x: 37, y: 48, scale: 1.65 }, { x: 55, y: 33, scale: 1.8 }, { x: 77, y: 45, scale: 1.45 }],
+  'nrth-labs': [{ x: 52, y: 48, scale: 1.75 }, { x: 43, y: 33, scale: 1.5 }, { x: 53, y: 81, scale: 1.65 }],
+  'nrth-chemicals': [{ x: 36, y: 26, scale: 1.6 }, { x: 60, y: 61, scale: 1.8 }, { x: 61, y: 40, scale: 1.85 }],
+  'nrth-fleet': [{ x: 68, y: 49, scale: 1.4 }, { x: 32, y: 45, scale: 1.8 }, { x: 57, y: 80, scale: 1.5 }],
+  'nrth-events': [{ x: 52, y: 59, scale: 1.6 }, { x: 76, y: 31, scale: 1.5 }, { x: 49, y: 31, scale: 1.7 }],
+};
+const curatedArtwork = typeof visual.src !== 'string' && artworkFocus[slug];
+const imageWidth = typeof visual.src === 'string' ? 1536 : Math.min(1536, visual.src.width);
+const imageHeight = typeof visual.src === 'string' ? Math.round(imageWidth * 2 / 3) : Math.round(imageWidth * visual.src.height / visual.src.width);
+const imageWidths = [...new Set([640, 960, 1280, imageWidth].filter(width => width <= imageWidth))];
+---
+{guide && <section class='venture-field-guide' id={sectionId} aria-labelledby={sectionId + '-title'} data-venture-field-guide>
+  <div class='vfg-heading' data-enter>
+    <h2 id={sectionId + '-title'}>Inside<br/><em>the idea.</em></h2>
+    <p>{guide.overview}</p>
+  </div>
+
+  <div class='vfg-areas'>
+    {guide.areas.map((area, index) => <details class='vfg-area' id={slug + '-guide-' + area.id} data-vfg-area={area.id} open={index === 0}>
+      <summary aria-labelledby={slug + '-guide-label-' + area.id} aria-describedby={slug + '-guide-summary-' + area.id}>
+        <span class='vfg-area-title' id={slug + '-guide-label-' + area.id}>{area.title}</span>
+        <span class='vfg-area-summary' id={slug + '-guide-summary-' + area.id}>{area.summary}</span>
+        <span class='vfg-disclosure-mark' aria-hidden='true'></span>
+      </summary>
+      <div class='vfg-area-content' data-vfg-content>
+        <h3 class='sr-only'>{area.title}</h3>
+        <div class='vfg-area-reason'><h4>Why it matters</h4><p>{area.whyItMatters}</p></div>
+        <div class='vfg-area-depth'>
+          <div class='vfg-detail-list'>
+            {area.details.map(detail => <article><h4>{detail.title}</h4><p>{detail.text}</p></article>)}
+          </div>
+          <div class='vfg-practical-questions'><h4>Questions to bring into the work</h4><ul>{area.questions.map(question => <li>{question}</li>)}</ul></div>
+          <div class='vfg-area-connection'><p>{area.connection.text}</p><a class='inline-link' href={'/projects/' + area.connection.slug}>{area.connection.label}</a></div>
+          <button type='button' class='vfg-share' data-vfg-share hidden>Copy this area</button>
+          <div class='vfg-share-fallback' data-vfg-share-fallback hidden><label for={slug + '-guide-link-' + area.id}>Area link</label><input id={slug + '-guide-link-' + area.id} type='text' readonly data-vfg-share-input/></div>
+        </div>
+      </div>
+    </details>)}
+  </div>
+
+  {curatedArtwork && <div class='vfg-visual-study' aria-labelledby={sectionId + '-visual-title'}>
+    <div class='vfg-visual-heading' data-enter><h3 id={sectionId + '-visual-title'}>A form<br/>of thinking.</h3><p>Look closer at the visual. Each material and connection expresses a question behind the work.</p></div>
+    <div class='vfg-art-layout'>
+      <figure class='vfg-artwork'>
+        <div class='vfg-art-window' data-vfg-art-window><ArtworkImage src={visual.src} width={imageWidth} height={imageHeight} widths={imageWidths} sizes='(max-width: 767px) 167vw, 102vw' format='webp' quality={87} loading='lazy' alt={visual.alt}/></div>
+        <figcaption>Conceptual artwork for NRTH. A visual interpretation of the venture.</figcaption>
+      </figure>
+      <div class='vfg-art-reading'>
+        <div class='vfg-art-choices' role='tablist' aria-label='Explore details in the artwork' aria-orientation='vertical' data-vfg-art-choices hidden>
+          {guide.annotations.map((annotation, index) => <button type='button' id={sectionId + '-art-choice-' + annotation.id} role='tab' aria-controls={sectionId + '-art-panel-' + annotation.id} aria-selected={index === 0} tabindex={index === 0 ? 0 : -1} data-vfg-art-choice={annotation.id} data-vfg-focus-x={artworkFocus[slug][index]?.x ?? 50} data-vfg-focus-y={artworkFocus[slug][index]?.y ?? 50} data-vfg-scale={artworkFocus[slug][index]?.scale ?? 1}>{annotation.title}</button>)}
+        </div>
+        <div class='vfg-art-panels'>
+          {guide.annotations.map(annotation => <article id={sectionId + '-art-panel-' + annotation.id} data-vfg-art-panel={annotation.id} aria-labelledby={sectionId + '-art-heading-' + annotation.id}><h4 id={sectionId + '-art-heading-' + annotation.id}>{annotation.title}</h4><p>{annotation.description}</p></article>)}
+        </div>
+        <button type='button' class='vfg-full-view' data-vfg-full-view hidden aria-pressed='false'>View the whole visual</button>
+      </div>
+    </div>
+  </div>}
+
+  <div class='vfg-closing' data-enter><p>{guide.closing}</p></div>
+  <p class='sr-only' aria-live='polite' aria-atomic='true' data-vfg-status></p>
+</section>}
+
+<script>
+  import '../scripts/venture-field-guide';
+</script>

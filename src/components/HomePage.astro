@@ -7,6 +7,7 @@ import ContactInvitation from './ContactInvitation.astro';
 import ConnectionsExplorer from './ConnectionsExplorer.astro';
 import IndustryDirectory from './IndustryDirectory.astro';
 import VentureSpotlight from './VentureSpotlight.astro';
+import PortfolioJourneys from './PortfolioJourneys.astro';
 import architecture from '../assets/matterfield/matter-architecture.png';
 import research from '../assets/matterfield/matter-research.png';
 import {getArticles} from '../data/content';
@@ -22,6 +23,7 @@ const articles=await getArticles(draft);
  <ConnectionsExplorer/>
  <VentureSpotlight/>
  <IndustryDirectory draft={draft}/>
+ <PortfolioJourneys/>
  <section class='research-spread'><div data-image-reveal><Image src={research} alt='Conceptual crystalline silver structure emerging from dark stone' widths={[600,1000,1600]} sizes='(max-width:767px) 100vw, 57vw' format='webp' loading='lazy'/></div><div class='research-spread-copy' data-enter><span class='section-label'>NRTH Labs</span><h2>The interesting<br/>part is<br/><em>what if.</em></h2><p>Questions create room to move. Our research direction turns assumptions into something that can be examined, challenged and developed.</p><a class='inline-link' href='/research'>Enter the research</a></div></section>
  <section class='journal-section'><div class='section-heading' data-enter><h2>Thinking<br/>out loud.</h2><a class='inline-link' href='/insights'>The journal</a></div><div class='journal-grid'>{articles.slice(0,3).map(article=><a href={'/insights/'+article.slug} data-enter><span class='section-label'>{article.category}</span><h3>{article.title}</h3><p>{article.description}</p></a>)}</div></section>
  <section class='investor-bridge' data-enter><span class='section-label'>Investors</span><h2>A wider lens.<br/>A longer view.</h2><div><p>Start with the company and the questions behind its portfolio. Then examine the particular venture, its stage and the next practical step.</p><a class='inline-link' href='/investors'>Investor conversations</a></div></section>

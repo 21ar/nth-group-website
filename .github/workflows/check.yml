@@ -33,6 +33,7 @@ jobs:
           export CHROMIUM_PATH="$(node -e "process.stdout.write(require('@playwright/test').chromium.executablePath())")"
           npm run test:baseline
           npm run test:ventures
+          npm run test:guides
         env:
           NRTH_TEST_URL: http://127.0.0.1:4173
       - uses: actions/setup-node@v4

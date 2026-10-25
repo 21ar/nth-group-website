@@ -47,13 +47,34 @@
 .ve-work-inputs ul { padding: 0; margin: 0; list-style: none; max-width: 36ch; }
 .ve-work-inputs li { position: relative; padding: 0 0 20px 23px; font-size: 18px; line-height: 1.6; }
 .ve-work-inputs li::before { content: ''; width: 6px; height: 6px; border: 1px solid var(--orange); border-radius: 50%; position: absolute; top: 10px; left: 0; }
-.ve-work-flow { margin: 0; padding: 0; list-style: none; }
+.ve-work-flow { position: relative; margin: 0; padding: 0; list-style: none; }
 .ve-work-flow li { position: relative; padding: 0 0 33px 30px; border-left: 1px solid #4e4f53; }
 .ve-work-flow li:last-child { padding-bottom: 0; border-left-color: transparent; }
 .ve-work-flow li::before { content: ''; position: absolute; top: 9px; left: -4px; width: 7px; height: 7px; border: 1px solid #b8b9bd; background: var(--dark); border-radius: 50%; }
 .ve-work-flow li:last-child::before { border-color: var(--orange); background: var(--orange); }
 .ve-work-flow h4 { margin: 0 0 14px; font-family: var(--display); font-size: clamp(26px, 2.35vw, 36px); font-weight: 600; letter-spacing: -.04em; line-height: 1.16; }
 .ve-work-flow p { font-size: 18px; color: #dedee0; }
+.ve-work-flow h4 button { display: block; width: 100%; min-height: 44px; padding: 6px 0; text-align: left; font: inherit; letter-spacing: inherit; line-height: inherit; transition: color .25s; }
+.ve-work-flow h4 button:hover { color: var(--orange); }
+.venture-experience.is-enhanced .ve-work-flow::before { content: ''; position: absolute; z-index: 1; top: 9px; left: 0; width: 1px; height: var(--ve-flow-progress, 0px); background: var(--orange); pointer-events: none; transition: height .48s cubic-bezier(.16,1,.3,1); }
+.venture-experience.is-enhanced .ve-work-flow li::before { z-index: 2; transition: border-color .25s, background-color .25s; }
+.venture-experience.is-enhanced .ve-work-flow li[data-ve-step-state='current']::before { border-color: var(--orange); background: var(--orange); }
+.venture-experience.is-enhanced .ve-work-flow li[data-ve-step-state='passed']::before { border-color: var(--orange); background: var(--dark); }
+.venture-experience.is-enhanced .ve-work-flow li[data-ve-step-state='upcoming']::before { border-color: #b8b9bd; background: var(--dark); }
+.venture-experience.is-enhanced .ve-work-flow h4 button[aria-selected='true'] { color: var(--orange); }
+.ve-step-readings { margin-top: 45px; }
+.ve-step-reading { display: grid; grid-template-columns: 1fr 1.25fr; gap: 8vw; align-items: start; padding-top: 35px; border-top: 1px solid var(--ve-line); min-width: 0; }
+.ve-step-reading + .ve-step-reading { margin-top: 40px; }
+.ve-step-label { display: block; color: #bdbec1; font-size: 16px; margin-bottom: 20px; }
+.ve-step-record h4 { font-family: var(--display); font-size: clamp(27px, 2.4vw, 37px); letter-spacing: -.04em; font-weight: 600; line-height: 1.16; margin: 0 0 20px; }
+.ve-step-record p { font-size: 18px; line-height: 1.7; color: #dedee0; max-width: 43ch; }
+.ve-step-checkpoint > p { font-family: var(--display); font-size: clamp(28px, 2.8vw, 43px); line-height: 1.22; letter-spacing: -.035em; max-width: 29ch; }
+.ve-step-next { margin-top: 32px; }
+.ve-step-next > span { display: block; font-size: 15px; color: var(--orange); margin-bottom: 12px; }
+.ve-step-next > p { font-size: 18px; line-height: 1.6; max-width: 46ch; }
+.venture-experience.is-enhanced .ve-step-readings { display: grid; }
+.venture-experience.is-enhanced .ve-step-reading { grid-area: 1 / 1; margin: 0; align-self: start; }
+.venture-experience.is-enhanced .ve-step-reading[aria-hidden='true'] { visibility: hidden; pointer-events: none; }
 .ve-work-decision { display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: end; border-top: 1px solid var(--ve-line); padding-top: 36px; margin-top: 45px; }
 .ve-work-decision span { display: block; margin-bottom: 18px; color: var(--orange); font-size: 17px; }
 .ve-work-decision p { font-size: clamp(23px, 2.45vw, 35px); line-height: 1.45; max-width: 39ch; }
@@ -93,7 +114,7 @@
 .ve-question-list details > div { padding: 0 20px 30px 0; }
 .ve-question-list details p { font-size: 18px; line-height: 1.75; }
 @media (max-width: 1023px) {
-  .ve-feature-heading, .ve-feature-story, .ve-context-heading, .ve-context-introduction, .ve-work-layout, .ve-considerations-heading, .ve-deeper-questions { column-gap: 45px; }
+  .ve-feature-heading, .ve-feature-story, .ve-context-heading, .ve-context-introduction, .ve-work-layout, .ve-step-reading, .ve-considerations-heading, .ve-deeper-questions { column-gap: 45px; }
   .ve-context-choices { gap: 25px; }
   .ve-boundaries { gap: 30px; }
   .ve-context-connection { display: block; }
@@ -136,6 +157,16 @@
   .ve-work-flow li { padding-left: 24px; padding-bottom: 28px; }
   .ve-work-flow h4 { font-size: 29px; }
   .ve-work-flow p { font-size: 17px; }
+  .ve-work-flow h4 button { padding: 5px 0; }
+  .ve-step-readings { margin-top: 35px; }
+  .ve-step-reading { display: block; padding-top: 28px; }
+  .ve-step-label { font-size: 15px; margin-bottom: 16px; }
+  .ve-step-record h4 { font-size: 28px; margin-bottom: 18px; }
+  .ve-step-record p { font-size: 17px; max-width: none; }
+  .ve-step-checkpoint { margin-top: 28px; }
+  .ve-step-checkpoint > p { font-size: 30px; max-width: none; }
+  .ve-step-next { margin-top: 24px; }
+  .ve-step-next > p { font-size: 17px; max-width: none; }
   .ve-work-decision { margin-top: 35px; padding-top: 28px; }
   .ve-work-decision p { font-size: 24px; }
   .ve-context-connection { margin-top: 30px; }
@@ -165,3 +196,4 @@
 }
 .motion-paused .ve-feature-window { clip-path: none !important; }
 .motion-paused .ve-feature-window img { transform: none !important; }
+.motion-paused .ve-work-flow::before, .motion-paused .ve-work-flow li::before, .motion-paused .ve-work-flow h4 button { transition: none !important; }

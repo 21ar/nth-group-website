@@ -1,6 +1,7 @@
 ---
 import Logo from './Logo.astro';
 import {projects} from '../data/projects';
+import '../styles/reading-masthead.css';
 const links=[['Company','/about'],['Industries','/industries'],['Approach','/approach'],['Research','/research'],['Investors','/investors'],['Partnerships','/partnerships'],['Journal','/insights'],['Press','/press'],['Contact','/contact']];
 ---
 <header class='masthead'>
@@ -8,3 +9,4 @@ const links=[['Company','/about'],['Industries','/industries'],['Approach','/app
  <details class='site-menu' data-site-menu><summary aria-controls='menu-panel'>Menu</summary><div class='menu-panel' id='menu-panel'><div class='menu-intro'><p>Independent thinking.<br/>Extraordinary possibilities.</p><a href='/contact'>hello@nrth.group</a><button type='button' data-motion-toggle hidden aria-pressed='false'>Pause motion</button></div><nav class='menu-company' aria-label='NRTH pages'>{links.map(([label,href])=><a href={href}>{label}</a>)}</nav><nav class='menu-ventures' aria-label='All NRTH ventures'><span>Our ventures</span>{projects.map(project=><a href={'/projects/'+project.slug}>{project.name}</a>)}</nav></div></details>
  </div>
 </header>
+<script>import '../scripts/reading-masthead';</script>

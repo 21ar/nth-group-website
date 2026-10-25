@@ -118,10 +118,120 @@ document.querySelectorAll<HTMLElement>('[data-venture-experience]').forEach(expe
   verticalLayout.addEventListener('change', updateOrientation);
 
   let selected = -1;
-  function choose(requested: number, options: { focus?: boolean; updateUrl?: boolean; announce?: boolean } = {}) {
+  let selectedStep = 0;
+  const stageSets = panels.map(panel => ({
+    flow: panel.querySelector<HTMLOListElement>('[data-ve-step-choices]'),
+    buttons: [...panel.querySelectorAll<HTMLButtonElement>('[data-ve-step]')],
+    rows: [...panel.querySelectorAll<HTMLElement>('[data-ve-flow-step]')],
+    readings: [...panel.querySelectorAll<HTMLElement>('[data-ve-step-panel]')],
+    inquiry: panel.querySelector<HTMLAnchorElement>('[data-ve-inquiry]'),
+    current: -1,
+  }));
+
+  function updateUrl() {
+    const url = new URL(location.href);
+    url.searchParams.set('context', tabs[selected].dataset.veChoice || '');
+    url.searchParams.set('step', String(selectedStep + 1));
+    history.replaceState(history.state, '', url);
+  }
+
+  function resetShare() {
+    if (shareFallback) shareFallback.hidden = true;
+    if (share) share.textContent = 'Copy this context';
+  }
+
+  function updateProgress() {
+    stageSets.forEach(stage => {
+      if (!stage.flow || stage.current < 0) return;
+      const first = stage.rows[0];
+      const active = stage.rows[stage.current];
+      if (first && active) stage.flow.style.setProperty('--ve-flow-progress', (active.offsetTop - first.offsetTop) + 'px');
+    });
+  }
+
+  function chooseStage(panelIndex: number, requested: number, options: { focus?: boolean; updateUrl?: boolean; announce?: boolean; animate?: boolean } = {}) {
+    const stage = stageSets[panelIndex];
+    if (!stage.flow || stage.buttons.length !== stage.readings.length || !stage.buttons.length) return;
+    const next = (requested + stage.buttons.length) % stage.buttons.length;
+    const changed = stage.current !== next;
+    const initial = stage.current < 0;
+    const previousReading = stage.readings[stage.current];
+    const restoreFocus = previousReading?.contains(document.activeElement);
+    stage.buttons.forEach((button, index) => {
+      button.setAttribute('aria-selected', String(index === next));
+      button.tabIndex = index === next ? 0 : -1;
+      stage.rows[index]?.setAttribute('data-ve-step-state', index === next ? 'current' : index < next ? 'passed' : 'upcoming');
+    });
+    stage.readings.forEach((reading, index) => {
+      reading.setAttribute('aria-hidden', String(index !== next));
+      reading.inert = index !== next;
+      reading.tabIndex = index === next ? 0 : -1;
+    });
+    stage.current = next;
+    if (panelIndex === selected) selectedStep = next;
+    updateProgress();
+    if (stage.inquiry) {
+      const decision = stage.inquiry.dataset.veDecision || '';
+      const stepLabel = ' · step ' + (next + 1) + ': ';
+      // Preserve the full decision. Only the context label is shortened if a
+      // later editorial change brings the draft near the form's 179 limit.
+      const label = (stage.inquiry.dataset.veContextLabel || '').slice(0, Math.max(0, 179 - stepLabel.length - decision.length));
+      const url = new URL(stage.inquiry.href);
+      url.searchParams.set('topic', label + stepLabel + decision);
+      stage.inquiry.href = url.pathname + url.search;
+    }
+    if (changed && !initial && options.animate !== false && !motionPreference.matches && !motionPaused) {
+      rememberAnimation(stage.readings[next].animate([
+        { opacity: 0, transform: 'translateY(8px)' },
+        { opacity: 1, transform: 'translateY(0)' },
+      ], { duration: 360, easing: 'cubic-bezier(.16,1,.3,1)' }));
+    }
+    if (panelIndex === selected && options.updateUrl !== false) updateUrl();
+    if (options.focus || (changed && restoreFocus)) stage.buttons[next].focus({ preventScroll: true });
+    if (panelIndex === selected && changed && !initial && options.announce !== false && status) status.textContent = 'Step ' + (next + 1) + ' of ' + stage.buttons.length + ': ' + stage.buttons[next].textContent?.trim() + '.';
+    resetShare();
+  }
+
+  stageSets.forEach((stage, panelIndex) => {
+    if (!stage.flow || !stage.buttons.length || stage.buttons.length !== stage.readings.length) return;
+    stage.flow.setAttribute('role', 'tablist');
+    stage.flow.setAttribute('aria-orientation', 'vertical');
+    stage.flow.setAttribute('aria-label', 'Explore the stages for ' + (stage.inquiry?.dataset.veContextLabel || 'this work context'));
+    stage.rows.forEach(row => row.setAttribute('role', 'presentation'));
+    stage.buttons.forEach((button, stepIndex) => {
+      button.hidden = false;
+      button.setAttribute('role', 'tab');
+      button.parentElement?.querySelector<HTMLElement>('[data-ve-step-title]')?.setAttribute('hidden', '');
+      const reading = stage.readings[stepIndex];
+      reading.setAttribute('role', 'tabpanel');
+      reading.setAttribute('aria-labelledby', button.id);
+      button.addEventListener('click', () => {
+        cancelAnimations();
+        chooseStage(panelIndex, stepIndex);
+      });
+      button.addEventListener('keydown', event => {
+        const delta = ['ArrowDown', 'ArrowRight'].includes(event.key) ? 1 : ['ArrowUp', 'ArrowLeft'].includes(event.key) ? -1 : 0;
+        if (delta) {
+          event.preventDefault();
+          cancelAnimations();
+          chooseStage(panelIndex, stepIndex + delta, { focus: true });
+        } else if (event.key === 'Home' || event.key === 'End') {
+          event.preventDefault();
+          cancelAnimations();
+          chooseStage(panelIndex, event.key === 'Home' ? 0 : stage.buttons.length - 1, { focus: true });
+        }
+      });
+    });
+    chooseStage(panelIndex, 0, { updateUrl: false, announce: false, animate: false });
+  });
+
+  function choose(requested: number, options: { focus?: boolean; updateUrl?: boolean; announce?: boolean; step?: number } = {}) {
     const next = (requested + tabs.length) % tabs.length;
     const changed = selected !== next;
     const initial = selected < 0;
+    const previousPanel = panels[selected];
+    const restoreFocus = previousPanel?.contains(document.activeElement);
+    const nextStep = options.step ?? (changed ? 0 : selectedStep);
     cancelAnimations();
     tabs.forEach((tab, index) => {
       tab.setAttribute('aria-selected', String(index === next));
@@ -135,27 +245,25 @@ document.querySelectorAll<HTMLElement>('[data-venture-experience]').forEach(expe
       panel.tabIndex = index === next ? 0 : -1;
     });
     selected = next;
+    chooseStage(next, nextStep, { updateUrl: false, announce: false, animate: false });
     if (changed && !initial && !motionPreference.matches && !motionPaused) {
       rememberAnimation(panels[next].animate([
         { opacity: 0, transform: 'translateY(12px)' },
         { opacity: 1, transform: 'translateY(0)' },
       ], { duration: 420, easing: 'cubic-bezier(.16,1,.3,1)' }));
     }
-    if (options.updateUrl !== false) {
-      const url = new URL(location.href);
-      url.searchParams.set('context', tabs[next].dataset.veChoice || '');
-      history.replaceState(history.state, '', url);
-    }
-    if (options.focus) tabs[next].focus({ preventScroll: true });
-    if (changed && !initial && options.announce !== false && status) status.textContent = 'Work context: ' + tabs[next].textContent?.trim() + '.';
-    if (shareFallback) shareFallback.hidden = true;
-    if (share) share.textContent = 'Copy this context';
+    if (options.updateUrl !== false) updateUrl();
+    if (options.focus || (changed && restoreFocus)) tabs[next].focus({ preventScroll: true });
+    if (changed && !initial && options.announce !== false && status) status.textContent = 'Work context: ' + tabs[next].textContent?.trim() + '. Step ' + (selectedStep + 1) + ' of 3.';
+    resetShare();
   }
 
   function readUrl() {
-    const context = new URL(location.href).searchParams.get('context');
+    const url = new URL(location.href);
+    const context = url.searchParams.get('context');
     const index = tabs.findIndex(tab => tab.dataset.veChoice === context);
-    choose(index < 0 ? 0 : index, { updateUrl: false, announce: false });
+    const step = url.searchParams.get('step') || '';
+    choose(index < 0 ? 0 : index, { step: index >= 0 && /^[123]$/.test(step) ? Number(step) - 1 : 0, updateUrl: false, announce: false });
   }
 
   tabs.forEach((tab, index) => {
@@ -175,21 +283,25 @@ document.querySelectorAll<HTMLElement>('[data-venture-experience]').forEach(expe
   choices.hidden = false;
   readUrl();
   window.addEventListener('popstate', readUrl);
+  window.addEventListener('resize', updateProgress, { passive: true });
+  document.fonts.ready.then(updateProgress);
 
   if (share) {
     share.hidden = false;
     share.addEventListener('click', async () => {
       const context = tabs[selected].dataset.veChoice || '';
+      const step = selectedStep;
       const url = new URL(location.href);
       url.searchParams.set('context', context);
+      url.searchParams.set('step', String(step + 1));
       url.hash = experience.querySelector<HTMLElement>('[data-ve-context]')?.id || '';
       try {
         await navigator.clipboard.writeText(url.href);
-        if (tabs[selected].dataset.veChoice !== context) return;
+        if (tabs[selected].dataset.veChoice !== context || selectedStep !== step) return;
         share.textContent = 'Link copied';
-        if (status) status.textContent = 'The link to this work context has been copied.';
+        if (status) status.textContent = 'The link to this work context and step ' + (step + 1) + ' has been copied.';
       } catch {
-        if (tabs[selected].dataset.veChoice !== context) return;
+        if (tabs[selected].dataset.veChoice !== context || selectedStep !== step) return;
         if (shareFallback && shareInput) {
           shareFallback.hidden = false;
           shareInput.value = url.href;

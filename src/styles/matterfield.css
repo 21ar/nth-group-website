@@ -1,4 +1,6 @@
 @view-transition {navigation:auto}
+@media(prefers-reduced-motion:reduce){@view-transition{navigation:none}}
+.motion-paused::view-transition-old(root),.motion-paused::view-transition-new(root){animation:none}
 ::view-transition-old(root){animation:page-leave .24s ease both}
 ::view-transition-new(root){animation:page-arrive .5s cubic-bezier(.16,1,.3,1) both}
 @keyframes page-leave{to{opacity:0;transform:translateY(-12px)}}

@@ -1,0 +1,19 @@
+---
+import {portfolioJourneys} from '../data/portfolio-journeys';
+import '../styles/portfolio-journeys.css';
+---
+<section class='portfolio-journeys' id='wider-threads' aria-labelledby='wider-threads-title'>
+ <div class='pj-heading' data-enter><h2 id='wider-threads-title'>Follow a<br/><em>wider thread.</em></h2><p>A useful question rarely ends at one boundary. Open a story to explore the perspectives around it.</p></div>
+ <div class='pj-stories'>
+  {portfolioJourneys.map(journey=><details class='pj-story' id={'thread-'+journey.id} data-portfolio-journey={journey.id}>
+   <summary><span><strong>{journey.title}</strong><span>{journey.summary}</span></span><span class='pj-disclosure-mark' aria-hidden='true'></span></summary>
+   <div class='pj-reading'><p class='pj-question'>{journey.question}</p><ol class='pj-stages'>{journey.stages.map(stage=><li><div><a href={'/projects/'+stage.slug}>{stage.name}</a><h3>{stage.title}</h3></div><div><p>{stage.text}</p><a class='pj-guide-link' href={'/projects/'+stage.slug+'#'+stage.slug+'-field-guide'}>Read the field guide</a></div></li>)}</ol><p class='pj-takeaway'>{journey.takeaway}</p></div>
+  </details>)}
+ </div>
+ <p class='pj-note'>Illustrative connections between venture perspectives. Specific collaborations and delivery scope are established with NRTH.</p>
+</section>
+<script>
+ const stories=[...document.querySelectorAll<HTMLDetailsElement>('[data-portfolio-journey]')];
+ function restoreJourney(){const id=location.hash.slice(1);stories.find(story=>story.id===id)?.setAttribute('open','');}
+ restoreJourney();addEventListener('hashchange',restoreJourney);
+</script>
