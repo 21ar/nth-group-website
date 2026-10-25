@@ -1,5 +1,5 @@
 import {projects} from '../data/projects';
-export type InquiryConfig = {apiKey?: string; from?: string; general?: string; partnerships?: string; investors?: string};
+export type InquiryConfig = {apiKey?: string; from?: string; general?: string; partnerships?: string; investors?: string; siteOrigin?: string};
 const attempts = new Map<string, {count: number; expires: number}>();
 const json = (status: number, body: Record<string, unknown>) => new Response(JSON.stringify(body), {status, headers: {'Content-Type':'application/json', 'Cache-Control':'no-store'}});
 const emailPattern = /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/;
@@ -15,7 +15,9 @@ async function readBounded(request: Request) {
 export async function handleInquiry(request: Request, config: InquiryConfig, deliver: typeof fetch = fetch) {
   if (request.method !== 'POST') return json(405, {error:'Use POST to submit an inquiry.'});
   const origin = request.headers.get('origin');
-  if (!origin || origin !== new URL(request.url).origin) return json(403, {error:'Please send your inquiry from the NRTH website.'});
+  // The canonical site can sit behind a proxy whose upstream URL is the Vercel host.
+  // Trust only the configured site origin and the request origin, never forwarded headers.
+  if (!origin || (origin !== new URL(request.url).origin && origin !== config.siteOrigin)) return json(403, {error:'Please send your inquiry from the NRTH website.'});
   if (!request.headers.get('content-type')?.startsWith('application/json')) return json(415, {error:'The inquiry format was not recognized.'});
   let input: Record<string, unknown>;
   try {input = JSON.parse(await readBounded(request));} catch {return json(400, {error:'Please check the inquiry and try again.'});}
