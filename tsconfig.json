@@ -1,4 +1,5 @@
 {
   "extends": "astro/tsconfigs/strict",
-  "compilerOptions": { "types": ["astro/client"] }
+  "compilerOptions": { "types": ["astro/client"] },
+  "exclude": ["studio", "node_modules", "dist", ".vercel"]
 }

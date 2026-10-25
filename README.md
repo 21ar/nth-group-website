@@ -1,10 +1,10 @@
-# NRTH website
+# NRTH — Build beyond.
 
-A static Astro website for NRTH Inc. at nrth.group, with nine project pages, a continuous N–R–T–H-to-industry brand story, a nine-venture interactive showcase, a visual searchable project directory, rich project pages, perspectives, and contact flows.
+NRTH Inc.’s portfolio for nrth.group. Astro pre-renders 32 public pages; the Vercel adapter handles inquiry delivery and private editorial previews. The Matterfield design uses graphite, chrome, orange and oversized typography, with a continuous, interactive 3D identity and new editorial content.
 
-## Development
+## Develop and review
 
-Use the existing isolated checkout; no additional worktree is needed. Requires Node 22.12+ (verified with Node 24.19).
+Requires Node 22.12+; verified with Node 24.19. Use the existing checkout and preserve working changes. Cloud tasks already have an isolated environment.
 
 ```sh
 cd /workspace/nth-group-website
@@ -12,54 +12,42 @@ npm ci --cache /workspace/.npm-cache --no-audit --no-fund
 npm run dev -- --host 0.0.0.0 --port 4173
 ```
 
-Keep the process running during development. Do not build concurrently with the dev server: both use Astro/Vite caches. Stop the server first, then validate:
+Saving source files updates the development browser through hot reload. Stop your development server before checking or building because Astro/Vite share caches. The build generates canonical logo resources, a company PDF, social images and a content-revision manifest from one frozen content snapshot.
 
 ```sh
 npm run check
+npm run test:geometry
+npm run test:services
 npm run build
 npm run preview -- --host 0.0.0.0 --port 4173
 ```
 
-The build produces 21 HTML pages in `dist`, plus generated image assets and sitemap files. A static host should serve directory index files, use `404.html` for missing routes, compress responses, and cache hashed assets for a year while keeping HTML caching short.
+`preview` serves the built static pages and actual Vercel Node handler. Deployable output lives in `.vercel/output`. In a second terminal, run `npm run test:browser`. Playwright requires `/usr/bin/chromium`; override `CHROMIUM_PATH` or `NRTH_TEST_URL` as needed. The browser suite uses Chromium’s identified software WebGL renderer, without masking its driver. It checks behavior, composition and exported media; it does not benchmark physical GPUs. Service checks use a mocked provider, and browser checks mock inquiry failure. Neither sends email. Captures and reports are generated in ignored `artifacts` directories.
 
-With the server running, `npm run test:smoke` verifies motion, navigation, search, all project routes, contact preparation/download/routing, keyboard focus, reduced motion, and content without JavaScript. It uses `/usr/bin/chromium`; override `CHROMIUM_PATH` and `NRTH_TEST_URL` when needed. Screenshots and results are written to the ignored `artifacts/verified` directory. `npm run test:motion` adds 65 checks for reversible story states, gallery transitions, pointer response, compact pause/reduced motion, mobile interaction, heading visibility, and responsive overflow; its evidence lives in `artifacts/brand-story`. `npm run test:geometry` checks 44 intermediate letter-to-ring contours for folding/self-intersection. Acceptance targets are recorded in `motion-goals.md`.
+The separate Sanity Studio supports `npm run check` and `npm run build` from `studio`. CI bundle validation supplies `SANITY_STUDIO_PROJECT_ID=nrthdemo SANITY_STUDIO_DATASET=production SANITY_CLI_TELEMETRY_DISABLED=1`; those placeholder values do not connect a live editorial account.
 
-## Content and identity
+## Identity and interaction
 
-Edit shape definitions in `src/data/geometry-source.ts`, then run `npm run bake:geometry` to rebuild the quantized asset. Baking requires the same Chromium used for browser checks; visitors download the compact geometry and do not calculate SVG metrics or phase alignment.
+`src/data/brand.ts` contains the four canonical letter contours traced from the supplied NRTH logo. The masthead, footer, favicon, downloads and social images use those contours.
 
-Edit project information in `src/data/projects.ts`, detailed capabilities and workflows in `src/data/project-details.ts`, and practical scenarios, briefing prompts, and tailored FAQs in `src/data/project-scenarios.ts`, and perspectives in `src/data/articles.ts`. Nine original venture artworks live in `src/assets`; their mapping is in `src/data/visuals.ts`. Astro generates responsive WebP images for publication. The project scope is proposed editorial copy; confirm actual capabilities before publishing. No customer counts, certifications, clinical outcomes, or live-product availability have been invented.
+The opening chrome mineral consists of one shared population of rounded fragments. Native scrolling disperses it, then reforms the same objects into mobility routes, a care signal, a systems framework, molecular cells, an event spectrum or a branching research form. Reverse scrolling restores earlier geometry; interrupted industry choices begin at the currently displayed mixture. Pointer movement influences the sculpture without replacing ordinary navigation.
 
-`public/images/nrth-logo.png` is a transparent derivative of the supplied NRTH attachment made with image generation, rather than the original vector export. Replace it with the original SVG or transparent artwork for exact identity fidelity. The wireform and social artwork are generated assets. Reference website imagery is not included in the application.
+The signature sequence is 8.4 viewport heights on desktop and 7.4 on phones, followed by a normal scrolling portfolio. Native scrolling visits six legible industry formations; six plain-word choices let visitors select a different direction at any point. Eighteen inspection perspectives link highlighted fragments to practical questions and relevant ventures. A directory and six detailed industry guides explain the wider work around each field. The menu links directly to all nine ventures and Investors. A nine-venture constellation explains possible relationships through highlighted paths and practical handoff stories. Each venture includes its own audience, connected workflow, three changing scenarios and three native questions, with direct section navigation.
 
-The opening draws N–R–T–H as four persistent silver strands. Those letterforms become rings, infinity, then six industry symbols before returning to infinity. Health, Mobility, Systems, Materials, Events and Exploration group all nine ventures; edit the story in `src/data/industries.ts` and `src/components/KineticHero.astro`.
+The research playground lets visitors morph the common fragment population into six arrangements, adjust structure and perspective, drag to turn, reset, copy a study URL and export the actual rendering as a PNG. A partnership brief builder changes its framing around a challenge, experiment or experience. Visitors can save or copy the outline and carry it into an editable contact inquiry without sending anything automatically. Search, focus explorers, disclosures and journal articles complete the portfolio.
 
-One Canvas 2D renderer projects three-dimensional curves on desktop and touch. Equal arc-length sampling, phase alignment, quintic interpolation and periodic cubic splines avoid image handoffs and sharp ring corners. Drawing uses a bounded raster surface, depth ordering, chrome gradients and travelling connection points. Sustained slow frames lower raster resolution and cap sculpture drawing at about 30 fps, keeping the same geometry while the interface retains native frame scheduling. Native scroll remains reversible; pointer movement adjusts perspective, industry controls navigate the same timeline, and ring bullets become underlines on hover. The neutral palette moves from warm paper into ink and back. Original supporting artwork is in `src/assets/connection-art.png`.
+The motion director is `src/scripts/matter.ts`, shared geometry is `matter-geometry.ts`, and the physically shaded renderer is `matter-renderer.ts`. Rendering stops when settled, hidden or outside the scene; smaller devices use fewer instances, and slow rendering reduces resolution. Pause, reduced motion, short landscape screens, no JavaScript and graphics failure retain original artwork and a natural reading layout. Static artwork is stored in `src/assets/matterfield`; Astro generates responsive WebP images. [Research and design targets](design/matterfield/brief.md) and [browser design review](design-qa.md) record the direction and its verification.
 
-Rendering stops when hidden/offscreen and is omitted for reduced motion or the visitor's pause setting. Static N–R–T–H remains available without JavaScript. No Three.js dependency or client chunk is included. Project selection retains its moving indicator, directional artwork wipe and staggered copy. Supported browsers carry artwork into the detail page with native cross-document View Transitions; ordinary links remain the fallback. `motion-reference-notes.md` records actual reference inspection, including the accessible DIA Coinbase/Base case study.
+The investor page compares up to three venture directions, restores shared selections and exports a reading pack containing actual published scope and review questions. The research experiment planner supports 24 field/method combinations, editable questions and a reviewed Labs inquiry handoff. Its shared setup omits custom text.
 
-## Inquiries
+Run `npm run test:depth` for the scroll journey, inspection dialogs, sector guides, comparisons and research outlines. Run `npm run test:enrichment` against the production preview for the constellation, nine venture scenarios, partnership handoff and deeper research controls. Both browser suites capture their reviewed states in ignored `artifacts/matterfield/` directories.
 
-General and project inquiries default to `hello@nrth.group`; partnerships use `partnerships@nrth.group`. Activate these inboxes or aliases before launch. Optional build-time overrides are documented in `.env.example`.
+## Content and publishing
 
-The contact flow prepares a message locally for review, copying, download, or sending through the visitor's email app. It does not submit to a backend, create mailboxes, or confirm delivery. A hosted submission endpoint can be added separately if direct web delivery is required.
+See [updating.md](updating.md) for editable sources, [cms-setup.md](cms-setup.md) for Sanity editing, and [inquiries.md](inquiries.md) for Resend delivery. Content describes venture directions and invites a conversation about current scope. It does not invent customers, launches, clinical outcomes, financial results or certifications. Confirmed stages and product URLs require approved content.
 
-## Launch
+Established `/projects` and `/insights` routes remain intact. Canonicals, structured data, sitemap, article attribution and tailored social previews target `https://nrth.group`. Private previews and API routes are excluded from indexing. Search metadata supports discovery; ranking depends on content, external signals and indexing.
 
-Permanent production deployment: https://nrth-rgr8ebkbv-nrth1.vercel.app, in Vercel project `nrth1/nrth`. `nrth.group` is assigned to this deployment, pending Cloudflare DNS correction; `www.nrth.group` is configured to redirect to the apex with HTTP 308. Anonymous previews expire after one hour unless claimed; redeploying an existing anonymous project preserves its original expiry. The permanent Vercel production site has been updated; Cloudflare DNS has not been changed. Review project copy, original logo artwork, contact destinations, and privacy/terms language before publishing. Add actual product screenshots as they become available. Canonicals, page metadata, social previews, structured data, robots.txt, and XML sitemaps target `https://nrth.group`; search rankings cannot be guaranteed.
+Code publishing uses the connected `21ar/nth-group-website` → `nrth1/nrth` workflow. Branches generate Vercel review previews; successful `main` deployments update production. CMS publishing can queue a rebuild through an authenticated webhook. Vercel deployments preserve HTML, resources and content revisions together for rollback. Keep credentials in environment settings, never in the repository.
 
-## Validation evidence
-
-The build emits 21 pages and two small client script chunks. Current validation results and performance evidence are recorded in `design-qa.md`, `artifacts/brand-story` and `artifacts/verified`; run `npm run check`, `npm run build`, `npm run test:smoke` and `npm run test:motion` against the production preview to reproduce checks. Local Lighthouse and frame timings are lab observations, not field measurements or ranking guarantees.
-
-Visual QA and resolved findings are documented in `design-qa.md`. Vercel configuration is in `vercel.json`; temporary previews use Vercel CLI 62 with `vercel deploy --temporary --yes`. Public HTTPS readiness is checked with normal certificate verification. Hosted Chromium navigation remains limited by cloud proxy certificate trust; functional browser evidence comes from the local production build.
-
-The opening animation uses hand-traced outlines from the supplied logo, including its open R counter, rather than generic letterforms. The renderer has no contour shadow or duplicate highlight stroke. `npm run test:composition` checks 114 keyframe/intermediate layouts across six screen sizes, reserving actual copy and control bounds for the sculpture. Materials uses three distinct orbital planes and a fourth nucleus ring; the geometry test rejects duplicate silhouettes.
-
-## Investors
-
-`/investors` introduces the company perspective, six portfolio fields, nine venture links, and investor questions. It is linked from the header, mobile menu, footer, and homepage. `/contact?project=investor` selects Investor inquiry and routes its prepared email to `PUBLIC_INVESTORS_EMAIL`, defaulting to `investors@nrth.group`. This address must be provisioned separately like the other contact mailboxes. `node verify-investors.cjs` checks navigation, responsive layout, visible portfolio reveals, and investor inquiry preparation/routing. No financial results or fundraising terms are asserted.
-
-## Editing and publishing
-
-See `updating.md` for the live-edit workflow and content map. Run `npm run dev` for instant browser updates on save. The homepage opening and investor introduction are centralized in `src/data/site-content.ts`. GitHub Actions checks source and production builds. Vercel is connected to `21ar/nth-group-website`: branches deploy previews, and pushes or merges to `main` deploy production automatically. The favicon uses the canonical hand-traced NRTH wordmark with a versioned SVG URL to avoid the previous padded raster icon.
+The selected visual baseline and its compatible refinements are documented in [the restoration record](design/matterfield/restoration.md). The full public page structure follows revision `a4529e3`.

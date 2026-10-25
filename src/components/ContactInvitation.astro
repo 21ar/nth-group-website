@@ -1,0 +1,7 @@
+---
+interface Props {project?:string;headline?:string;}
+const {project,headline='What comes next?'}=Astro.props;
+const href=project?'/contact?project='+project:'/contact';
+const longWord=headline.split(/\s+/).some(word=>word.length>=10);
+---
+<section class='contact-invitation'><span class='section-label' data-enter>A conversation can change the direction.</span><a href={href} class:list={['contact-invitation-title',{'has-long-word':longWord}]} data-enter>{headline}</a><div data-enter><p>A possibility you see.<br/>A problem worth solving.<br/>We would like to hear it.</p><a class='contact-invitation-action' href={href}>Talk to NRTH</a></div></section>

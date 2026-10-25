@@ -1,0 +1,17 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ArtworkImage from './ArtworkImage.astro';
+import ContactInvitation from './ContactInvitation.astro';
+import {projectArtwork} from '../data/visuals';
+import {getProjects} from '../data/content';
+interface Props {article:import('../data/articles').Article;draft?:boolean;}
+const {article,draft=false}=Astro.props;
+const related=(await getProjects(draft)).filter(project=>article.related.includes(project.slug));
+const art=projectArtwork(article.category==='Research'?'nrth-labs':article.category==='Mobility'?'nrth-tms':'nrth-health');
+---
+<Layout noindex={draft} title={article.title} description={article.description} kind='article' publishedAt={article.publishedAt} author={article.author}>
+ {draft&&<aside class='preview-banner'><a href='/preview'>Editorial workspace</a><span data-preview-status>Draft preview</span></aside>}
+ <article><header class='page-heading article-intro'><span class='section-label'>{article.category} · The NRTH journal</span><h1>{article.title}</h1><p>{article.description}</p><div class='article-meta'><span>{article.author}</span><time datetime={article.publishedAt}>{new Intl.DateTimeFormat('en',{dateStyle:'long',timeZone:'UTC'}).format(new Date(article.publishedAt+'T12:00:00Z'))}</time></div></header><figure class='wide-art' data-image-reveal><ArtworkImage src={art.src} width={1600} height={1100} alt={art.alt} widths={[640,1100,1600]} sizes='90vw' format='webp' loading='lazy'/></figure><div class='article-prose'>{article.paragraphs.map(paragraph=><p>{paragraph}</p>)}{article.prompts?.length&&<><h2>Take the question with you.</h2><ul>{article.prompts.map(prompt=><li>{prompt}</li>)}</ul></>}</div></article>
+ <section class='editorial-split section-dark'><div><span class='section-label'>Explore the connections</span><h2>The question<br/>continues.</h2></div><div class='related-links'>{related.map(project=><a href={'/projects/'+project.slug}><strong>{project.name}</strong><span>{project.category}</span></a>)}</div></section>
+ <ContactInvitation/>
+</Layout>

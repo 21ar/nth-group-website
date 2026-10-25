@@ -1,0 +1,7 @@
+{
+  "checks": 325,
+  "passed": true,
+  "base": "http://127.0.0.1:4173",
+  "graphics": "Chromium software WebGL; no driver masking. Hardware performance not benchmarked.",
+  "email": "Mocked failure only. No real inquiry sent."
+}

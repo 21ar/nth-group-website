@@ -1,0 +1,8 @@
+---
+import {getIndustries} from '../data/content';
+import '../styles/industry-directory.css';
+interface Props {draft?:boolean;}
+const {draft=false}=Astro.props;
+const fields=await getIndustries(draft);
+---
+<section class='industry-directory' id='industry-guides'><div class='section-heading' data-enter><h2>Go beyond<br/><em>the surface.</em></h2><p>Explore the work, the decisions and the different perspectives behind each field.</p></div><div class='industry-guide-grid'>{fields.map(field=><a href={'/industries/'+field.name.toLowerCase()} data-enter><h3>{field.name}</h3><p>{field.copy}</p><span>{field.ventures.map(v=>'NRTH '+v).join(' · ')}</span></a>)}</div></section>

@@ -1,109 +1,254 @@
-export type Project = {
-  slug: string; name: string; category: string; number: string;
-  headline: string; description: string; introduction: string;
-  focus: { title: string; text: string }[]; related: string[];
-};
-
-export const projects: Project[] = [
+export type Project={slug:string;name:string;category:string;number:string;headline:string;description:string;introduction:string;focus:{title:string;text:string}[];related:string[];stage?:'overview'|'research'|'prototype'|'pilot'|'available';reviewedAt?:string;productUrl?:string;demoUrl?:string;coverImage?:string;coverAlt?:string;};
+export const projects:Project[]=[
   {
-    slug: 'nrth-health', name: 'NRTH Health', category: 'Health', number: '01',
-    headline: 'A more human perspective on health.',
-    description: 'Exploring the connection between people, care, and technology.',
-    introduction: 'Health technology should make room for people. NRTH Health explores clearer, more considered ways to connect information, care, and everyday wellbeing.',
-    focus: [
-      { title: 'People first', text: 'Starting with the needs of people navigating health and care, rather than the complexity of the tools around them.' },
-      { title: 'Clearer connections', text: 'Exploring how useful information and thoughtfully designed workflows can make care easier to understand.' },
-      { title: 'Considered technology', text: 'Keeping privacy, accessibility, and the sensitivity of health information central to product exploration.' },
-    ], related: ['nrth-systems', 'nrth-labs'],
+    "slug": "nrth-health",
+    "name": "NRTH Health",
+    "category": "Health",
+    "number": "01",
+    "headline": "Care deserves less friction.",
+    "description": "Health information, everyday care and the people at the centre of it.",
+    "introduction": "The distance between a person and the information they need can shape their experience of care. NRTH Health considers how careful interfaces, information handling and practical workflows could help close that distance.",
+    "focus": [
+      {
+        "title": "Information people can use",
+        "text": "Organize health information around the questions people ask, with language and navigation that respect their context."
+      },
+      {
+        "title": "Workflows that respect attention",
+        "text": "Investigate where coordination adds effort for care teams and what a more coherent handoff would need."
+      },
+      {
+        "title": "Trust from the outset",
+        "text": "Treat privacy, access and accessibility as foundations. Any clinical use would require its own evidence and appropriate review."
+      }
+    ],
+    "related": [
+      "nrth-systems",
+      "nrth-labs"
+    ]
   },
   {
-    slug: 'nrth-tms', name: 'NRTH TMS', category: 'Mobility', number: '02',
-    headline: 'A clearer view of transportation.',
-    description: 'A transportation management project, built around the way work moves.',
-    introduction: 'Moving freight means coordinating people, information, and decisions. NRTH TMS explores transportation management with a focus on clear planning and connected operational workflows.',
-    focus: [
-      { title: 'Planning', text: 'Exploring a more coherent view of transportation work, from an initial request to the decisions that follow.' },
-      { title: 'Coordination', text: 'Considering the connections between dispatch, shipment information, and the people responsible for moving it.' },
-      { title: 'Operational clarity', text: 'Making the right information easier to find and understand without adding another layer of complexity.' },
-    ], related: ['nrth-telematics', 'nrth-logistics', 'nrth-fleet'],
+    "slug": "nrth-tms",
+    "name": "NRTH TMS",
+    "category": "Mobility",
+    "number": "02",
+    "headline": "Make every move count.",
+    "description": "Transportation planning with the whole operation in mind.",
+    "introduction": "A transportation decision affects more than a route. NRTH TMS considers the relationship between a shipment, its constraints, the people coordinating it and the resources available to move it.",
+    "focus": [
+      {
+        "title": "Plan around the job",
+        "text": "Bring shipment requirements, timing and resource constraints into one planning perspective."
+      },
+      {
+        "title": "Keep decisions connected",
+        "text": "Consider how an assignment reaches dispatch and how changes return to the people responsible for the plan."
+      },
+      {
+        "title": "Know what needs attention",
+        "text": "Make exceptions and unanswered questions visible so operational teams can prioritize the next decision."
+      }
+    ],
+    "related": [
+      "nrth-telematics",
+      "nrth-fleet",
+      "nrth-logistics"
+    ]
   },
   {
-    slug: 'nrth-telematics', name: 'NRTH Telematics', category: 'Mobility', number: '03',
-    headline: 'Movement, with more context.',
-    description: 'Exploring vehicle data and connected operational intelligence.',
-    introduction: 'Data becomes useful when it helps someone make a decision. NRTH Telematics explores the relationship between vehicles, connected information, and the context behind movement.',
-    focus: [
-      { title: 'Connected information', text: 'Exploring how vehicle information can become part of a clearer operational picture.' },
-      { title: 'Useful context', text: 'Considering how location, activity, and vehicle data can support informed decisions.' },
-      { title: 'System connections', text: 'Investigating the links between vehicle intelligence and transportation or fleet workflows.' },
-    ], related: ['nrth-fleet', 'nrth-tms', 'nrth-systems'],
+    "slug": "nrth-telematics",
+    "name": "NRTH Telematics",
+    "category": "Mobility",
+    "number": "03",
+    "headline": "Signals that tell a bigger story.",
+    "description": "Vehicle signals, their context and the decisions they can inform.",
+    "introduction": "A location is a point. Its meaning depends on the work around it. NRTH Telematics investigates how vehicle activity, signal quality and operational context could become more useful together.",
+    "focus": [
+      {
+        "title": "Understand the signal",
+        "text": "Distinguish a fresh observation from an older one, and show uncertainty that affects how the information can be used."
+      },
+      {
+        "title": "Read activity in context",
+        "text": "Consider the connection between movement, an assigned job and the questions an operations team needs answered."
+      },
+      {
+        "title": "Connect with purpose",
+        "text": "Begin with a specific decision rather than a feed of every available signal."
+      }
+    ],
+    "related": [
+      "nrth-tms",
+      "nrth-fleet",
+      "nrth-systems"
+    ]
   },
   {
-    slug: 'nrth-logistics', name: 'NRTH Logistics', category: 'Mobility', number: '04',
-    headline: 'Connecting the work behind movement.',
-    description: 'A logistics project focused on coordination and connected processes.',
-    introduction: 'Logistics is a network of handoffs. NRTH Logistics explores how clearer processes and better coordination can connect the people and businesses behind the movement of goods.',
-    focus: [
-      { title: 'Coordination', text: 'Understanding the relationships between requirements, partners, and the practical work of moving goods.' },
-      { title: 'Clear handoffs', text: 'Exploring how information moves between teams, so responsibilities and next steps are easier to understand.' },
-      { title: 'Connected processes', text: 'Bringing a broader perspective to the systems and workflows that surround logistics.' },
-    ], related: ['nrth-tms', 'nrth-fleet', 'nrth-systems'],
+    "slug": "nrth-logistics",
+    "name": "NRTH Logistics",
+    "category": "Mobility",
+    "number": "04",
+    "headline": "Get the handoffs right.",
+    "description": "People and processes behind the movement of goods.",
+    "introduction": "Goods move through a sequence of commitments. NRTH Logistics looks between those commitments: who has the information, who owns the next step and what changes when a plan meets reality.",
+    "focus": [
+      {
+        "title": "Map the dependencies",
+        "text": "Understand how requirements, partners and timing influence movement before treating them as separate tasks."
+      },
+      {
+        "title": "Make responsibility visible",
+        "text": "Keep ownership and expectations clear when work passes from one team to another."
+      },
+      {
+        "title": "Learn from the exceptions",
+        "text": "Use the points where a process breaks down to identify what a better connection would need to change."
+      }
+    ],
+    "related": [
+      "nrth-tms",
+      "nrth-fleet",
+      "nrth-systems"
+    ]
   },
   {
-    slug: 'nrth-systems', name: 'NRTH Systems', category: 'Technology', number: '05',
-    headline: 'Complexity, thoughtfully connected.',
-    description: 'Exploring software and systems that bring work together.',
-    introduction: 'The best systems make their complexity useful. NRTH Systems explores software, infrastructure, and the connections that help different parts of a business work together.',
-    focus: [
-      { title: 'Software', text: 'Exploring purposeful tools around the real needs of the people using them.' },
-      { title: 'Integration', text: 'Considering how information and workflows connect across existing systems.' },
-      { title: 'Foundations', text: 'Thinking about maintainability, reliability, and clarity from the beginning.' },
-    ], related: ['nrth-labs', 'nrth-telematics', 'nrth-health'],
+    "slug": "nrth-systems",
+    "name": "NRTH Systems",
+    "category": "Systems",
+    "number": "05",
+    "headline": "Give complexity a useful structure.",
+    "description": "Software foundations designed around how work actually happens.",
+    "introduction": "Tools are only part of a system. NRTH Systems considers the rules, interfaces and information flows that allow people and software to work together with fewer uncertain edges.",
+    "focus": [
+      {
+        "title": "Define the boundaries",
+        "text": "Make responsibility, access and the exchange of information explicit before joining systems together."
+      },
+      {
+        "title": "Design for the real workflow",
+        "text": "Structure interfaces around the task in front of someone, including the awkward cases that determine whether a tool is useful."
+      },
+      {
+        "title": "Build for the next change",
+        "text": "Consider maintenance, observability and how a system can evolve without obscuring its original purpose."
+      }
+    ],
+    "related": [
+      "nrth-labs",
+      "nrth-health",
+      "nrth-telematics"
+    ]
   },
   {
-    slug: 'nrth-labs', name: 'NRTH Labs', category: 'Technology', number: '06',
-    headline: 'Room for the next idea.',
-    description: 'Research, experiments, and a space to explore what comes next.',
-    introduction: 'Progress begins with a question. NRTH Labs is a space for exploring ideas, testing approaches, and finding connections between disciplines before an idea becomes a product.',
-    focus: [
-      { title: 'Research', text: 'Understanding the problem before committing to a solution.' },
-      { title: 'Experiments', text: 'Using focused explorations to test an idea and learn from what happens.' },
-      { title: 'New connections', text: 'Looking across NRTH projects for opportunities to share knowledge and approaches.' },
-    ], related: ['nrth-systems', 'nrth-health', 'nrth-chemicals'],
+    "slug": "nrth-labs",
+    "name": "NRTH Labs",
+    "category": "Research",
+    "number": "06",
+    "headline": "Follow the question further.",
+    "description": "Experiments, prototypes and ideas that cross disciplines.",
+    "introduction": "Some of the most interesting work starts before the answer is clear. NRTH Labs is the research direction within NRTH: a place to examine assumptions and make an unfamiliar possibility concrete enough to discuss.",
+    "focus": [
+      {
+        "title": "Ask something specific",
+        "text": "Find a question whose answer would change a decision, then identify the evidence that would be useful."
+      },
+      {
+        "title": "Make a small experiment",
+        "text": "Use a focused prototype or technical study to investigate one uncertainty at a time."
+      },
+      {
+        "title": "Keep what is learned",
+        "text": "Record the result and its limits, including the reasons to continue, change course or put an idea aside."
+      }
+    ],
+    "related": [
+      "nrth-systems",
+      "nrth-chemicals",
+      "nrth-health"
+    ]
   },
   {
-    slug: 'nrth-chemicals', name: 'NRTH Chemicals', category: 'Industry', number: '07',
-    headline: 'A considered approach to materials.',
-    description: 'Exploring opportunities in chemicals, materials, and industry.',
-    introduction: 'Materials sit behind many of the things people rely on. NRTH Chemicals explores opportunities in the chemical sector and the relationships between materials, applications, and industrial needs.',
-    focus: [
-      { title: 'Applications', text: 'Understanding the needs that shape the use of chemicals and materials in industry.' },
-      { title: 'Partnerships', text: 'Exploring conversations with people and businesses working in the sector.' },
-      { title: 'Responsible information', text: 'Recognizing the importance of accurate specifications and appropriate safety documentation for any eventual offering.' },
-    ], related: ['nrth-labs', 'nrth-logistics'],
+    "slug": "nrth-chemicals",
+    "name": "NRTH Chemicals",
+    "category": "Materials",
+    "number": "07",
+    "headline": "Start at the material level.",
+    "description": "Chemicals, applications and industrial needs.",
+    "introduction": "The properties of a material shape what can be made with it. NRTH Chemicals considers an industrial need, the material requirements behind it and the partners who understand its application.",
+    "focus": [
+      {
+        "title": "Begin with the application",
+        "text": "Understand operating conditions and intended use before assessing a material direction."
+      },
+      {
+        "title": "Ask for the right evidence",
+        "text": "Keep specifications, provenance and appropriate safety documentation central to any eventual offering."
+      },
+      {
+        "title": "Connect expertise",
+        "text": "Explore conversations with technical and industrial partners who can give an early direction substance."
+      }
+    ],
+    "related": [
+      "nrth-labs",
+      "nrth-logistics"
+    ]
   },
   {
-    slug: 'nrth-fleet', name: 'NRTH Fleet', category: 'Mobility', number: '08',
-    headline: 'A connected perspective on fleet work.',
-    description: 'Exploring the vehicles, people, and processes behind fleet operations.',
-    introduction: 'A fleet is more than a collection of vehicles. NRTH Fleet explores the operational picture around vehicles, the people who use them, and the processes that keep work moving.',
-    focus: [
-      { title: 'Vehicle operations', text: 'Considering how teams understand vehicle activity and responsibilities across a fleet.' },
-      { title: 'Planning', text: 'Exploring the relationship between everyday fleet work and longer-term operational needs.' },
-      { title: 'Connected workflows', text: 'Understanding where fleet information intersects with transportation and vehicle data.' },
-    ], related: ['nrth-telematics', 'nrth-tms', 'nrth-logistics'],
+    "slug": "nrth-fleet",
+    "name": "NRTH Fleet",
+    "category": "Mobility",
+    "number": "08",
+    "headline": "Keep the whole operation in view.",
+    "description": "Vehicles, readiness and the responsibilities that keep a fleet working.",
+    "introduction": "A fleet decision combines the immediate job with the condition and availability of the resources behind it. NRTH Fleet looks at that wider operating picture, from everyday responsibilities to longer-term planning.",
+    "focus": [
+      {
+        "title": "Readiness before assignment",
+        "text": "Consider the information a team needs to assess whether a resource fits the work in front of it."
+      },
+      {
+        "title": "Ownership through the day",
+        "text": "Understand how vehicle responsibilities and operational changes are recorded and passed between people."
+      },
+      {
+        "title": "Plan beyond the next job",
+        "text": "Explore the connection between daily activity, maintenance considerations and future capacity."
+      }
+    ],
+    "related": [
+      "nrth-telematics",
+      "nrth-tms",
+      "nrth-logistics"
+    ]
   },
   {
-    slug: 'nrth-events', name: 'NRTH Events', category: 'Experiences', number: '09',
-    headline: 'Bringing people and ideas together.',
-    description: 'Exploring experiences that create meaningful connections.',
-    introduction: 'Some connections happen best in person. NRTH Events explores the planning, collaboration, and thoughtful details behind experiences that bring people together.',
-    focus: [
-      { title: 'Experiences', text: 'Considering the purpose of an event and the experience of the people attending it.' },
-      { title: 'Collaboration', text: 'Exploring opportunities to connect people, communities, and organizations.' },
-      { title: 'Thoughtful planning', text: 'Keeping the practical details aligned with the reason people gather.' },
-    ], related: ['nrth-labs', 'nrth-systems'],
-  },
+    "slug": "nrth-events",
+    "name": "NRTH Events",
+    "category": "Events",
+    "number": "09",
+    "headline": "Make a moment matter.",
+    "description": "Experiences shaped around why people gather and what they take away.",
+    "introduction": "An event is a temporary world with a lasting impression. NRTH Events considers the intention, rhythm and practical details that help a gathering become more than the sum of its schedule.",
+    "focus": [
+      {
+        "title": "Give the gathering a purpose",
+        "text": "Start with the people attending and the exchange, experience or connection the event should make possible."
+      },
+      {
+        "title": "Design the rhythm",
+        "text": "Consider arrival, shared moments, transitions and the time people need to connect."
+      },
+      {
+        "title": "Connect the practical work",
+        "text": "Bring programming, partners and production considerations back to the purpose of the gathering."
+      }
+    ],
+    "related": [
+      "nrth-labs",
+      "nrth-systems"
+    ]
+  }
 ];
-
-export const categories = ['All', 'Health', 'Mobility', 'Technology', 'Industry', 'Experiences'];
+export const categories=['All','Mobility','Health','Systems','Materials','Events','Research'];
+export function stageLabel(project:Project){const labels={overview:'Discuss current scope',research:'Research',prototype:'Prototype',pilot:'Pilot',available:'Available'};return labels[project.stage||'overview'];}

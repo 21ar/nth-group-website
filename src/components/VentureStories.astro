@@ -1,0 +1,58 @@
+---
+import { ventureStories } from '../data/venture-stories';
+import '../styles/venture-stories.css';
+
+interface Props { slug: string; }
+const { slug } = Astro.props;
+const story = ventureStories[slug];
+const scenarioId = slug + '-scenario';
+---
+{story && <div class='venture-stories' data-venture-stories>
+  <section class='vs-workflow' id={slug+'-workflow'} aria-labelledby={slug + '-workflow-title'}>
+    <div class='vs-heading' data-enter>
+      <span class='section-label'>The work around the idea</span>
+      <h2 id={slug + '-workflow-title'}>Make the next<br/><em>step clear.</em></h2>
+      <div class='vs-audience'><h3>Who is around the table</h3><p>{story.audience}</p></div>
+    </div>
+    <div class='vs-workflow-stages'>
+      {story.workflow.map(stage => <article data-enter><span class='vs-workflow-mark' aria-hidden='true'></span><h3>{stage.title}</h3><p>{stage.text}</p></article>)}
+    </div>
+  </section>
+
+  <section class='vs-scenario' id={scenarioId} aria-labelledby={scenarioId + '-title'}>
+    <div class='vs-scenario-intro' data-enter>
+      <span class='section-label'>An illustrative scenario</span>
+      <h2 id={scenarioId + '-title'}>{story.scenario.title}</h2>
+      <p>{story.scenario.introduction}</p>
+    </div>
+    <div class='vs-scenario-layout' data-scenario-explorer>
+      <div class='vs-scenario-choices' role='tablist' aria-label='Change the scenario context' aria-orientation='vertical' data-scenario-choices hidden>
+        {story.scenario.options.map((option, i) => <button type='button' id={scenarioId + '-choice-' + i} role='tab' aria-controls={scenarioId + '-panel-' + i} aria-selected={i === 0} tabindex={i === 0 ? 0 : -1} data-scenario-choice>{option.label}</button>)}
+      </div>
+      <div class='vs-panels'>
+        {story.scenario.options.map((option, i) => <article id={scenarioId + '-panel-' + i} data-scenario-panel>
+          <h3>{option.label}</h3>
+          <dl class='vs-decision-path'>
+            <div><dt>The situation</dt><dd>{option.context}</dd></div>
+            <div><dt>The work to untangle</dt><dd>{option.task}</dd></div>
+            <div class='vs-next-decision'><dt>The next decision</dt><dd>{option.decision}</dd></div>
+          </dl>
+          <a class='vs-scenario-contact' href={'/contact?project=' + encodeURIComponent(slug) + '&topic=' + encodeURIComponent('Scenario: ' + option.label)}>Discuss this scenario</a>
+        </article>)}
+      </div>
+      <p class='sr-only' aria-live='polite' aria-atomic='true' data-scenario-announcement></p>
+    </div>
+    <p class='vs-scenario-note'>Illustrative workflows for discussion.</p>
+  </section>
+
+  <section class='vs-questions' id={slug+'-questions'} aria-labelledby={slug + '-questions-title'}>
+    <div data-enter><span class='section-label'>A little more context</span><h2 id={slug + '-questions-title'}>Good questions.<br/><em>Clearer beginnings.</em></h2></div>
+    <div class='vs-question-list'>
+      {story.questions.map(item => <details><summary>{item.question}<span aria-hidden='true'></span></summary><p>{item.answer}</p></details>)}
+    </div>
+  </section>
+</div>}
+
+<script>
+  import '../scripts/venture-stories';
+</script>

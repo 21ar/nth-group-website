@@ -1,0 +1,5 @@
+.venture-audiences{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px;padding:0 var(--gutter) 75px}
+.venture-audiences article{padding-top:27px;border-top:1px solid #bcbcb7;min-width:0}
+.venture-audiences h3{font-size:clamp(28px,2.7vw,42px);line-height:1.1;overflow-wrap:anywhere}
+.venture-audiences p{font-size:18px;margin-top:23px;line-height:1.65}
+@media(max-width:767px){.venture-audiences{grid-template-columns:1fr;gap:35px;padding-bottom:45px}.venture-audiences h3{font-size:33px}.venture-audiences p{font-size:17px;margin-top:20px}}
